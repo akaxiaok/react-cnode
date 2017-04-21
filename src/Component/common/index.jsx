@@ -5,6 +5,7 @@ import action from '../../Action/Index';
 import {Tool} from '../../Tool';
 import GetData from './GetData';
 import GetNextPage from './GetNextPage';
+import {browserHistory} from 'react-router'
 
 export {GetData, GetNextPage}
 /**
@@ -48,7 +49,7 @@ export class Header extends Component {
             );
         } else if (leftIcon === 'fanhui') { //返回上一页
             left = (
-                <a onClick={this.context.router.goBack}>
+                <a onClick={browserHistory.goBack}>
                     <i className={'iconfont icon-' + leftIcon}></i>
                 </a>
             );
@@ -81,9 +82,7 @@ export class Header extends Component {
         );
     }
 }
-Header.contextTypes = {
-    router: React.PropTypes.object.isRequired
-}
+
 
 
 /**

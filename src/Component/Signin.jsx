@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import action from '../Action/Index';
 import {Tool} from '../Tool';
 import {Header} from './common/index';
-
+import {browserHistory} from 'react-router'
 /**
  * 模块入口
  *
@@ -25,7 +25,7 @@ class Main extends Component {
                     alert('登录成功');
                     res.accesstoken = accesstoken;
                     this.props.signinSuccess(res);
-                    this.context.router.push({
+                    browserHistory.push({
                         pathname: '/user/' + res.loginname
                     });
                 } else {
@@ -55,9 +55,7 @@ class Main extends Component {
         );
     }
 }
-Main.contextTypes = {
-    router: React.PropTypes.object.isRequired
-}
+
 
 
 export default connect((state) => {

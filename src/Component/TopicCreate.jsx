@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import action from '../Action/Index';
 import {Tool} from '../Tool';
 import {Header, TipMsgSignin, Footer} from './common/index';
-
+import {browserHistory} from 'react-router'
 /**
  * 模块入口
  *
@@ -44,7 +44,7 @@ class Main extends Component {
             this.postState = true;
             Tool.post('/api/v1/topics', this.state, (res) => {
                 if (res.success) {
-                    this.context.router.push({
+                    browserHistory.push({
                         pathname: '/topic/' + res.topic_id
                     });
                 } else {
@@ -115,9 +115,7 @@ class Main extends Component {
     }
 }
 
-Main.contextTypes = {
-    router: React.PropTypes.object.isRequired
-}
+
 
 class NewTopic extends Component {
     render() {

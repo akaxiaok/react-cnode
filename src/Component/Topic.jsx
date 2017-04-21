@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Link} from 'react-router';
 import {Tool} from '../Tool';
 import {DataLoad, Header, TipMsgSignin, UserHeadImg, TabIcon, GetData} from './common/index';
+import {browserHistory} from 'react-router'
 
 /**
  * 模块入口
@@ -24,7 +25,7 @@ class Main extends Component {
             var accesstoken = this.props.User ? this.props.User.accesstoken : '';
             var uid = this.props.User ? this.props.User.id : '';
             if (!accesstoken) {
-                return this.context.router.push({pathname: '/signin'}); //跳转到登录
+                return browserHistory.push({pathname: '/signin'}); //跳转到登录
             } else if (this.props.User.loginname === loginname) {
                 return alert('你不能给自己点赞');
             }
@@ -53,7 +54,7 @@ class Main extends Component {
         this.showReplyBox = (index) => {
             var accesstoken = this.props.User ? this.props.User.accesstoken : '';
             if (!accesstoken) {
-                return this.context.router.push({pathname: '/signin'}); //跳转到登录
+                return browserHistory.push({pathname: '/signin'}); //跳转到登录
             }
             --index;
             if (this.props.state.data.replies[index].display === 'block') {
@@ -90,9 +91,7 @@ class Main extends Component {
         );
     }
 }
-Main.contextTypes = {
-    router: React.PropTypes.object.isRequired
-}
+
 /**
  * 文章主体部分
  *
@@ -288,9 +287,7 @@ ReplyBox.defaultProps = {
     display: 'block',
     placeholder: '回复支持Markdown语法,请注意标记代码'
 };
-ReplyBox.contextTypes = {
-    router: React.PropTypes.object.isRequired
-}
+
 export default GetData({
     id: 'Topic',  //应用关联使用的redux
     component: Main, //接收数据的组件入口

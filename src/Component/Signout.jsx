@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import action from '../Action/Index';
 import {Header} from './common/index';
+import {browserHistory} from 'react-router'
 
 /**
  * 模块入口
@@ -14,7 +15,7 @@ class Main extends Component {
         super(props);
         this.signout = () => {
             this.props.signin();
-            this.context.router.replace({pathname: '/'});
+            browserHistory.replace({pathname: '/'});
         }
 
     }
@@ -32,9 +33,7 @@ class Main extends Component {
         );
     }
 }
-Main.contextTypes = {
-    router: React.PropTypes.object.isRequired
-}
+
 
 
 export default connect((state) => {
