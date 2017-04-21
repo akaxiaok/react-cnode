@@ -34,6 +34,13 @@ module.exports = {
         filename: '[name].js' //编译后的文件名字
     },
     module: {
+        preLoaders: [
+            {
+                test: /\.jsx$/,
+                exclude: /node_modules/,
+                loader: 'eslint-loader'
+            },
+        ],
         loaders: [
             {
                 test: /\.js$/,
