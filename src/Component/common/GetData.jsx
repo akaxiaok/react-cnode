@@ -1,14 +1,12 @@
-import React, { Component, PropTypes } from 'react';
-import { Router, Route, IndexRoute, browserHistory, Link } from 'react-router';
-import { connect } from 'react-redux';
+import React, {Component} from 'react';
+import {connect} from 'react-redux';
 import action from '../../Action/Index';
-import { Tool, merged } from '../../Tool';
-import { DataLoad, Footer, UserHeadImg, TabIcon } from './index';
+import {Tool, merged} from '../../Tool';
 
 
 /**
  * 模块入口方法
- * 
+ *
  * @param {Object} mySeting
  * @returns
  */
@@ -20,8 +18,12 @@ const Main = (mySeting) => {
         stop: false, //true 拦截请求，false不拦截请求
         data: null, //发送给服务器的数据
         component: <div></div>, //数据回调给的组件
-        success: (state) => { return state; }, //请求成功后执行的方法
-        error: (state) => { return state; } //请求失败后执行的方法
+        success: (state) => {
+            return state;
+        }, //请求成功后执行的方法
+        error: (state) => {
+            return state;
+        } //请求失败后执行的方法
     };
 
     /**
@@ -33,7 +35,7 @@ const Main = (mySeting) => {
 
     /**
      * 组件入口
-     * 
+     *
      * @class Index
      * @extends {Component}
      */
@@ -43,7 +45,7 @@ const Main = (mySeting) => {
 
             /**
              * 初始化状态
-             * 
+             *
              * @param {Object} props
              */
             this.initState = (props) => {
@@ -101,7 +103,7 @@ const Main = (mySeting) => {
 
             /**
              * 获取ajax 请求url
-             * 
+             *
              * @returns Object
              */
             this.getUrl = () => {
@@ -117,7 +119,7 @@ const Main = (mySeting) => {
 
             /**
              * 获取要发送的数据
-             * 
+             *
              * @returns
              */
             this.getData = () => {
@@ -133,7 +135,7 @@ const Main = (mySeting) => {
 
             /**
              * 是否要拦截请求
-             * 
+             *
              * @returns
              */
             this.testStop = () => {
@@ -145,9 +147,11 @@ const Main = (mySeting) => {
             }
             this.initState(this.props);
         }
+
         render() {
-            return <this.props.seting.component {...this.props} state={this.state} />;
+            return <this.props.seting.component {...this.props} state={this.state}/>;
         }
+
         /**
          * 在初始化渲染执行之后立刻调用一次，仅客户端有效（服务器端不会调用）。
          * 在生命周期中的这个时间点，组件拥有一个 DOM 展现，
@@ -156,6 +160,7 @@ const Main = (mySeting) => {
         componentDidMount() {
             this.redayDOM();
         }
+
         /**
          * 在组件接收到新的 props 的时候调用。在初始化渲染的时候，该方法不会调用
          */
@@ -170,6 +175,7 @@ const Main = (mySeting) => {
             this.initState(np);
 
         }
+
         /**
          * 在组件的更新已经同步到 DOM 中之后立刻被调用。该方法不会在初始化渲染的时候调用。
          * 使用该方法可以在组件更新之后操作 DOM 元素。
@@ -177,6 +183,7 @@ const Main = (mySeting) => {
         componentDidUpdate() {
             this.redayDOM();
         }
+
         /**
          * 在组件从 DOM 中移除的时候立刻被调用。
          * 在该方法中执行任何必要的清理，比如无效的定时器，
@@ -187,9 +194,11 @@ const Main = (mySeting) => {
         }
 
     }
-    Index.defaultProps = { seting }
+    Index.defaultProps = {seting}
 
-    return connect((state) => { return { state: state[seting.id], User: state.User } }, action(action.id))(Index); //连接redux
+    return connect((state) => {
+        return {state: state[seting.id], User: state.User}
+    }, action(action.id))(Index); //连接redux
 }
 
 

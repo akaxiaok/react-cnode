@@ -1,13 +1,11 @@
-import React, { Component, PropTypes } from 'react';
-import { Router, Route, IndexRoute, browserHistory, Link } from 'react-router';
-import { connect } from 'react-redux';
-import action from '../Action/Index';
-import { Tool, merged } from '../Tool';
-import { DataLoad, DataNull, Header, TipMsgSignin, Footer, GetData, UserHeadImg } from './common/index';
+import React, {Component} from 'react';
+import {Link} from 'react-router';
+import {Tool} from '../Tool';
+import {DataLoad, Header, TipMsgSignin, Footer, GetData, UserHeadImg} from './common/index';
 
 /**
  * 模块入口
- * 
+ *
  * @class Main
  * @extends {Component}
  */
@@ -19,18 +17,18 @@ class Main extends Component {
         if (!User) {
             main = <TipMsgSignin />
         } else if (!data) {
-            main = <DataLoad loadAnimation={loadAnimation} loadMsg={loadMsg} />;
+            main = <DataLoad loadAnimation={loadAnimation} loadMsg={loadMsg}/>;
         } else {
             let {hasnot_read_messages, has_read_messages} = data;
             Array.prototype.push.apply(hasnot_read_messages, has_read_messages);
-            main = <Content list={hasnot_read_messages} />;
+            main = <Content list={hasnot_read_messages}/>;
         }
 
         return (
             <div>
-                <Header title="消息" />
+                <Header title="消息"/>
                 {main}
-                <Footer index="2" />
+                <Footer index="2"/>
             </div>
         );
     }
@@ -38,7 +36,7 @@ class Main extends Component {
 
 /**
  * 消息内容
- * 
+ *
  * @class Content
  * @extends {Component}
  */
@@ -61,12 +59,16 @@ class Content extends Component {
                             return (
                                 <li data-flex="box:first" key={index}>
                                     <Link className="user" to={`/user/${author.loginname}`}>
-                                        <UserHeadImg url={author.avatar_url} />
+                                        <UserHeadImg url={author.avatar_url}/>
                                     </Link>
                                     <div>
-                                        <div className="name">{author.loginname}<time>{Tool.formatDate(reply.create_at)}</time></div>
+                                        <div className="name">{author.loginname}
+                                            <time>{Tool.formatDate(reply.create_at)}</time>
+                                        </div>
                                         <div data-flex="box:first">
-                                            <div data-flex="cross:center"><div className={`dian-${has_read}`}></div></div>
+                                            <div data-flex="cross:center">
+                                                <div className={`dian-${has_read}`}></div>
+                                            </div>
                                             {content}
                                         </div>
                                     </div>
@@ -88,8 +90,12 @@ export default GetData({
         return !Boolean(props.User); //true 拦截请求，false不拦截请求
     },
     data: (props, state) => { //发送给服务器的数据
-        return { accesstoken: props.User.accesstoken }
+        return {accesstoken: props.User.accesstoken}
     },
-    success: (state) => { return state; }, //请求成功后执行的方法
-    error: (state) => { return state } //请求失败后执行的方法
+    success: (state) => {
+        return state;
+    }, //请求成功后执行的方法
+    error: (state) => {
+        return state
+    } //请求失败后执行的方法
 });

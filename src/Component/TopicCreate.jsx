@@ -1,13 +1,12 @@
-import React, { Component, PropTypes } from 'react';
-import { Router, Route, IndexRoute, browserHistory, Link } from 'react-router';
-import { connect } from 'react-redux';
+import React, {Component} from 'react';
+import {connect} from 'react-redux';
 import action from '../Action/Index';
-import { Tool, merged } from '../Tool';
-import { DataLoad, DataNull, Header, TipMsgSignin, Footer, GetData } from './common/index';
+import {Tool} from '../Tool';
+import {Header, TipMsgSignin, Footer} from './common/index';
 
 /**
  * 模块入口
- * 
+ *
  * @class Main
  * @extends {Component}
  */
@@ -28,7 +27,7 @@ class Main extends Component {
         this.postState = false;
         /**
          * 发表主题
-         * 
+         *
          * @returns
          */
         this.rightClick = () => {
@@ -61,7 +60,7 @@ class Main extends Component {
 
         /**
          * 监听用户选择发表类型
-         * 
+         *
          * @param {Object} e 事件出发的元素
          */
         this.tabInput = (e) => {
@@ -70,7 +69,7 @@ class Main extends Component {
 
         /**
          * 监听用户输入标题
-         * 
+         *
          * @param {Object} e //事件触发的元素
          */
         this.titleInput = (e) => {
@@ -79,7 +78,7 @@ class Main extends Component {
 
         /**
          * 监听用户输入内容
-         * 
+         *
          * @param {Object} e //事件触发的元素
          */
         this.contentInput = (e) => {
@@ -87,14 +86,16 @@ class Main extends Component {
         }
 
     }
+
     render() {
-        var { User} = this.props;
+        var {User} = this.props;
         var headerSet = {};
         var main = null;
         if (!User) {
             main = <TipMsgSignin />
         } else {
-            main = <NewTopic {...this.state} tabInput={this.tabInput} titleInput={this.titleInput} contentInput={this.contentInput} />
+            main = <NewTopic {...this.state} tabInput={this.tabInput} titleInput={this.titleInput}
+                             contentInput={this.contentInput}/>
             headerSet = {
                 rightIcon: 'fabu',
                 rightClick: this.rightClick
@@ -104,10 +105,11 @@ class Main extends Component {
             <div>
                 <Header title="发表主题" {...headerSet} />
                 {main}
-                <Footer index="1" />
+                <Footer index="1"/>
             </div>
         );
     }
+
     shouldComponentUpdate() {
         return false;
     }
@@ -130,14 +132,18 @@ class NewTopic extends Component {
                     </select>
                 </div>
                 <div className="item">
-                    <input type="text" defaultValue={this.props.title} onInput={this.props.titleInput} placeholder="标题字数 10 字以上" />
+                    <input type="text" defaultValue={this.props.title} onInput={this.props.titleInput}
+                           placeholder="标题字数 10 字以上"/>
                 </div>
                 <div className="item">
-                    <textarea defaultValue={this.props.content} onInput={this.props.contentInput} placeholder="内容字数 30 字以上"></textarea>
+                    <textarea defaultValue={this.props.content} onInput={this.props.contentInput}
+                              placeholder="内容字数 30 字以上"></textarea>
                 </div>
             </div>
         );
     }
 }
 
-export default connect((state) => { return { User: state.User } }, action('TopicCreate'))(Main); //连接redux
+export default connect((state) => {
+    return {User: state.User}
+}, action('TopicCreate'))(Main); //连接redux

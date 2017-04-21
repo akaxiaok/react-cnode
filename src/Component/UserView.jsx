@@ -1,13 +1,11 @@
-import React, { Component, PropTypes } from 'react';
-import { Router, Route, IndexRoute, browserHistory, Link } from 'react-router';
-import { connect } from 'react-redux';
-import action from '../Action/Index';
-import { Tool, merged } from '../Tool';
-import { DataLoad, DataNull, Header, TipMsgSignin, Footer, UserHeadImg, GetData } from './common/index';
+import React, {Component} from 'react';
+import {Link} from 'react-router';
+import {Tool} from '../Tool';
+import {DataLoad, Header, Footer, UserHeadImg, GetData} from './common/index';
 
 /**
  * 模块入口
- * 
+ *
  * @class Main
  * @extends {Component}
  */
@@ -20,18 +18,20 @@ class Main extends Component {
             this.props.setState(this.state);
         }
     }
+
     render() {
         var {data, loadAnimation, loadMsg, id, tabIndex} = this.props.state;
-        var { User, params} = this.props;
+        var {User, params} = this.props;
         User = User ? User : {};
-        var main = data ? <Home data={data} tabIndex={tabIndex} tab={this.tab} /> : <DataLoad loadAnimation={loadAnimation} loadMsg={loadMsg} />;
+        var main = data ? <Home data={data} tabIndex={tabIndex} tab={this.tab}/> :
+            <DataLoad loadAnimation={loadAnimation} loadMsg={loadMsg}/>;
         var title = params.loginname == User.loginname ? '个人中心' : params.loginname + '的个人中心';
-        var footer = params.loginname == User.loginname ? <Footer index="3" /> : null;
+        var footer = params.loginname == User.loginname ? <Footer index="3"/> : null;
         var leftIcon = params.loginname == User.loginname ? null : 'fanhui';
         var rightIcon = params.loginname == User.loginname ? 'tuichu' : null;
         return (
             <div>
-                <Header title={title} leftIcon={leftIcon} rightIcon={rightIcon} rightTo="/signout" />
+                <Header title={title} leftIcon={leftIcon} rightIcon={rightIcon} rightTo="/signout"/>
                 {main}
                 {footer}
             </div>
@@ -42,7 +42,7 @@ class Main extends Component {
 
 /**
  * 个人主页
- * 
+ *
  * @class Home
  * @extends {Component}
  */
@@ -57,16 +57,23 @@ class Home extends Component {
         return (
             <div className="user-index">
                 <div className="headimg" data-flex="dir:top main:center cross:center">
-                    <UserHeadImg url={avatar_url} />
+                    <UserHeadImg url={avatar_url}/>
                     <div className="name">{loginname}</div>
-                    <div className="score">积分：{score}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注册于：{Tool.formatDate(create_at)}</div>
+                    <div className="score">积分：{score}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        注册于：{Tool.formatDate(create_at)}</div>
                 </div>
                 <ul className="tab-nav" data-flex="box:mean">
-                    <li onClick={() => { this.props.tab(0) } } className={arrOn[0]}>主题</li>
-                    <li onClick={() => { this.props.tab(1) } } className={arrOn[1]}>回复</li>
+                    <li onClick={() => {
+                        this.props.tab(0)
+                    } } className={arrOn[0]}>主题
+                    </li>
+                    <li onClick={() => {
+                        this.props.tab(1)
+                    } } className={arrOn[1]}>回复
+                    </li>
                 </ul>
-                <HomeList list={recent_topics} display={arrDisplay[0]} />
-                <HomeList list={recent_replies} display={arrDisplay[1]} />
+                <HomeList list={recent_topics} display={arrDisplay[0]}/>
+                <HomeList list={recent_replies} display={arrDisplay[1]}/>
             </div>
         );
     }
@@ -74,7 +81,7 @@ class Home extends Component {
 
 /**
  * 发布的主题和回复的主题列表
- * 
+ *
  * @class HomeList
  * @extends {Component}
  */
@@ -82,7 +89,7 @@ class HomeList extends Component {
     render() {
         var {list, display} = this.props;
         return (
-            <ul className="list" style={{ display: display }}>
+            <ul className="list" style={{display: display}}>
                 {
                     list.map((item, index) => {
                         let {id, title, last_reply_at} = item;
@@ -107,6 +114,10 @@ export default GetData({
         return '/api/v1/user/' + props.params.loginname;
     },
     data: {},
-    success: (state) => { return state; }, //请求成功后执行的方法
-    error: (state) => { return state } //请求失败后执行的方法
+    success: (state) => {
+        return state;
+    }, //请求成功后执行的方法
+    error: (state) => {
+        return state
+    } //请求失败后执行的方法
 });

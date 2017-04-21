@@ -1,12 +1,12 @@
-import React, { Component, PropTypes } from 'react';
-import { Router, Route, IndexRoute, browserHistory, Link } from 'react-router';
-import { connect } from 'react-redux';
+import React, {Component} from 'react';
+import {Link} from 'react-router';
+import {connect} from 'react-redux';
 import action from '../../Action/Index';
-import { Tool, merged } from '../../Tool';
+import {Tool} from '../../Tool';
 import GetData from './GetData';
 import GetNextPage from './GetNextPage';
 
-export { GetData, GetNextPage }
+export {GetData, GetNextPage}
 /**
  * (加载动画)
  *
@@ -37,7 +37,7 @@ DataLoad.defaultProps = {
  */
 export class Header extends Component {
     render() {
-        let {title, leftTo, leftIcon, rightTo, rightIcon, rightClick } = this.props;
+        let {title, leftTo, leftIcon, rightTo, rightIcon, rightClick} = this.props;
         let left = null;
 
         if (leftTo && leftIcon) {
@@ -119,7 +119,7 @@ class FooterInit extends Component {
         this.getMessageCount = () => {
             var accesstoken = this.props.User ? this.props.User.accesstoken : '';
             if (accesstoken) {
-                Tool.get('/api/v1/message/count', { accesstoken }, (res) => {
+                Tool.get('/api/v1/message/count', {accesstoken}, (res) => {
                     this.setState({
                         messageCount: res.data
                     });
@@ -127,6 +127,7 @@ class FooterInit extends Component {
             }
         }
     }
+
     render() {
         var myUrl = this.props.User && this.props.User.loginname ? '/user/' + this.props.User.loginname : '/signin';
         var arr = [];
@@ -147,7 +148,8 @@ class FooterInit extends Component {
                     </li>
                     <li className={arr[2]}>
                         <Link to="/my/messages">
-                            <i className="iconfont icon-xiaoxi"></i>消息{this.state.messageCount > 0 ? <em>{this.state.messageCount}</em> : ''}
+                            <i className="iconfont icon-xiaoxi"></i>消息{this.state.messageCount > 0 ?
+                            <em>{this.state.messageCount}</em> : ''}
                         </Link>
                     </li>
                     <li className={arr[3]}>
@@ -159,12 +161,15 @@ class FooterInit extends Component {
             </footer>
         );
     }
+
     componentDidMount() {
         this.getMessageCount();
     }
+
     shouldComponentUpdate(np, ns) {
         return this.props.index !== np.index || this.state.messageCount !== ns.messageCount; //防止组件不必要的更新
     }
+
     componentDidUpdate() {
         this.getMessageCount();
     }
@@ -174,9 +179,11 @@ FooterInit.defaultProps = {
 };
 
 
-var Footer = connect((state) => { return { User: state.User }; }, action('User'))(FooterInit);
+var Footer = connect((state) => {
+    return {User: state.User};
+}, action('User'))(FooterInit);
 
-export { Footer }
+export {Footer}
 /**
  * 提示登录
  *
@@ -203,7 +210,7 @@ export class TipMsgSignin extends Component {
  */
 export class UserHeadImg extends Component {
     render() {
-        return (<div className="user-headimg" style={{ backgroundImage: 'url(' + this.props.url + ')' }}></div>)
+        return (<div className="user-headimg" style={{backgroundImage: 'url(' + this.props.url + ')'}}></div>)
     }
 }
 

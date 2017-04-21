@@ -1,16 +1,14 @@
-import React, { Component, PropTypes } from 'react';
-import { Router, Route, IndexRoute, browserHistory, Link } from 'react-router';
-import { connect } from 'react-redux';
-import action from '../Action/Index';
-import { Tool, merged } from '../Tool';
-import { DataLoad, Footer, UserHeadImg, TabIcon, GetNextPage } from './common/index';
+import React, {Component} from 'react';
+import {Link} from 'react-router';
+import {Tool} from '../Tool';
+import {Footer, UserHeadImg, TabIcon, GetNextPage} from './common/index';
 
 
 /**
  * (导航分类)
- * 
+ *
  * @class Nav
- * @extends {Component} 
+ * @extends {Component}
  */
 class Nav extends Component {
     render() {
@@ -39,6 +37,7 @@ class Nav extends Component {
             </nav>
         );
     }
+
     shouldComponentUpdate(np) {
         return this.props.tab !== np.tab; //tab和之前的不一致，组件才需要更新，否则不更新，提升性能
     }
@@ -46,7 +45,7 @@ class Nav extends Component {
 
 /**
  * (循环列表)
- * 
+ *
  * @class List
  * @extends {Component}
  */
@@ -76,7 +75,7 @@ class ListItem extends Component {
                     </div>
                     <div className="bottom" data-flex="box:first">
                         <div className="author" data-flex="cross:center">
-                            <UserHeadImg url={author.avatar_url} />
+                            <UserHeadImg url={author.avatar_url}/>
                         </div>
                         <div className="con" data-flex="dir:top main:center">
                             <p data-flex="cross:center box:last">
@@ -93,6 +92,7 @@ class ListItem extends Component {
             </li>
         );
     }
+
     shouldComponentUpdate(np) {
         return false;
     }
@@ -100,7 +100,7 @@ class ListItem extends Component {
 
 /**
  * (导出组件)
- * 
+ *
  * @export
  * @class Main
  * @extends {Component}
@@ -109,16 +109,17 @@ class Main extends Component {
     constructor(props) {
         super(props);
     }
+
     render() {
         var {data, loadAnimation, loadMsg} = this.props.state;
         var tab = this.props.location.query.tab || 'all';
         return (
             <div className="index-list-box">
-                <Nav tab={tab} />
+                <Nav tab={tab}/>
                 {
-                    data.length > 0 ? <List list={data} /> : null
+                    data.length > 0 ? <List list={data}/> : null
                 }
-                <Footer index="0" />
+                <Footer index="0"/>
             </div>
         );
     }
@@ -138,6 +139,10 @@ export default GetNextPage({
             mdrender
         }
     },
-    success: (state) => { return state; }, //请求成功后执行的方法
-    error: (state) => { return state } //请求失败后执行的方法
+    success: (state) => {
+        return state;
+    }, //请求成功后执行的方法
+    error: (state) => {
+        return state
+    } //请求失败后执行的方法
 });

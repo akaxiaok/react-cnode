@@ -1,13 +1,12 @@
-import React, { Component, PropTypes } from 'react';
-import { Router, Route, IndexRoute, browserHistory, Link } from 'react-router';
-import { connect } from 'react-redux';
+import React, {Component} from 'react';
+import {connect} from 'react-redux';
 import action from '../Action/Index';
-import { Tool, merged } from '../Tool';
-import { DataLoad, DataNull, Header, TipMsgSignin, Footer } from './common/index';
+import {Tool} from '../Tool';
+import {Header} from './common/index';
 
 /**
  * 模块入口
- * 
+ *
  * @class Main
  * @extends {Component}
  */
@@ -20,8 +19,8 @@ class Main extends Component {
         this.signin = () => {
             var accesstoken = this.refs.accesstoken.value;
             if (!accesstoken) return alert('不能为空！');
-            this.setState({ button: '登录中...' });
-            Tool.post('/api/v1/accesstoken', { accesstoken }, (res) => {
+            this.setState({button: '登录中...'});
+            Tool.post('/api/v1/accesstoken', {accesstoken}, (res) => {
                 if (res.success) {
                     alert('登录成功');
                     res.accesstoken = accesstoken;
@@ -31,23 +30,24 @@ class Main extends Component {
                     });
                 } else {
                     alert('登录失败');
-                    this.setState({ button: '登录' });
+                    this.setState({button: '登录'});
                 }
 
             }, () => {
                 alert('登录失败！');
-                this.setState({ button: '登录' });
+                this.setState({button: '登录'});
             });
         }
 
     }
+
     render() {
         return (
             <div>
-                <Header title="登录" leftIcon="fanhui" />
+                <Header title="登录" leftIcon="fanhui"/>
                 <div className="signin" data-flex="dir:top main:center cross:center">
                     <div className="center">
-                        <div className="text"><input ref="accesstoken" type="text" placeholder="Access Token" /></div>
+                        <div className="text"><input ref="accesstoken" type="text" placeholder="Access Token"/></div>
                         <button className="btn" onClick={this.signin}>{this.state.button}</button>
                     </div>
                 </div>
@@ -60,4 +60,6 @@ Main.contextTypes = {
 }
 
 
-export default connect((state) => { return { User: state.User }; }, action('User'))(Main); //连接redux
+export default connect((state) => {
+    return {User: state.User};
+}, action('User'))(Main); //连接redux
