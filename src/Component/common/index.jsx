@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router';
+import { Link,browserHistory } from 'react-router';
 import { connect } from 'react-redux';
 import action from '../../Action/Index';
 import { Tool } from '../../Tool';
 import GetData from './GetData';
 import GetNextPage from './GetNextPage';
-import { browserHistory } from 'react-router';
 
 export { GetData, GetNextPage };
 /**
