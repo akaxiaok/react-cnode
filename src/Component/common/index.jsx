@@ -1,13 +1,13 @@
-import React, {Component} from 'react';
-import {Link} from 'react-router';
-import {connect} from 'react-redux';
+import React, { Component } from 'react';
+import { Link } from 'react-router';
+import { connect } from 'react-redux';
 import action from '../../Action/Index';
-import {Tool} from '../../Tool';
+import { Tool } from '../../Tool';
 import GetData from './GetData';
 import GetNextPage from './GetNextPage';
-import {browserHistory} from 'react-router'
+import { browserHistory } from 'react-router';
 
-export {GetData, GetNextPage}
+export { GetData, GetNextPage };
 /**
  * (加载动画)
  *
@@ -15,19 +15,19 @@ export {GetData, GetNextPage}
  * @extends {Component}
  */
 export class DataLoad extends Component {
-    render() {
-        let {loadAnimation, loadMsg} = this.props;
-        return (
-            <div className={'data-load data-load-' + loadAnimation}>
-                <div className="msg">{loadMsg}</div>
-            </div>
-        );
-    }
+  render() {
+    const { loadAnimation, loadMsg } = this.props;
+    return (
+      <div className={`data-load data-load-${loadAnimation}`}>
+        <div className="msg">{loadMsg}</div>
+      </div>
+    );
+  }
 }
 DataLoad.defaultProps = {
-    loadAnimation: true, //默认显示加载动画
-    loadMsg: '正在加载中'
-}
+  loadAnimation: true, // 默认显示加载动画
+  loadMsg: '正在加载中',
+};
 
 /**
  * 公共头部
@@ -37,52 +37,51 @@ DataLoad.defaultProps = {
  * @extends {Component}
  */
 export class Header extends Component {
-    render() {
-        let {title, leftTo, leftIcon, rightTo, rightIcon, rightClick} = this.props;
-        let left = null;
+  render() {
+    const { title, leftTo, leftIcon, rightTo, rightIcon, rightClick } = this.props;
+    let left = null;
 
-        if (leftTo && leftIcon) {
-            left = (
-                <Link to={leftTo}>
-                    <i className={'iconfont icon-' + leftIcon}></i>
-                </Link>
+    if (leftTo && leftIcon) {
+      left = (
+        <Link to={leftTo}>
+          <i className={`iconfont icon-${leftIcon}`} />
+        </Link>
             );
-        } else if (leftIcon === 'fanhui') { //返回上一页
-            left = (
-                <a onClick={browserHistory.goBack}>
-                    <i className={'iconfont icon-' + leftIcon}></i>
-                </a>
+    } else if (leftIcon === 'fanhui') { // 返回上一页
+      left = (
+        <a onClick={browserHistory.goBack}>
+          <i className={`iconfont icon-${leftIcon}`} />
+        </a>
             );
-        }
-
-        let right = null;
-        if (rightTo && rightIcon) {
-            right = (
-                <Link to={rightTo}>
-                    <i className={'iconfont icon-' + rightIcon}></i>
-                </Link>
-            );
-        } else if (rightClick && rightIcon) {
-            right = (
-                <div onClick={rightClick}>
-                    <i className={'iconfont icon-' + rightIcon}></i>
-                </div>
-            );
-        }
-        return (
-            <header className="common-header" data-flex>
-                <div className="icon" data-flex="main:center cross:center" data-flex-box="0">
-                    {left}
-                </div>
-                <h2 className="title" data-flex-box="1">{title}</h2>
-                <div className="icon" data-flex="main:center cross:center" data-flex-box="0">
-                    {right}
-                </div>
-            </header>
-        );
     }
-}
 
+    let right = null;
+    if (rightTo && rightIcon) {
+      right = (
+        <Link to={rightTo}>
+          <i className={`iconfont icon-${rightIcon}`} />
+        </Link>
+            );
+    } else if (rightClick && rightIcon) {
+      right = (
+        <div onClick={rightClick}>
+          <i className={`iconfont icon-${rightIcon}`} />
+        </div>
+            );
+    }
+    return (
+      <header className="common-header" data-flex>
+        <div className="icon" data-flex="main:center cross:center" data-flex-box="0">
+          {left}
+        </div>
+        <h2 className="title" data-flex-box="1">{title}</h2>
+        <div className="icon" data-flex="main:center cross:center" data-flex-box="0">
+          {right}
+        </div>
+      </header>
+    );
+  }
+}
 
 
 /**
@@ -93,11 +92,11 @@ export class Header extends Component {
  * @extends {Component}
  */
 export class DataNull extends Component {
-    render() {
-        return (
-            <div>暂无记录</div>
-        );
-    }
+  render() {
+    return (
+      <div>暂无记录</div>
+    );
+  }
 }
 
 /**
@@ -108,81 +107,79 @@ export class DataNull extends Component {
  * @extends {Component}
  */
 class FooterInit extends Component {
-    constructor(props) {
-        super(props);
+  constructor(props) {
+    super(props);
 
-        this.state = {
-            messageCount: 0
-        };
+    this.state = {
+      messageCount: 0,
+    };
 
-        this.getMessageCount = () => {
-            var accesstoken = this.props.User ? this.props.User.accesstoken : '';
-            if (accesstoken) {
-                Tool.get('/api/v1/message/count', {accesstoken}, (res) => {
-                    this.setState({
-                        messageCount: res.data
-                    });
-                });
-            }
-        }
-    }
+    this.getMessageCount = () => {
+      const accesstoken = this.props.User ? this.props.User.accesstoken : '';
+      if (accesstoken) {
+        Tool.get('/api/v1/message/count', { accesstoken }, (res) => {
+          this.setState({
+            messageCount: res.data,
+          });
+        });
+      }
+    };
+  }
 
-    render() {
-        var myUrl = this.props.User && this.props.User.loginname ? '/user/' + this.props.User.loginname : '/signin';
-        var arr = [];
-        arr[this.props.index] = 'on';
-        return (
-            <footer className="common-footer">
-                <div className="zhanwei"></div>
-                <ul className="menu" data-flex="box:mean">
-                    <li className={arr[0]}>
-                        <Link to="/">
-                            <i className="iconfont icon-shouye"></i>首页
+  render() {
+    const myUrl = this.props.User && this.props.User.loginname ? `/user/${this.props.User.loginname}` : '/signin';
+    const arr = [];
+    arr[this.props.index] = 'on';
+    return (
+      <footer className="common-footer">
+        <div className="zhanwei" />
+        <ul className="menu" data-flex="box:mean">
+          <li className={arr[0]}>
+            <Link to="/">
+              <i className="iconfont icon-shouye" />首页
                         </Link>
-                    </li>
-                    <li className={arr[1]}>
-                        <Link to="/topic/create">
-                            <i className="iconfont icon-fabu"></i>发表
+          </li>
+          <li className={arr[1]}>
+            <Link to="/topic/create">
+              <i className="iconfont icon-fabu" />发表
                         </Link>
-                    </li>
-                    <li className={arr[2]}>
-                        <Link to="/my/messages">
-                            <i className="iconfont icon-xiaoxi"></i>消息{this.state.messageCount > 0 ?
-                            <em>{this.state.messageCount}</em> : ''}
+          </li>
+          <li className={arr[2]}>
+            <Link to="/my/messages">
+              <i className="iconfont icon-xiaoxi" />消息{this.state.messageCount > 0 ?
+                <em>{this.state.messageCount}</em> : ''}
+            </Link>
+          </li>
+          <li className={arr[3]}>
+            <Link to={myUrl}>
+              <i className="iconfont icon-wode" />我的
                         </Link>
-                    </li>
-                    <li className={arr[3]}>
-                        <Link to={myUrl}>
-                            <i className="iconfont icon-wode"></i>我的
-                        </Link>
-                    </li>
-                </ul>
-            </footer>
-        );
-    }
+          </li>
+        </ul>
+      </footer>
+    );
+  }
 
-    componentDidMount() {
-        this.getMessageCount();
-    }
+  componentDidMount() {
+    this.getMessageCount();
+  }
 
-    shouldComponentUpdate(np, ns) {
-        return this.props.index !== np.index || this.state.messageCount !== ns.messageCount; //防止组件不必要的更新
-    }
+  shouldComponentUpdate(np, ns) {
+    return this.props.index !== np.index || this.state.messageCount !== ns.messageCount; // 防止组件不必要的更新
+  }
 
-    componentDidUpdate() {
-        this.getMessageCount();
-    }
+  componentDidUpdate() {
+    this.getMessageCount();
+  }
 }
 FooterInit.defaultProps = {
-    index: 0
+  index: 0,
 };
 
 
-var Footer = connect((state) => {
-    return {User: state.User};
-}, action('User'))(FooterInit);
+const Footer = connect(state => ({ User: state.User }), action('User'))(FooterInit);
 
-export {Footer}
+export { Footer };
 /**
  * 提示登录
  *
@@ -191,13 +188,13 @@ export {Footer}
  * @extends {Component}
  */
 export class TipMsgSignin extends Component {
-    render() {
-        return (
-            <div className="tip-msg-signin">
+  render() {
+    return (
+      <div className="tip-msg-signin">
                 你还未登录，请先<Link to="/signin">登录</Link>
-            </div>
-        );
-    }
+      </div>
+    );
+  }
 }
 
 /**
@@ -208,9 +205,9 @@ export class TipMsgSignin extends Component {
  * @extends {Component}
  */
 export class UserHeadImg extends Component {
-    render() {
-        return (<div className="user-headimg" style={{backgroundImage: 'url(' + this.props.url + ')'}}></div>)
-    }
+  render() {
+    return (<div className="user-headimg" style={{ backgroundImage: `url(${this.props.url})` }} />);
+  }
 }
 
 /**
@@ -221,17 +218,17 @@ export class UserHeadImg extends Component {
  * @extends {Component}
  */
 export class TabIcon extends Component {
-    render() {
-        var {tab, top, good} = this.props;
+  render() {
+    let { tab, top, good } = this.props;
 
-        if (top) {
-            tab = 'top';
-        } else if (good) {
-            tab = 'good';
-        }
-
-        return (
-            <i className={'iconfont icon-' + tab}></i>
-        );
+    if (top) {
+      tab = 'top';
+    } else if (good) {
+      tab = 'good';
     }
+
+    return (
+      <i className={`iconfont icon-${tab}`} />
+    );
+  }
 }
