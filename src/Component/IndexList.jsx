@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router';
-import { Tool } from '../Tool';
-import { Footer, UserHeadImg, TabIcon, GetNextPage } from './common/index';
+import React, {Component} from 'react';
+import {Link} from 'react-router';
+import {Tool} from '../Tool';
+import {Footer, UserHeadImg, TabIcon, GetNextPage} from './common/index';
 
 
 /**
@@ -33,7 +33,7 @@ class Nav extends Component {
             <Link to="/?tab=job" activeClassName="active">招聘</Link>
           </li>
         </ul>
-        <div className="height" />
+        <div className="height"/>
       </nav>
     );
   }
@@ -54,8 +54,8 @@ class List extends Component {
     return (
       <ul className="index-list">
         {
-                    this.props.list.map((item, index) => <ListItem key={item.id} {...item} />)
-                }
+          this.props.list.map((item, index) => <ListItem key={item.id} {...item} />)
+        }
       </ul>
     );
   }
@@ -63,7 +63,7 @@ class List extends Component {
 
 class ListItem extends Component {
   render() {
-    const { id, title, author, visit_count, reply_count, create_at, last_reply_at } = this.props;
+    const {id, title, author, visit_count, reply_count, create_at, last_reply_at} = this.props;
     return (
       <li>
         <Link to={`/topic/${id}`}>
@@ -73,7 +73,7 @@ class ListItem extends Component {
           </div>
           <div className="bottom" data-flex="box:first">
             <div className="author" data-flex="cross:center">
-              <UserHeadImg url={author.avatar_url} />
+              <UserHeadImg url={author.avatar_url}/>
             </div>
             <div className="con" data-flex="dir:top main:center">
               <p data-flex="cross:center box:last">
@@ -91,6 +91,7 @@ class ListItem extends Component {
     );
   }
 
+// todo: what to use for?
   shouldComponentUpdate(np) {
     return false;
   }
@@ -109,15 +110,15 @@ class Main extends Component {
   }
 
   render() {
-    const { data, loadAnimation, loadMsg } = this.props.state;
+    const {data, loadAnimation, loadMsg} = this.props.state;
     const tab = this.props.location.query.tab || 'all';
     return (
       <div className="index-list-box">
-        <Nav tab={tab} />
+        <Nav tab={tab}/>
         {
-                    data.length > 0 ? <List list={data} /> : null
-                }
-        <Footer index="0" />
+          data.length > 0 ? <List list={data}/> : null
+        }
+        <Footer index="0"/>
       </div>
     );
   }
@@ -128,8 +129,9 @@ export default GetNextPage({
   id: 'IndexList',  // 应用关联使用的redux
   component: Main, // 接收数据的组件入口
   url: '/api/v1/topics',
+  // todo: what's this ?
   data: (props, state) => { // 发送给服务器的数据
-    const { page, limit, mdrender } = state;
+    const {page, limit, mdrender} = state;
     return {
       tab: props.location.query.tab || 'all',
       page,

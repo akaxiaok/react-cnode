@@ -51,7 +51,7 @@ const Main = (mySetting) => {
         const { pathname, search } = location;
         this.path = pathname + search;
 
-        if (typeof this.action === 'undefined' && location.action == 'PUSH') {
+        if (typeof this.action === 'undefined' && location.action === 'PUSH') {
           this.action = false;
         } else {
           this.action = true;
@@ -71,15 +71,17 @@ const Main = (mySetting) => {
              */
       this.redayDOM = () => {
         const { success, error } = this.props.setting;
+        // todo: scrollX,scrollY 在哪些时候有用？
         const { scrollX, scrollY } = this.state;
         if (this.get) return false; // 已经加载过
+        debugger;
         window.scrollTo(scrollX, scrollY); // 设置滚动条位置
         this.get = new GetNextPage(this.refs.dataload, {
-          url: target + this.getUrl(),
-          data: this.getData(),
-          start: this.start,
-          load: this.load,
-          error: this.error,
+            url: target + this.getUrl(),
+            data: this.getData(),
+            start: this.start,
+            load: this.load,
+            error: this.error,
         });
       };
 
@@ -89,6 +91,7 @@ const Main = (mySetting) => {
       this.start = () => {
         this.state.loadAnimation = true;
         this.state.loadMsg = '正在加载中...';
+        // 从connect获得的方法
         this.props.setState(this.state);
       };
             /**
@@ -97,9 +100,16 @@ const Main = (mySetting) => {
              * @param {Object} res
              */
       this.load = (res) => {
+
+        // 解构赋值 相当于
+        // const state = this.state;
+        // const data = res.data;
         const { state } = this;
         const { data } = res;
-        if (!data.length && data.length < before.limit) {
+        debugger;
+        // todo: before 是哪来的？ 改成state.limit
+        //  if (!data.length && data.length < before.limit) {
+        if (!data.length && data.length < state.limit) {
           state.nextBtn = false;
           state.loadMsg = '没有了';
         } else {
@@ -130,6 +140,7 @@ const Main = (mySetting) => {
         delete this.action;
         this.state.scrollX = window.scrollX; // 记录滚动条位置
         this.state.scrollY = window.scrollY;
+        debugger;
         this.props.setState(this.state);
       };
 
@@ -170,6 +181,9 @@ const Main = (mySetting) => {
       const { loadAnimation, loadMsg } = this.state;
       return (
         <div>
+          {
+            //todo: 这里命名为state，让人困扰，其实是个prop
+          }
           <this.props.setting.component {...this.props} state={this.state} />
           <div ref="dataload"><DataLoad loadAnimation={loadAnimation} loadMsg={loadMsg} /></div>
         </div>
@@ -218,7 +232,11 @@ const Main = (mySetting) => {
 
     }
   Index.defaultProps = { setting };
-
+  window.my = action(action.id);
+  console.log(action(action.id));
+  // mapDispatchToProps: (Object or Function): If an object is passed, each function inside it is assumed to be a Redux action creator.
+  // An object with the same function names, but with every action creator wrapped into a dispatch call so they may be invoked directly,
+  // will be merged into the component’s props.
   return connect(state => ({ state: state[setting.id], User: state.User }), action(action.id))(Index); // 连接redux
 };
 
