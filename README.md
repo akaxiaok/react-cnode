@@ -43,32 +43,5 @@
 ```
 ### 状态树
 ![Alt text](https://github.com/lzxb/react-cnode/raw/master/shot/redux-state.jpg)
-### 小广告
-```
-  深圳html5开发者社群：170761660
-  NodeJS前端分享群：133240225
-```
-### 截图
 
-![截图](https://github.com/lzxb/react-cnode/raw/master/shot/1.png)
-
-![截图](https://github.com/lzxb/react-cnode/raw/master/shot/2.png)
-
-![截图](https://github.com/lzxb/react-cnode/raw/master/shot/3.png)
-
-![截图](https://github.com/lzxb/react-cnode/raw/master/shot/4.png)
-
-![截图](https://github.com/lzxb/react-cnode/raw/master/shot/5.png)
-
-![截图](https://github.com/lzxb/react-cnode/raw/master/shot/6.png)
-
-![截图](https://github.com/lzxb/react-cnode/raw/master/shot/7.png)
-
-![截图](https://github.com/lzxb/react-cnode/raw/master/shot/8.png)
-
-![截图](https://github.com/lzxb/react-cnode/raw/master/shot/9.png)
-
-![截图](https://github.com/lzxb/react-cnode/raw/master/shot/10.png)
-
-![截图](https://github.com/lzxb/react-cnode/raw/master/shot/11.png)
 
