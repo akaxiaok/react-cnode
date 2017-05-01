@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { Link,browserHistory } from 'react-router';
 import { connect } from 'react-redux';
-import action from '../../Action/Index';
+import action from '../../Action/Action';
 import { Tool } from '../../Tool';
+import GetData from './GetData';
 import GetNextPage from './GetNextPage';
 
-export { GetNextPage };
+export { GetData, GetNextPage };
 /**
  * (加载动画)
  *
