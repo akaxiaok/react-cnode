@@ -3,10 +3,9 @@ import { Link,browserHistory } from 'react-router';
 import { connect } from 'react-redux';
 import action from '../../Action/Index';
 import { Tool } from '../../Tool';
-import GetData from './GetData';
 import GetNextPage from './GetNextPage';
 
-export { GetData, GetNextPage };
+export { GetNextPage };
 /**
  * (加载动画)
  *
