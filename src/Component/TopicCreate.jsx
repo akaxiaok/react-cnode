@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import action from '../Action/Index';
+import action from '../Action/Action';
 import {Tool} from '../Tool';
 import {Header, TipMsgSignin, Footer} from './common/index';
 import {browserHistory} from 'react-router'
+
 /**
  * 模块入口
  *
