@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
 import { connect } from 'react-redux';
-import action from '../Action/Index';
+import action from '../Action/Action';
 import { Tool } from '../Tool';
 import { Header } from './common/index';
 /**
@@ -56,4 +56,4 @@ class Main extends Component {
 }
 
 
-export default connect(state => ({ User: state.User }), action('User'))(Main); // 连接redux
+export default connect(state => ({ User: state.User }), action())(Main); // 连接redux
