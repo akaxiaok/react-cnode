@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import action from '../../Action/Index';
+import action from '../../Action/Action';
 import { Tool, merged } from '../../Tool';
 
 
