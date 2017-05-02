@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import GetNextPage from 'get-next-page';
-import action from '../../Action/Index';
+import promis from 'es6-promise';
+import fetch from 'isomorphic-fetch';
+import action from '../../Action/Action';
 import { merged, config } from '../../Tool';
 import { DataLoad } from './index';
 
@@ -14,6 +16,7 @@ const { target } = config;
  * @returns
  */
 const Main = (mySetting) => {
+  debugger;
   const setting = {
     id: '', // 应用唯一id表示
     type: 'GET', // 请求类型
@@ -24,28 +27,28 @@ const Main = (mySetting) => {
     error: state => state, // 请求失败后执行的方法
   };
 
-    /**
-     * 覆盖默认设置
-     */
+  /**
+   * 覆盖默认设置
+   */
   for (const key in mySetting) {
     setting[key] = mySetting[key];
   }
 
-    /**
-     * 组件入口
-     *
-     * @class Index
-     * @extends {Component}
-     */
+  /**
+   * 组件入口
+   *
+   * @class Index
+   * @extends {Component}
+   */
   class Index extends Component {
     constructor(props) {
       super(props);
 
-            /**
-             * 初始化状态
-             *
-             * @param {Object} props
-             */
+      /**
+       * 初始化状态
+       *
+       * @param {Object} props
+       */
       this.initState = (props) => {
         const { state, location } = props;
         const { pathname, search } = location;
@@ -66,9 +69,9 @@ const Main = (mySetting) => {
         }
       };
 
-            /**
-             * DOM初始化完成后执行回调
-             */
+      /**
+       * DOM初始化完成后执行回调
+       */
       this.redayDOM = () => {
         const { success, error } = this.props.setting;
         // todo: scrollX,scrollY 在哪些时候有用？
@@ -76,29 +79,42 @@ const Main = (mySetting) => {
         if (this.get) return false; // 已经加载过
         debugger;
         window.scrollTo(scrollX, scrollY); // 设置滚动条位置
+        // let { page, limit, mdrender, tab } = this.getData();
+        // fetch(target + this.getUrl() + '?page=' + page + '&limit=' + limit + '&mdrender=' + mdrender + '&tab=' + tab).then((response) => {
+        //   if (response.status >= 400) {
+        //     throw new Error('Bad response from server');
+        //   }
+        //   return response.json();
+        // }).then((json) => {
+        //   this.get = true;
+        //   this.load(json);
+        // }).catch(() => {
+        //   this.error();
+        // });
         this.get = new GetNextPage(this.refs.dataload, {
-            url: target + this.getUrl(),
-            data: this.getData(),
-            start: this.start,
-            load: this.load,
-            error: this.error,
+          url: target + this.getUrl(),
+          data: this.getData(),
+          start: this.start,
+          load: this.load,
+          error: this.error,
         });
       };
 
-            /**
-             * 请求开始
-             */
+      /**
+       * 请求开始
+       */
       this.start = () => {
         this.state.loadAnimation = true;
         this.state.loadMsg = '正在加载中...';
         // 从connect获得的方法
+        debugger;
         this.props.setState(this.state);
       };
-            /**
-             * 下一页加载成功
-             *
-             * @param {Object} res
-             */
+      /**
+       * 下一页加载成功
+       *
+       * @param {Object} res
+       */
       this.load = (res) => {
 
         // 解构赋值 相当于
@@ -122,18 +138,18 @@ const Main = (mySetting) => {
         this.props.setState(state);
       };
 
-            /**
-             * 请求失败时
-             */
+      /**
+       * 请求失败时
+       */
       this.error = () => {
         this.state.loadAnimation = false;
         this.state.loadMsg = '加载失败';
         this.props.setState(this.state);
       };
 
-            /**
-             * url更改时
-             */
+      /**
+       * url更改时
+       */
       this.unmount = () => {
         this.get.end();
         delete this.get;
@@ -144,11 +160,11 @@ const Main = (mySetting) => {
         this.props.setState(this.state);
       };
 
-            /**
-             * 获取ajax 请求url
-             *
-             * @returns Object
-             */
+      /**
+       * 获取ajax 请求url
+       *
+       * @returns Object
+       */
       this.getUrl = () => {
         const { url } = this.props.setting;
         if (typeof url === 'function') {
@@ -159,11 +175,11 @@ const Main = (mySetting) => {
         return this.props.location.pathname;
       };
 
-            /**
-             * 获取要发送给服务器的数据
-             *
-             * @returns
-             */
+      /**
+       * 获取要发送给服务器的数据
+       *
+       * @returns
+       */
       this.getData = () => {
         const { data } = this.props.setting;
         if (typeof data === 'function') {
@@ -185,23 +201,23 @@ const Main = (mySetting) => {
             //todo: 这里命名为state，让人困扰，其实是个prop
           }
           <this.props.setting.component {...this.props} state={this.state} />
-          <div ref="dataload"><DataLoad loadAnimation={loadAnimation} loadMsg={loadMsg} /></div>
+          <div ref="dataload" ><DataLoad loadAnimation={loadAnimation} loadMsg={loadMsg} /></div>
         </div>
       );
     }
 
-        /**
-         * 在初始化渲染执行之后立刻调用一次，仅客户端有效（服务器端不会调用）。
-         * 在生命周期中的这个时间点，组件拥有一个 DOM 展现，
-         * 你可以通过 this.getDOMNode() 来获取相应 DOM 节点。
-         */
+    /**
+     * 在初始化渲染执行之后立刻调用一次，仅客户端有效（服务器端不会调用）。
+     * 在生命周期中的这个时间点，组件拥有一个 DOM 展现，
+     * 你可以通过 this.getDOMNode() 来获取相应 DOM 节点。
+     */
     componentDidMount() {
       this.redayDOM();
     }
 
-        /**
-         * 在组件接收到新的 props 的时候调用。在初始化渲染的时候，该方法不会调用
-         */
+    /**
+     * 在组件接收到新的 props 的时候调用。在初始化渲染的时候，该方法不会调用
+     */
     componentWillReceiveProps(np) {
       const { location } = np;
       const { pathname, search } = location;
@@ -213,31 +229,35 @@ const Main = (mySetting) => {
       this.initState(np);
     }
 
-        /**
-         * 在组件的更新已经同步到 DOM 中之后立刻被调用。该方法不会在初始化渲染的时候调用。
-         * 使用该方法可以在组件更新之后操作 DOM 元素。
-         */
+    /**
+     * 在组件的更新已经同步到 DOM 中之后立刻被调用。该方法不会在初始化渲染的时候调用。
+     * 使用该方法可以在组件更新之后操作 DOM 元素。
+     */
     componentDidUpdate() {
       this.redayDOM();
     }
 
-        /**
-         * 在组件从 DOM 中移除的时候立刻被调用。
-         * 在该方法中执行任何必要的清理，比如无效的定时器，
-         * 或者清除在 componentDidMount 中创建的 DOM 元素
-         */
+    /**
+     * 在组件从 DOM 中移除的时候立刻被调用。
+     * 在该方法中执行任何必要的清理，比如无效的定时器，
+     * 或者清除在 componentDidMount 中创建的 DOM 元素
+     */
     componentWillUnmount() {
       this.unmount(); // 地址栏已经发生改变，做一些卸载前的处理
     }
 
-    }
+  }
   Index.defaultProps = { setting };
   window.my = action(action.id);
   console.log(action(action.id));
-  // mapDispatchToProps: (Object or Function): If an object is passed, each function inside it is assumed to be a Redux action creator.
-  // An object with the same function names, but with every action creator wrapped into a dispatch call so they may be invoked directly,
+  // mapDispatchToProps: (Object or Function): If an object is passed,
+  // each function inside it is assumed to be a Redux action creator.
+  // An object with the same function names, but with every action creator
+  // wrapped into a dispatch call so they may be invoked directly,
   // will be merged into the component’s props.
-  return connect(state => ({ state: state[setting.id], User: state.User }), action(action.id))(Index); // 连接redux
+  debugger;
+  return connect(state => ({ state: state[setting.id], User: state.User }),
+    action(action.id))(Index);
 };
 
 
