@@ -4,7 +4,7 @@ import action from '../Action/Action';
 import {Tool} from '../Tool';
 import {Header, Footer} from './common/index';
 import {browserHistory} from 'react-router'
-import TipMsgSignIn from 'TipMsgSignIn';
+import TipMsgSignIn from './TipMsgSignIn';
 
 /**
  * 模块入口

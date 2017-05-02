@@ -180,22 +180,6 @@ FooterInit.defaultProps = {
 const Footer = connect(state => ({ User: state.User }), action('User'))(FooterInit);
 
 export { Footer };
-/**
- * 提示登录
- *
- * @export
- * @class TipMsgSignin
- * @extends {Component}
- */
-export class TipMsgSignin extends Component {
-  render() {
-    return (
-      <div className="tip-msg-signin">
-                你还未登录，请先<Link to="/signin">登录</Link>
-      </div>
-    );
-  }
-}
 
 
 
