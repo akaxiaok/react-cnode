@@ -199,25 +199,4 @@ export class TipMsgSignin extends Component {
 
 
 
-/**
- * 生成主题类型小图标
- *
- * @export
- * @class tabIcon
- * @extends {Component}
- */
-export class TabIcon extends Component {
-  render() {
-    let { tab, top, good } = this.props;
 
-    if (top) {
-      tab = 'top';
-    } else if (good) {
-      tab = 'good';
-    }
-
-    return (
-      <i className={`iconfont icon-${tab}`} />
-    );
-  }
-}

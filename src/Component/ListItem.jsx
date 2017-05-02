@@ -5,8 +5,9 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 import { Tool } from '../Tool';
-import { TabIcon } from './common/index';
 import UserHeadImg from './UserHeadImg';
+import TabIcon from './TabIcon';
+
 export default class ListItem extends Component {
   // todo: what to use for?
   shouldComponentUpdate() {
