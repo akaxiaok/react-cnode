@@ -2,7 +2,8 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 import { Tool } from '../Tool';
-import { DataLoad, Header, Footer, UserHeadImg, GetData } from './common/index';
+import { DataLoad, Header, Footer, GetData } from './common/index';
+import UserHeadImg from './UserHeadImg';
 
 /**
  * 模块入口

@@ -1,9 +1,11 @@
 /* eslint-disable react/prop-types */
 import React, { Component } from 'react';
-import { Link } from 'react-router';
+import { Link, browserHistory } from 'react-router';
 import { Tool } from '../Tool';
-import { DataLoad, Header, TipMsgSignin, UserHeadImg, TabIcon, GetData } from './common/index';
-import { browserHistory } from 'react-router';
+import { DataLoad, Header, TipMsgSignin, GetData } from './common/index';
+import UserHeadImg from './UserHeadImg';
+import TabIcon from './TabIcon';
+
 /**
  * 模块入口
  *
@@ -14,13 +16,13 @@ class Main extends Component {
   constructor(props) {
     super(props);
 
-        /**
-         * 点赞或取消赞
-         *
-         * @param {String} id
-         * @param {Number} index
-         * @param {String} loginname
-         */
+    /**
+     * 点赞或取消赞
+     *
+     * @param {String} id
+     * @param {Number} index
+     * @param {String} loginname
+     */
     this.clickZan = (id, index, loginname) => {
       const accesstoken = this.props.User ? this.props.User.accesstoken : '';
       const uid = this.props.User ? this.props.User.id : '';
@@ -32,7 +34,7 @@ class Main extends Component {
 
       Tool.post(`/api/v1/reply/${id}/ups`, { accesstoken }, (res) => {
         const ups = this.props.state.data.replies[index - 1].ups;
-        if (res.action == 'down') { // 取消点赞
+        if (res.action === 'down') { // 取消点赞
           for (let i = 0; i < ups.length; i++) {
             if (ups[i] === uid) {
               ups.splice(i, 1);
@@ -45,11 +47,11 @@ class Main extends Component {
       });
     };
 
-        /**
-         * 显示回复框
-         *
-         * @param {String} index
-         */
+    /**
+     * 显示回复框
+     *
+     * @param {String} index
+     */
     this.showReplyBox = (index) => {
       const accesstoken = this.props.User ? this.props.User.accesstoken : '';
       if (!accesstoken) {
@@ -64,11 +66,11 @@ class Main extends Component {
 
       this.props.setState(this.props.state);
     };
-        /**
-         * 回复成功后，重新加载数据
-         *
-         * @param {Object} data
-         */
+    /**
+     * 回复成功后，重新加载数据
+     *
+     * @param {Object} data
+     */
     this.reLoadData = (data) => {
       this.props.state.data = data;
       this.props.setState(this.props.state);
@@ -76,12 +78,12 @@ class Main extends Component {
   }
 
   render() {
-    const { data, loadAnimation, loadMsg, id } = this.props.state;
+    const { data, loadAnimation, loadMsg } = this.props.state;
     const main = data ? (<Article
       {...this.props} reLoadData={this.reLoadData} clickZan={this.clickZan}
       showReplyBox={this.showReplyBox}
     />) :
-    <DataLoad loadAnimation={loadAnimation} loadMsg={loadMsg} />;
+      <DataLoad loadAnimation={loadAnimation} loadMsg={loadMsg} />;
 
     return (
       <div>
@@ -113,28 +115,28 @@ class Article extends Component {
       <TipMsgSignin />;
 
     return (
-      <div className="topic">
-        <div className="user" data-flex>
-          <div className="headimg" data-flex-box="0">
+      <div className="topic" >
+        <div className="user" data-flex >
+          <div className="headimg" data-flex-box="0" >
             <UserHeadImg url={author.avatar_url} />
           </div>
-          <div className="data" data-flex="dir:top" data-flex-box="1">
-            <div data-flex="main:justify">
-              <Link to={`/user/${author.loginname}`} className="name">{author.loginname}</Link>
-              <time data-flex-box="1">{Tool.formatDate(create_at)}</time>
-              <div className="lou">#楼主</div>
-              <div className="font" data-flex="main:center cross:center">
+          <div className="data" data-flex="dir:top" data-flex-box="1" >
+            <div data-flex="main:justify" >
+              <Link to={`/user/${author.loginname}`} className="name" >{author.loginname}</Link>
+              <time data-flex-box="1" >{Tool.formatDate(create_at)}</time>
+              <div className="lou" >#楼主</div>
+              <div className="font" data-flex="main:center cross:center" >
                 <TabIcon {...this.props.state.data} /></div>
             </div>
-            <div className="qt" data-flex>
+            <div className="qt" data-flex >
               <div>阅读：{visit_count}</div>
               <div>回复：{reply_count}</div>
             </div>
           </div>
         </div>
-        <h2 className="tit2">{title}</h2>
+        <h2 className="tit2" >{title}</h2>
         <div className="content markdown-body" dangerouslySetInnerHTML={createMarkup()} />
-        <h3 className="tit3">共<em>{replies.length}</em>条回复</h3>
+        <h3 className="tit3" >共<em>{replies.length}</em>条回复</h3>
         <ReList
           reLoadData={this.props.reLoadData} id={id} list={replies} clickZan={this.props.clickZan}
           showReplyBox={this.props.showReplyBox} User={this.props.User}
@@ -154,12 +156,12 @@ class ReList extends Component {
   constructor(props) {
     super(props);
 
-        /**
-         * 验证回复项目是否点赞
-         *
-         * @param {Array} arr
-         * @returns
-         */
+    /**
+     * 验证回复项目是否点赞
+     *
+     * @param {Array} arr
+     * @returns
+     */
     this.isUp = (arr) => {
       const id = this.props.User ? this.props.User.id : '';
       for (let i = 0; i < arr.length; i++) {
@@ -172,62 +174,62 @@ class ReList extends Component {
   render() {
     const accesstoken = this.props.User ? this.props.User.accesstoken : '';
     return (
-      <ul className="re-list">
+      <ul className="re-list" >
         {
-                    this.props.list.map((item, index) => {
-                      const { id, content, author, ups, create_at, display = 'none' } = item;
-                      const at = new Date(create_at);
-                      const upState = this.isUp(ups);
-                      const createMarkup = () => ({
-                        __html: content,
-                      });
+          this.props.list.map((item, index) => {
+            const { id, content, author, ups, create_at, display = 'none' } = item;
+            const at = new Date(create_at);
+            const upState = this.isUp(ups);
+            const createMarkup = () => ({
+              __html: content,
+            });
 
 
-                      return (
-                        <li key={index} data-flex>
-                          <div className="headimg" data-flex-box="0">
-                            <UserHeadImg url={author.avatar_url} />
-                          </div>
-                          <div className="main" data-flex-box="1">
-                            <div data-flex="main:justify">
-                              <Link
-                                to={`/user/${author.loginname}`}
-                                className="name"
-                              >{author.loginname}</Link>
-                              <time data-flex-box="1">{Tool.formatDate(create_at)}</time>
-                              <div className="lou">#{++index}</div>
-                            </div>
-                            <div
-                              className="content markdown-body"
-                              dangerouslySetInnerHTML={createMarkup()}
-                            />
-                            <div className="bottom" data-flex="main:right">
-                              <div
-                                className={`font font-${upState}`} onClick={() => {
-                                  this.props.clickZan(id, index, author.loginname);
-                                }}
-                              >
-                                <i className="iconfont icon-dianzan " />
-                                <em>{ups.length ? ups.length : ''}</em>
-                              </div>
-                              <div
-                                className="font" onClick={() => {
-                                  this.props.showReplyBox(index);
-                                }}
-                              >
-                                <i className="iconfont icon-huifu" />
-                              </div>
-                            </div>
-                            <ReplyBox
-                              placeholder={`@${author.loginname}`} reLoadData={this.props.reLoadData}
-                              display={display} loginname={author.loginname}
-                              data={{ accesstoken, id: this.props.id, reply_id: id }}
-                            />
-                          </div>
-                        </li>
-                      );
-                    })
-                }
+            return (
+              <li key={index} data-flex >
+                <div className="headimg" data-flex-box="0" >
+                  <UserHeadImg url={author.avatar_url} />
+                </div>
+                <div className="main" data-flex-box="1" >
+                  <div data-flex="main:justify" >
+                    <Link
+                      to={`/user/${author.loginname}`}
+                      className="name"
+                    >{author.loginname}</Link>
+                    <time data-flex-box="1" >{Tool.formatDate(create_at)}</time>
+                    <div className="lou" >#{++index}</div>
+                  </div>
+                  <div
+                    className="content markdown-body"
+                    dangerouslySetInnerHTML={createMarkup()}
+                  />
+                  <div className="bottom" data-flex="main:right" >
+                    <div
+                      className={`font font-${upState}`} onClick={() => {
+                      this.props.clickZan(id, index, author.loginname);
+                    }}
+                    >
+                      <i className="iconfont icon-dianzan " />
+                      <em>{ups.length ? ups.length : ''}</em>
+                    </div>
+                    <div
+                      className="font" onClick={() => {
+                      this.props.showReplyBox(index);
+                    }}
+                    >
+                      <i className="iconfont icon-huifu" />
+                    </div>
+                  </div>
+                  <ReplyBox
+                    placeholder={`@${author.loginname}`} reLoadData={this.props.reLoadData}
+                    display={display} loginname={author.loginname}
+                    data={{ accesstoken, id: this.props.id, reply_id: id }}
+                  />
+                </div>
+              </li>
+            );
+          })
+        }
       </ul>
     );
   }
@@ -244,11 +246,11 @@ class ReplyBox extends Component {
     super(props);
     this.state = { btnname: '回复' };
 
-        /**
-         * 提交回复
-         *
-         * @returns
-         */
+    /**
+     * 提交回复
+     *
+     * @returns
+     */
     this.submit = () => {
       this.state = { btnname: '提交中...' };
       const data = this.props.data;
@@ -278,10 +280,10 @@ class ReplyBox extends Component {
 
   render() {
     return (
-      <div className="reply-box" style={{ display: this.props.display }}>
-        <div className="text"><textarea ref="content" placeholder={this.props.placeholder} /></div>
-        <div data-flex="main:right">
-          <button className="btn" onClick={this.submit}>{this.state.btnname}</button>
+      <div className="reply-box" style={{ display: this.props.display }} >
+        <div className="text" ><textarea ref="content" placeholder={this.props.placeholder} /></div>
+        <div data-flex="main:right" >
+          <button className="btn" onClick={this.submit} >{this.state.btnname}</button>
         </div>
       </div>
     );
@@ -296,7 +298,7 @@ ReplyBox.defaultProps = {
 export default GetData({
   id: 'Topic',  // 应用关联使用的redux
   component: Main, // 接收数据的组件入口
-  url: (props, state) => `/api/v1/topic/${props.params.id || ''}`,
+  url: (props) => `/api/v1/topic/${props.params.id || ''}`,
   data: (props, state) => { // 发送给服务器的数据
     const accesstoken = props.User ? props.User.accesstoken : '';
     return { mdrender: state.mdrender, accesstoken };

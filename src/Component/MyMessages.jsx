@@ -1,7 +1,9 @@
+/* eslint-disable react/prop-types */
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 import { Tool } from '../Tool';
-import { DataLoad, Header, TipMsgSignin, Footer, GetData, UserHeadImg } from './common/index';
+import { DataLoad, Header, TipMsgSignin, Footer, GetData } from './common/index';
+import UserHeadImg from './UserHeadImg';
 
 /**
  * 模块入口
@@ -11,8 +13,8 @@ import { DataLoad, Header, TipMsgSignin, Footer, GetData, UserHeadImg } from './
  */
 class Main extends Component {
   render() {
-    const { data, loadAnimation, loadMsg, id, tabIndex } = this.props.state;
-    const { User, params } = this.props;
+    const { data, loadAnimation, loadMsg } = this.props.state;
+    const { User } = this.props;
     let main = null;
     if (!User) {
       main = <TipMsgSignin />;
@@ -51,7 +53,7 @@ class Content extends Component {
                           const { type, author, topic, reply, has_read } = item;
                           let content = null;
 
-                          if (type == 'at') {
+                          if (type === 'at') {
                             content = <div>在话题<Link to={`/topic/${topic.id}`}>{topic.title}</Link>中 @了你</div>;
                           } else {
                             content = <div>回复你了的话题<Link to={`/topic/${topic.id}`}>{topic.title}</Link></div>;
