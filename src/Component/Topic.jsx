@@ -2,9 +2,10 @@
 import React, { Component } from 'react';
 import { Link, browserHistory } from 'react-router';
 import { Tool } from '../Tool';
-import { DataLoad, Header, TipMsgSignin, GetData } from './common/index';
+import { DataLoad, Header, GetData } from './common/index';
 import UserHeadImg from './UserHeadImg';
 import TabIcon from './TabIcon';
+import TipMsgSignIn from './TipMsgSignIn';
 
 /**
  * 模块入口
@@ -112,7 +113,7 @@ class Article extends Component {
     });
     const bottom = this.props.User ?
       <ReplyBox reLoadData={this.props.reLoadData} data={{ accesstoken: this.props.User.accesstoken, id }} /> :
-      <TipMsgSignin />;
+      <TipMsgSignIn />;
 
     return (
       <div className="topic" >

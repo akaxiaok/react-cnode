@@ -2,8 +2,9 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 import { Tool } from '../Tool';
-import { DataLoad, Header, TipMsgSignin, Footer, GetData } from './common/index';
+import { DataLoad, Header, Footer, GetData } from './common/index';
 import UserHeadImg from './UserHeadImg';
+import TipMsgSignIn from './TipMsgSignIn';
 
 /**
  * 模块入口
@@ -17,7 +18,7 @@ class Main extends Component {
     const { User } = this.props;
     let main = null;
     if (!User) {
-      main = <TipMsgSignin />;
+      main = <TipMsgSignIn />;
     } else if (!data) {
       main = <DataLoad loadAnimation={loadAnimation} loadMsg={loadMsg} />;
     } else {

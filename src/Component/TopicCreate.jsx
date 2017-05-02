@@ -2,8 +2,9 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import action from '../Action/Action';
 import {Tool} from '../Tool';
-import {Header, TipMsgSignin, Footer} from './common/index';
+import {Header, Footer} from './common/index';
 import {browserHistory} from 'react-router'
+import TipMsgSignIn from 'TipMsgSignIn';
 
 /**
  * 模块入口
@@ -93,7 +94,7 @@ class Main extends Component {
         var headerSet = {};
         var main = null;
         if (!User) {
-            main = <TipMsgSignin />
+            main = <TipMsgSignIn />
         } else {
             main = <NewTopic {...this.state} tabInput={this.tabInput} titleInput={this.titleInput}
                              contentInput={this.contentInput}/>
