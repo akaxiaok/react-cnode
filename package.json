@@ -18,9 +18,11 @@
   },
   "homepage": "https://github.com/lzxb/react-cnode#readme",
   "dependencies": {
+    "es6-promise": "^4.1.0",
     "flex.css": "1.0.1",
     "get-next-page": "1.0.0",
     "github-markdown-css": "^2.4.0",
+    "isomorphic-fetch": "^2.2.1",
     "normalize.css": "^4.1.1",
     "obj-merged": "^1.0.5",
     "react": "^15.0.1",
