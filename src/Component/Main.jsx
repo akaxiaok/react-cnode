@@ -5,7 +5,7 @@
 import React from 'react';
 import Nav from './Nav';
 import List from './List';
-import { Footer } from './common/index';
+import Footer from './Footer';
 /**
  * (导出组件)
  *

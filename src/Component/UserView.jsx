@@ -2,9 +2,10 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 import { Tool } from '../Tool';
-import { Header, Footer, GetData } from './common/index';
+import { Header, GetData } from './common/index';
 import UserHeadImg from './UserHeadImg';
 import DataLoad from './DataLoad';
+import Footer from './Footer';
 
 /**
  * 模块入口
@@ -27,7 +28,7 @@ class Main extends Component {
     let { User, params } = this.props;
     User = User || {};
     const main = data ? <Home data={data} tabIndex={tabIndex} tab={this.tab} /> :
-    <DataLoad loadAnimation={loadAnimation} loadMsg={loadMsg} />;
+      <DataLoad loadAnimation={loadAnimation} loadMsg={loadMsg} />;
     const title = params.loginname == User.loginname ? '个人中心' : `${params.loginname}的个人中心`;
     const footer = params.loginname == User.loginname ? <Footer index="3" /> : null;
     const leftIcon = params.loginname == User.loginname ? null : 'fanhui';
@@ -58,26 +59,26 @@ class Home extends Component {
     arrOn[tabIndex] = 'on';
     arrDisplay[tabIndex] = 'block';
     return (
-      <div className="user-index">
-        <div className="headimg" data-flex="dir:top main:center cross:center">
+      <div className="user-index" >
+        <div className="headimg" data-flex="dir:top main:center cross:center" >
           <UserHeadImg url={avatar_url} />
-          <div className="name">{loginname}</div>
-          <div className="score">积分：{score}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        注册于：{Tool.formatDate(create_at)}</div>
+          <div className="name" >{loginname}</div>
+          <div className="score" >积分：{score}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            注册于：{Tool.formatDate(create_at)}</div>
         </div>
-        <ul className="tab-nav" data-flex="box:mean">
+        <ul className="tab-nav" data-flex="box:mean" >
           <li
             onClick={() => {
               this.props.tab(0);
             }} className={arrOn[0]}
           >主题
-                    </li>
+          </li>
           <li
             onClick={() => {
               this.props.tab(1);
             }} className={arrOn[1]}
           >回复
-                    </li>
+          </li>
         </ul>
         <HomeList list={recent_topics} display={arrDisplay[0]} />
         <HomeList list={recent_replies} display={arrDisplay[1]} />
@@ -96,20 +97,20 @@ class HomeList extends Component {
   render() {
     const { list, display } = this.props;
     return (
-      <ul className="list" style={{ display }}>
+      <ul className="list" style={{ display }} >
         {
-                    list.map((item, index) => {
-                      const { id, title, last_reply_at } = item;
-                      return (
-                        <li key={index}>
-                          <Link data-flex="box:last" to={`/topic/${id}`}>
-                            <div className="tit">{title}</div>
-                            <time className>{Tool.formatDate(last_reply_at)}</time>
-                          </Link>
-                        </li>
-                      );
-                    })
-                }
+          list.map((item, index) => {
+            const { id, title, last_reply_at } = item;
+            return (
+              <li key={index} >
+                <Link data-flex="box:last" to={`/topic/${id}`} >
+                  <div className="tit" >{title}</div>
+                  <time className >{Tool.formatDate(last_reply_at)}</time>
+                </Link>
+              </li>
+            );
+          })
+        }
       </ul>
     );
   }

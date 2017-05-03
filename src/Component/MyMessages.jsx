@@ -1,9 +1,10 @@
 /* eslint-disable react/prop-types */
 import React, { Component } from 'react';
-import { Header, Footer, GetData } from './common/index';
+import { Header, GetData } from './common/index';
 import TipMsgSignIn from './TipMsgSignIn';
 import Content from './Content';
 import DataLoad from './DataLoad';
+import Footer from './Footer';
 
 /**
  * 模块入口

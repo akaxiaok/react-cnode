@@ -1,11 +1,13 @@
+/* eslint-disable react/prop-types */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { browserHistory } from 'react-router';
 import action from '../Action/Action';
 import { Tool } from '../Tool';
-import { Header, Footer } from './common/index';
-import { browserHistory } from 'react-router'
+import { Header } from './common/index';
 import TipMsgSignIn from './TipMsgSignIn';
 import NewTopic from './NewTopic';
+import Footer from './Footer';
 
 /**
  * 模块入口
@@ -24,7 +26,7 @@ class TopicCreate extends Component {
       title: '',
       tab: '',
       content: '',
-      accesstoken: this.props.User ? this.props.User.accesstoken : ''
+      accesstoken: this.props.User ? this.props.User.accesstoken : '',
     };
 
     this.postState = false;
@@ -34,7 +36,7 @@ class TopicCreate extends Component {
      * @returns
      */
     this.rightClick = () => {
-      let { state } = this;
+      const { state } = this;
       if (this.postState) return false;
 
       if (!state.tab) {
@@ -48,7 +50,7 @@ class TopicCreate extends Component {
       Tool.post('/api/v1/topics', this.state, (res) => {
         if (res.success) {
           browserHistory.push({
-            pathname: '/topic/' + res.topic_id
+            pathname: `/topic/${res.topic_id}`,
           });
         } else {
           alert('发表失败');
@@ -85,22 +87,23 @@ class TopicCreate extends Component {
      */
     this.contentInput = (e) => {
       this.state.content = e.target.value;
-    }
-
+    };
   }
 
   render() {
-    let { User } = this.props;
+    const { User } = this.props;
     let headerSet = {};
     let main = null;
     if (!User) {
-      main = <TipMsgSignIn />
+      main = <TipMsgSignIn />;
     } else {
-      main = <NewTopic {...this.state} tabInput={this.tabInput} titleInput={this.titleInput}
-                       contentInput={this.contentInput} />;
+      main = (<NewTopic
+        {...this.state} tabInput={this.tabInput} titleInput={this.titleInput}
+        contentInput={this.contentInput}
+      />);
       headerSet = {
         rightIcon: 'fabu',
-        rightClick: this.rightClick
+        rightClick: this.rightClick,
       };
     }
     return (
@@ -118,6 +121,4 @@ class TopicCreate extends Component {
 }
 
 
-export default connect((state) => {
-  return { User: state.User }
-}, action('TopicCreate'))(TopicCreate); //连接redux
+export default connect(state => ({ User: state.User }), action('TopicCreate'))(TopicCreate); // 连接redux
