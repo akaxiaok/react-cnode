@@ -5,7 +5,7 @@ import promis from 'es6-promise';
 import fetch from 'isomorphic-fetch';
 import action from '../../Action/Action';
 import { merged, config } from '../../Tool';
-import { DataLoad } from './index';
+import DataLoad from '../DataLoad';
 
 const { target } = config;
 

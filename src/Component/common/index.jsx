@@ -8,26 +8,7 @@ import GetData from './GetData';
 import GetNextPage from './GetNextPage';
 
 export { GetData, GetNextPage };
-/**
- * (加载动画)
- *
- * @class DataLoad
- * @extends {Component}
- */
-export class DataLoad extends Component {
-  render() {
-    const { loadAnimation, loadMsg } = this.props;
-    return (
-      <div className={`data-load data-load-${loadAnimation}`}>
-        <div className="msg">{loadMsg}</div>
-      </div>
-    );
-  }
-}
-DataLoad.defaultProps = {
-  loadAnimation: true, // 默认显示加载动画
-  loadMsg: '正在加载中',
-};
+
 
 /**
  * 公共头部
@@ -165,7 +146,8 @@ class FooterInit extends Component {
   }
 
   shouldComponentUpdate(np, ns) {
-    return this.props.index !== np.index || this.state.messageCount !== ns.messageCount; // 防止组件不必要的更新
+    // 防止组件不必要的更新
+    return this.props.index !== np.index || this.state.messageCount !== ns.messageCount;
   }
 
   componentDidUpdate() {
@@ -180,7 +162,3 @@ FooterInit.defaultProps = {
 const Footer = connect(state => ({ User: state.User }), action('User'))(FooterInit);
 
 export { Footer };
-
-
-
-
