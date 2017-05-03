@@ -2,10 +2,11 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 import { Tool } from '../Tool';
-import { Header, GetData } from './common/index';
+import { GetData } from './common/index';
 import UserHeadImg from './UserHeadImg';
 import DataLoad from './DataLoad';
 import Footer from './Footer';
+import Header from './Header';
 
 /**
  * 模块入口

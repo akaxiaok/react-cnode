@@ -4,7 +4,7 @@ import { browserHistory } from 'react-router';
 import { connect } from 'react-redux';
 import action from '../Action/Action';
 import { Tool } from '../Tool';
-import { Header } from './common/index';
+import Header from './Header';
 /**
  * 模块入口
  *
@@ -44,10 +44,12 @@ class Main extends Component {
     return (
       <div>
         <Header title="登录" leftIcon="fanhui" />
-        <div className="signin" data-flex="dir:top main:center cross:center">
-          <div className="center">
-            <div className="text"><input ref={(accesstoken) => { this.accesstoken = accesstoken; }} type="text" placeholder="Access Token" /></div>
-            <button className="btn" onClick={this.signin}>{this.state.button}</button>
+        <div className="signin" data-flex="dir:top main:center cross:center" >
+          <div className="center" >
+            <div className="text" ><input ref={(accesstoken) => {
+              this.accesstoken = accesstoken;
+            }} type="text" placeholder="Access Token" /></div>
+            <button className="btn" onClick={this.signin} >{this.state.button}</button>
           </div>
         </div>
       </div>

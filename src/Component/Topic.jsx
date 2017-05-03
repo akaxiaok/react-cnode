@@ -2,9 +2,11 @@
 import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
 import { Tool } from '../Tool';
-import { Header, GetData } from './common/index';
+import { GetData } from './common/index';
 import Article from './Article';
 import DataLoad from './DataLoad';
+import Header from './Header';
+
 /**
  * 模块入口
  *

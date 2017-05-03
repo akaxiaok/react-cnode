@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { browserHistory } from 'react-router';
 import action from '../Action/Action';
 import { Tool } from '../Tool';
-import { Header } from './common/index';
+import Header from './Header';
 import TipMsgSignIn from './TipMsgSignIn';
 import NewTopic from './NewTopic';
 import Footer from './Footer';
