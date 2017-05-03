@@ -1,12 +1,9 @@
 /* eslint-disable react/prop-types */
 import React, { Component } from 'react';
-import { Link, browserHistory } from 'react-router';
+import { browserHistory } from 'react-router';
 import { Tool } from '../Tool';
 import { DataLoad, Header, GetData } from './common/index';
-import UserHeadImg from './UserHeadImg';
-import TabIcon from './TabIcon';
-import TipMsgSignIn from './TipMsgSignIn';
-import ReplyBox from './ReplyBox';
+import Article from './Article';
 
 /**
  * 模块入口
@@ -84,155 +81,12 @@ class Main extends Component {
     const main = data ? (<Article
       {...this.props} reLoadData={this.reLoadData} clickZan={this.clickZan}
       showReplyBox={this.showReplyBox}
-    />) :
-      <DataLoad loadAnimation={loadAnimation} loadMsg={loadMsg} />;
-
+    />) : <DataLoad loadAnimation={loadAnimation} loadMsg={loadMsg} />;
     return (
       <div>
         <Header title="详情" leftIcon="fanhui" />
         {main}
       </div>
-    );
-  }
-}
-
-/**
- * 文章主体部分
- *
- * @class Article
- * @extends {Component}
- */
-class Article extends Component {
-  constructor(props) {
-    super(props);
-  }
-
-  render() {
-    const { id, title, create_at, visit_count, reply_count, content, replies, author } = this.props.state.data;
-    const createMarkup = () => ({
-      __html: content,
-    });
-    const bottom = this.props.User ?
-      <ReplyBox reLoadData={this.props.reLoadData} data={{ accesstoken: this.props.User.accesstoken, id }} /> :
-      <TipMsgSignIn />;
-
-    return (
-      <div className="topic" >
-        <div className="user" data-flex >
-          <div className="headimg" data-flex-box="0" >
-            <UserHeadImg url={author.avatar_url} />
-          </div>
-          <div className="data" data-flex="dir:top" data-flex-box="1" >
-            <div data-flex="main:justify" >
-              <Link to={`/user/${author.loginname}`} className="name" >{author.loginname}</Link>
-              <time data-flex-box="1" >{Tool.formatDate(create_at)}</time>
-              <div className="lou" >#楼主</div>
-              <div className="font" data-flex="main:center cross:center" >
-                <TabIcon {...this.props.state.data} /></div>
-            </div>
-            <div className="qt" data-flex >
-              <div>阅读：{visit_count}</div>
-              <div>回复：{reply_count}</div>
-            </div>
-          </div>
-        </div>
-        <h2 className="tit2" >{title}</h2>
-        <div className="content markdown-body" dangerouslySetInnerHTML={createMarkup()} />
-        <h3 className="tit3" >共<em>{replies.length}</em>条回复</h3>
-        <ReList
-          reLoadData={this.props.reLoadData} id={id} list={replies} clickZan={this.props.clickZan}
-          showReplyBox={this.props.showReplyBox} User={this.props.User}
-        />
-        {bottom}
-      </div>
-    );
-  }
-}
-/**
- * 回复列表
- *
- * @class ReList
- * @extends {Component}
- */
-class ReList extends Component {
-  constructor(props) {
-    super(props);
-
-    /**
-     * 验证回复项目是否点赞
-     *
-     * @param {Array} arr
-     * @returns
-     */
-    this.isUp = (arr) => {
-      const id = this.props.User ? this.props.User.id : '';
-      for (let i = 0; i < arr.length; i++) {
-        if (arr[i] === id) return true;
-      }
-      return false;
-    };
-  }
-
-  render() {
-    const accesstoken = this.props.User ? this.props.User.accesstoken : '';
-    return (
-      <ul className="re-list" >
-        {
-          this.props.list.map((item, index) => {
-            const { id, content, author, ups, create_at, display = 'none' } = item;
-            const at = new Date(create_at);
-            const upState = this.isUp(ups);
-            const createMarkup = () => ({
-              __html: content,
-            });
-
-
-            return (
-              <li key={index} data-flex >
-                <div className="headimg" data-flex-box="0" >
-                  <UserHeadImg url={author.avatar_url} />
-                </div>
-                <div className="main" data-flex-box="1" >
-                  <div data-flex="main:justify" >
-                    <Link
-                      to={`/user/${author.loginname}`}
-                      className="name"
-                    >{author.loginname}</Link>
-                    <time data-flex-box="1" >{Tool.formatDate(create_at)}</time>
-                    <div className="lou" >#{++index}</div>
-                  </div>
-                  <div
-                    className="content markdown-body"
-                    dangerouslySetInnerHTML={createMarkup()}
-                  />
-                  <div className="bottom" data-flex="main:right" >
-                    <div
-                      className={`font font-${upState}`} onClick={() => {
-                      this.props.clickZan(id, index, author.loginname);
-                    }}
-                    >
-                      <i className="iconfont icon-dianzan " />
-                      <em>{ups.length ? ups.length : ''}</em>
-                    </div>
-                    <div
-                      className="font" onClick={() => {
-                      this.props.showReplyBox(index);
-                    }}
-                    >
-                      <i className="iconfont icon-huifu" />
-                    </div>
-                  </div>
-                  <ReplyBox
-                    placeholder={`@${author.loginname}`} reLoadData={this.props.reLoadData}
-                    display={display} loginname={author.loginname}
-                    data={{ accesstoken, id: this.props.id, reply_id: id }}
-                  />
-                </div>
-              </li>
-            );
-          })
-        }
-      </ul>
     );
   }
 }
