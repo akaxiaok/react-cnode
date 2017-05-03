@@ -1,11 +1,8 @@
 /* eslint-disable react/prop-types */
 import React, { Component } from 'react';
-import { Link } from 'react-router';
-import { Tool } from '../Tool';
 import { DataLoad, Header, Footer, GetData } from './common/index';
-import UserHeadImg from './UserHeadImg';
 import TipMsgSignIn from './TipMsgSignIn';
-
+import Content from './Content';
 /**
  * 模块入口
  *
@@ -36,55 +33,6 @@ class Main extends Component {
     );
   }
 }
-
-/**
- * 消息内容
- *
- * @class Content
- * @extends {Component}
- */
-class Content extends Component {
-  render() {
-    const list = this.props.list;
-    return (
-      <div className="msg-box">
-        <ul className="list">
-          {
-                        list.map((item, index) => {
-                          const { type, author, topic, reply, has_read } = item;
-                          let content = null;
-
-                          if (type === 'at') {
-                            content = <div>在话题<Link to={`/topic/${topic.id}`}>{topic.title}</Link>中 @了你</div>;
-                          } else {
-                            content = <div>回复你了的话题<Link to={`/topic/${topic.id}`}>{topic.title}</Link></div>;
-                          }
-                          return (
-                            <li data-flex="box:first" key={index}>
-                              <Link className="user" to={`/user/${author.loginname}`}>
-                                <UserHeadImg url={author.avatar_url} />
-                              </Link>
-                              <div>
-                                <div className="name">{author.loginname}
-                                  <time>{Tool.formatDate(reply.create_at)}</time>
-                                </div>
-                                <div data-flex="box:first">
-                                  <div data-flex="cross:center">
-                                    <div className={`dian-${has_read}`} />
-                                  </div>
-                                  {content}
-                                </div>
-                              </div>
-                            </li>
-                          );
-                        })
-                    }
-        </ul>
-      </div>
-    );
-  }
-}
-
 export default GetData({
   id: 'MyMessages',  // 应用关联使用的redux
   component: Main, // 接收数据的组件入口
