@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import React, { Component } from 'react';
-import { GetData } from './common/index';
+import GetData from './GetData';
 import TipMsgSignIn from './TipMsgSignIn';
 import Content from './Content';
 import DataLoad from './DataLoad';

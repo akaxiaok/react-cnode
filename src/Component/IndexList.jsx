@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { GetNextPage } from './common/index';
+import GetNextPage from './GetNextPage';
 import Main from './Main';
 
 export default GetNextPage({

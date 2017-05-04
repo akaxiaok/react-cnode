@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
 import { Tool } from '../Tool';
-import { GetData } from './common/index';
+import GetData from './GetData';
 import Article from './Article';
 import DataLoad from './DataLoad';
 import Header from './Header';

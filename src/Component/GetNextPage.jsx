@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 import GetNextPage from 'get-next-page';
 import promis from 'es6-promise';
 import fetch from 'isomorphic-fetch';
-import action from '../../Action/Action';
-import { merged, config } from '../../Tool';
-import DataLoad from '../DataLoad';
+import action from '../Action/Action';
+import { merged, config } from '../Tool';
+import DataLoad from './DataLoad';
 
 const { target } = config;
 
