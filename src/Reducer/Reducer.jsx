@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import { Tool, merged } from '../Tool';
 /**
  * 存储登录的用户信息
@@ -20,7 +21,7 @@ const User = (state = JSON.parse(Tool.localItem('User')), action) => {
 };
 
 
-const DB = (_ID = '', seting = {}) => {
+const DB = (ID = '', seting = {}) => {
   const cb = {
     setDefaut: () => {
       const defaults = merged({
@@ -39,11 +40,11 @@ const DB = (_ID = '', seting = {}) => {
     },
     setState: (state, target) => {
       state.path[target.path] = target;
-      return merged(state);
+      return Object.assign({}, state);
     },
   };
   return (state = {}, action = {}) => {
-    if (action._ID && action._ID !== _ID) {
+    if (action.ID && action.ID !== ID) {
       return state;
     } else if (cb[action.type]) {
       return cb[action.type](state, action.target);
@@ -55,4 +56,6 @@ const IndexList = DB('IndexList', { page: 1, nextBtn: true, limit: 10, mdrender:
 const Topic = DB('Topic'); // 主题详情
 const MyMessages = DB('MyMessages'); // 消息
 const UserView = DB('UserView', { tabIndex: 0 }); // 用户详情
+
 export default { IndexList, Topic, MyMessages, UserView, User };
+
