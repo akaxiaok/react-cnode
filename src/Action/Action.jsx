@@ -1,4 +1,4 @@
-export default () => {
+export default (_ID) => {
   const action = {};
   const arr = [
     'signinSuccess', // 登录成功
@@ -7,7 +7,7 @@ export default () => {
   ];
   for (let i = 0; i < arr.length; i++) {
     // action[arr[i]] = target => ({ _ID, target, type: arr[i] });
-    action[arr[i]] = target => ({ target, type: arr[i] });
+    action[arr[i]] = target => ({ target, type: arr[i] ,_ID});
   }
   return action;
 };
