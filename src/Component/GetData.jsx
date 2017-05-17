@@ -52,7 +52,6 @@ const Main = (mySeting) => {
         if (typeof state.path[this.path] === 'object' && state.path[this.path].path === this.path) {
           this.state = state.path[this.path];
         } else {
-          debugger;
           this.state = merged(state.defaults); // 数据库不存在当前的path数据，则从默认对象中复制，注意：要复制对象，而不是引用
           this.state.path = this.path;
         }
@@ -72,7 +71,6 @@ const Main = (mySeting) => {
           this.state.loadMsg = '加载成功';
           this.state.loadAnimation = false;
           this.state.data = res.data;
-          debugger;
           this.props.setState(success(this.state) || this.state);
         }, (res, xhr) => {
           if (xhr.status === 404) {
@@ -81,7 +79,6 @@ const Main = (mySeting) => {
             this.state.loadMsg = '加载失败';
           }
           this.state.loadAnimation = false;
-          debugger;
           this.props.setState(error(this.state) || this.state);
         });
       };
@@ -145,7 +142,6 @@ const Main = (mySeting) => {
     }
 
     render() {
-      debugger;
       return <this.props.seting.component {...this.props} state={this.state} />;
     }
 

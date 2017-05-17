@@ -1,35 +1,9 @@
 /* eslint-disable react/prop-types */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import GetNextPage from 'get-next-page';
-import promis from 'es6-promise';
-import fetch from 'isomorphic-fetch';
-import action from '../Action/Action';
-import { merged, config } from '../Tool';
+import { getNextPage, setState, setPath, setPosition } from '../Action/Action';
 import DataLoad from './DataLoad';
 import Main from './Main';
-
-const { target } = config;
-
-debugger;
-const setting = {
-  id: 'IndexList',  // 应用关联使用的redux
-  component: Main, // 接收数据的组件入口
-  url: '/api/v1/topics',
-  // todo: what's this ?
-  data: (props, state) => { // 发送给服务器的数据
-    const { page, limit, mdrender } = state;
-    return {
-      tab: props.location.query.tab || 'all',
-      page,
-      limit,
-      mdrender,
-    };
-  },
-  success: state => state, // 请求成功后执行的方法
-  error: state => state, // 请求失败后执行的方法
-};
-
 
 /**
  * 组件入口
@@ -46,66 +20,33 @@ class Index extends Component {
      *
      * @param {Object} props
      */
-    this.initState = (props) => {
-      const { state, location } = props;
-      const { pathname, search } = location;
+    this.initState = () => {
+      const { pathname, search } = this.props.location;
       this.path = pathname + search;
-
-      if (typeof this.action === 'undefined' && location.action === 'PUSH') {
-        this.action = false;
-      } else {
-        this.action = true;
-      }
-
-      if (typeof state.path[this.path] === 'object' && state.path[this.path].path === this.path && this.action) {
-        this.state = state.path[this.path];
-      } else {
-        this.state = merged(state.defaults); // 数据库不存在当前的path数据，则从默认对象中复制，注意：要复制对象，而不是引用
-        this.state.path = this.path;
-        this.action = false;
-      }
+      this.props.setPath(pathname + search);
     };
-
     /**
      * DOM初始化完成后执行回调
      */
     this.redayDOM = () => {
-      const { success, error } = this.props.setting;
       // todo: scrollX,scrollY 在哪些时候有用？
-      const { scrollX, scrollY } = this.state;
+      // const { scrollX, scrollY } = this.state;
+      const { scrollX, scrollY } = this.props.state.defaults;
       if (this.get) return false; // 已经加载过
+      this.initState();
       debugger;
       window.scrollTo(scrollX, scrollY); // 设置滚动条位置
-      // let { page, limit, mdrender, tab } = this.getData();
-      // fetch(target + this.getUrl() + '?page=' + page + '&limit=' + limit + '&mdrender=' + mdrender + '&tab=' + tab).then((response) => {
-      //   if (response.status >= 400) {
-      //     throw new Error('Bad response from server');
-      //   }
-      //   return response.json();
-      // }).then((json) => {
-      //   this.get = true;
-      //   this.load(json);
-      // }).catch(() => {
-      //   this.error();
-      // });
-      this.get = new GetNextPage(this.refs.dataload, {
-        url: target + this.getUrl(),
-        data: this.getData(),
-        start: this.start,
-        load: this.load,
-        error: this.error,
-      });
-    };
+      // const data = this.getData();
+      const data = this.props.state.defaults;
+      try {
+        // this.start();
+        this.get = true;
+        this.props.getNextPage(data);
+      } catch (e) {
+        throw new Error(e);
+      }
+      this.scrollListener(this.dataLoad, data);
 
-    /**
-     * 请求开始
-     */
-    this.start = () => {
-      this.state.loadAnimation = true;
-      this.state.loadMsg = '正在加载中...';
-      // 从connect获得的方法
-      debugger;
-      this.props.setState(this.state);
     };
     /**
      * 下一页加载成功
@@ -119,7 +60,6 @@ class Index extends Component {
       // const data = res.data;
       const { state } = this;
       const { data } = res;
-      debugger;
       // todo: before 是哪来的？ 改成state.limit
       //  if (!data.length && data.length < before.limit) {
       if (!data.length && data.length < state.limit) {
@@ -132,73 +72,88 @@ class Index extends Component {
       Array.prototype.push.apply(state.data, data);
       state.loadAnimation = false;
       state.page = ++state.page;
-      this.props.setState(state);
     };
 
-    /**
-     * 请求失败时
-     */
-    this.error = () => {
-      this.state.loadAnimation = false;
-      this.state.loadMsg = '加载失败';
-      this.props.setState(this.state);
-    };
 
     /**
      * url更改时
      */
     this.unmount = () => {
-      this.get.end();
       delete this.get;
-      delete this.action;
-      this.state.scrollX = window.scrollX; // 记录滚动条位置
-      this.state.scrollY = window.scrollY;
+      // this.state.scrollX = window.scrollX; // 记录滚动条位置
+      // this.state.scrollY = window.scrollY;
       debugger;
-      this.props.setState(this.state);
+      this.props.setPosition(window.scrollX, window.scrollY);
     };
 
-    /**
-     * 获取ajax 请求url
-     *
-     * @returns Object
-     */
-    this.getUrl = () => {
-      const { url } = this.props.setting;
-      if (typeof url === 'function') {
-        return url(this.props, this.state);
-      } else if (url && typeof url === 'string') {
-        return url;
+    this.getEl = (select) => {
+      switch (typeof select) {
+        case 'string':
+          return document.querySelectorAll(select);
+        case 'object':
+          if (Object.prototype.toString.call(select) === '[object Array]') {
+            return select;
+          } else {
+            return [select];
+          }
       }
-      return this.props.location.pathname;
-    };
+    }
+    this.scrollListener = (select, set) => {
+      /*
+       元素在可视区位置，符合其中一个条件就会触发加载机制
+       */
+      this.top = set.top || 0; // 元素在顶部伸出的距离才加载
+      this.right = set.right || 0; // 元素在右边伸出的距离才加载
+      this.bottom = set.bottom || 0; // 元素在底部伸出的距离才加载
+      this.left = set.left || 0; // 元素在左边伸出的距离才加载
+      this.el = this.getEl(select);
 
-    /**
-     * 获取要发送给服务器的数据
-     *
-     * @returns
-     */
-    this.getData = () => {
-      const { data } = this.props.setting;
-      if (typeof data === 'function') {
-        return data(this.props, this.state);
-      } else if (data && typeof data === 'string') {
-        return data;
+      this.monitorEvent = ['DOMContentLoaded', 'load', 'click', 'touchstart', 'touchend', 'haschange', 'online', 'pageshow', 'popstate', 'resize', 'storage', 'mousewheel', 'scroll'];
+      this.bind();
+    }
+    this.eachDOM = () => {
+      if (this.props.state.defaults.loadAnimation) return;
+      const length = this.el.length;
+      for (let i = 0; i < length; i += 1) {
+        if (this.testMeet(this.el[i]) === true) {
+          this.props.getNextPage(this.props.state.defaults);
+
+          return;
+        }
       }
-      return this.props.location.query;
-    };
-
+    }
+    this.bind = () => {
+      // 事件绑定
+      const eventList = this.monitorEvent;
+      for (let i = 0; i < eventList.length; i += 1) {
+        window.addEventListener(eventList[i], this.eachDOM, false);
+      }
+    }
+    this.testMeet = (el) => {
+      let bcr = el.getBoundingClientRect(); // 取得元素在可视区的位置
+      let mw = el.offsetWidth; // 元素自身宽度
+      let mh = el.offsetHeight; // 元素自身的高度
+      let w = window.innerWidth; // 视窗的宽度
+      let h = window.innerHeight; // 视窗的高度
+      let boolX = (!((bcr.right - this.left) <= 0 && ((bcr.left + mw) - this.left) <= 0) && !((bcr.left + this.right) >= w && (bcr.right + this.right) >= (mw + w))); //上下符合条件
+      let boolY = (!((bcr.bottom - this.top) <= 0 && ((bcr.top + mh) - this.top) <= 0) && !((bcr.top + this.bottom) >= h && (bcr.bottom + this.bottom) >= (mh + h))); //上下符合条件
+      if (el.width != 0 && el.height != 0 && boolX && boolY) {
+        return true;
+      } else {
+        return false;
+      }
+    }
     this.initState(this.props);
   }
 
   render() {
-    const { loadAnimation, loadMsg } = this.state;
+    const { loadAnimation, loadMsg } = this.props.state.defaults;
+    const path = this.path;
     return (
       <div>
-        {
-          //todo: 这里命名为state，让人困扰，其实是个prop
-        }
-        <this.props.setting.component {...this.props} state={this.state} />
-        <div ref="dataload" ><DataLoad loadAnimation={loadAnimation} loadMsg={loadMsg} /></div>
+        <Main {...this.props.state} data={this.props.state.path[path]} />
+        <div ref={dataLoad => (this.dataLoad = dataLoad)} ><DataLoad loadAnimation={loadAnimation} loadMsg={loadMsg} />
+        </div>
       </div>
     );
   }
@@ -222,8 +177,6 @@ class Index extends Component {
     if (this.path !== path) {
       this.unmount(); // 地址栏已经发生改变，做一些卸载前的处理
     }
-
-    this.initState(np);
   }
 
   /**
@@ -244,15 +197,30 @@ class Index extends Component {
   }
 
 }
-Index.defaultProps = { setting };
+
 // mapDispatchToProps: (Object or Function): If an object is passed,
 // each function inside it is assumed to be a Redux action creator.
 // An object with the same function names, but with every action creator
 // wrapped into a dispatch call so they may be invoked directly,
 // will be merged into the component’s props.
-debugger;
-const IndexList = connect(state => ({ state: state[setting.id], User: state.User }),
-  action('IndexList'))(Index);
+function mapDispatchToProps(dispatch) {
+  return {
+    getNextPage: (data) => {
+      dispatch(getNextPage(data));
+    },
+    setState: (data) => {
+      dispatch(setState(data));
+    },
+    setPath: (path) => {
+      dispatch(setPath(path));
+    },
+    setPosition: (x, y) => {
+      dispatch(setPosition(x, y));
+    },
+  };
+}
+const IndexList = connect(state => ({ state: state.IndexList, User: state.User }),
+  mapDispatchToProps)(Index);
 
 
 export default IndexList;

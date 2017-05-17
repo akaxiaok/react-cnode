@@ -14,13 +14,13 @@ import Footer from './Footer';
  * @extends {Component}
  */
 export default function (props) {
-  const { data } = props.state;
-  const tab = props.location.query.tab || 'all';
+  const { data } = props;
+  const tab = props.defaults.tab || 'all';
   return (
     <div className="index-list-box" >
       <Nav tab={tab} />
       {
-        data.length > 0 ? <List list={data} /> : null
+        data && data.length > 0 ? <List list={data} /> : null
       }
       <Footer index="0" />
     </div>
