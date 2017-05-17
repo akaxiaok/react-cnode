@@ -7,8 +7,8 @@ import Topic from '../Component/Topic'; // 主题详情
 import TopicCreate from '../Component/TopicCreate'; // 发布主题
 import MyMessages from '../Component/MyMessages'; // 我的消息
 import UserView from '../Component/UserView'; // 我的个人中心
-import Signin from '../Component/Signin'; // 登录
-import Signout from '../Component/Signout'; // 退出
+import SignIn from '../Component/SignIn'; // 登录
+import SignOut from '../Component/SignOut'; // 退出
 
 /**
  * (路由根目录组件，显示当前符合条件的组件)
@@ -32,8 +32,8 @@ const RouteConfig = (
       <Route path="topic/:id" component={Topic} />
       <Route path="my/messages" component={MyMessages} />
       <Route path="user/:loginname" component={UserView} />
-      <Route path="signin" component={Signin} />
-      <Route path="signout" component={Signout} />
+      <Route path="signin" component={SignIn} />
+      <Route path="signout" component={SignOut} />
     </Route>
   </Router>
 );
