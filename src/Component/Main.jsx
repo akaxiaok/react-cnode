@@ -15,7 +15,7 @@ import Footer from './Footer';
  */
 export default function (props) {
   const { data } = props;
-  const tab = props.defaults.tab || 'all';
+  const tab = props.status.tab || 'all';
   return (
     <div className="index-list-box" >
       <Nav tab={tab} />

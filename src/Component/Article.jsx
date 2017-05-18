@@ -20,6 +20,7 @@ import ReList from './ReList';
 export default class Article extends Component {
   render() {
     const { id, title, create_at, visit_count, reply_count, content, replies, author } = this.props.state.data;
+
     const createMarkup = () => ({
       __html: content,
     });

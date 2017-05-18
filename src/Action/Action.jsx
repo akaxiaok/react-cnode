@@ -20,16 +20,14 @@ export default (ID) => {
 };
 
 
-export function setState(target) {
-  return { type: 'setDefaut', target };
-}
+
 export function startFetch() {
   const target = {
     loadAnimation: true,
     loadMsg: '正在加载中...',
   };
   return {
-    type: 'setDefault', target,
+    type: 'setStatus', target,
   };
 }
 export function endFetch(page) {
@@ -40,7 +38,7 @@ export function endFetch(page) {
     page: nextPage,
   };
   return {
-    type: 'setDefault', target,
+    type: 'setStatus', target,
   };
 }
 export function nomoreData() {
@@ -49,7 +47,7 @@ export function nomoreData() {
     loadMsg: '没有了',
   };
   return {
-    type: 'setDefault', target,
+    type: 'setStatus', target,
   };
 }
 
@@ -59,19 +57,12 @@ export function fetchError() {
     loadMsg: '加载失败',
   };
   return {
-    type: 'setDefault', target,
+    type: 'setStatus', target,
   };
 }
-export function setPath(path) {
-  const target = { path };
+export function setStatus(target) {
   return {
-    type: 'setDefault', target,
-  };
-}
-export function setPosition(scrollX, scrollY) {
-  const target = { scrollX, scrollY };
-  return {
-    type: 'setDefault', target,
+    type: 'setStatus', target,
   };
 }
 export function getNextPage(data) {
@@ -86,10 +77,10 @@ export function getNextPage(data) {
     }).then((json) => {
       const target = { data: json.data };
       target.path = path;
+      dispatch({ target, type: 'setData' });
       dispatch(endFetch(page));
-      dispatch({ target, type: 'setState' });
-    }).catch((e) => {
-      throw new Error('Bad response from server');
+    }).catch(() => {
+      dispatch(fetchError());
     });
   };
 }

@@ -29,7 +29,6 @@ const DB = (ID = '', seting = {}) => {
         state.defaults = merged(state.defaults, target);
         return Object.assign({}, state);
       } else {
-
         const defaults = merged({
           url: '/api/v1/topics',
           path: '', // 当前页面的href
@@ -64,7 +63,35 @@ const DB = (ID = '', seting = {}) => {
     return cb.setDefault();
   };
 };
-const IndexList = DB('IndexList', { page: 1, nextBtn: true, limit: 10, mdrender: false, data: [], tab: 'all' }); // 首页
+// const IndexList = DB('IndexList', { page: 1, nextBtn: true, limit: 10, mdrender: false, data: [], tab: 'all' }); // 首页
+const defaultIndextStatus = {
+  url: '/api/v1/topics',
+  path: '/', // 当前页面的href
+  loadAnimation: true, // true显示加载动画，false 不显示加载动画
+  loadMsg: '加载中', // 加载提示
+  scrollX: 0, // 滚动条X
+  scrollY: 0, // 滚动条Y
+  mdrender: true, // 当为 false 时，不渲染。默认为 true，渲染出现的所有 markdown 格式文本。
+  tab: 'all',
+  limit: 10,
+  page: 1,
+};
+function IndexList(state = { status: defaultIndextStatus }, action) {
+  switch (action.type) {
+    case 'setData':
+      debugger;
+      const { path, data } = action.target;
+      state[path] = state.status.page === 1 ? data : state[path].concat(data);
+      return Object.assign({}, state);
+
+    case 'setStatus':
+      state.status = Object.assign(state.status, action.target);
+      return Object.assign({}, state);
+    default:
+      return state;
+  }
+}
+
 const Topic = DB('Topic'); // 主题详情
 const MyMessages = DB('MyMessages'); // 消息
 const UserView = DB('UserView', { tabIndex: 0 }); // 用户详情
