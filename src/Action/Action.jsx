@@ -20,7 +20,6 @@ export default (ID) => {
 };
 
 
-
 export function startFetch() {
   const target = {
     loadAnimation: true,
@@ -30,15 +29,23 @@ export function startFetch() {
     type: 'setStatus', target,
   };
 }
-export function endFetch(page) {
-  const nextPage = page + 1;
+export function endFetch() {
   const target = {
     loadAnimation: false,
     loadMsg: '上拉加载更多',
-    page: nextPage,
   };
   return {
     type: 'setStatus', target,
+  };
+}
+
+export function setScroll(x, y) {
+  const target = {
+    scrollX: x,
+    scrollY: y,
+  };
+  return {
+    type: 'setScroll', target,
   };
 }
 export function nomoreData() {
@@ -65,9 +72,10 @@ export function setStatus(target) {
     type: 'setStatus', target,
   };
 }
-export function getNextPage(data) {
+export function getNextPage(data, page) {
   return function get(dispatch) {
-    const { page, limit, mdrender, tab, url, path } = data;
+
+    const { limit, mdrender, tab, url, path } = data;
     dispatch(startFetch());
     return fetch(`${server.target}${url}?page=${page}&limit=${limit}&mdrender=${mdrender}&tab=${tab}`).then((response) => {
       if (response.status >= 400) {
@@ -78,7 +86,7 @@ export function getNextPage(data) {
       const target = { data: json.data };
       target.path = path;
       dispatch({ target, type: 'setData' });
-      dispatch(endFetch(page));
+      dispatch(endFetch());
     }).catch(() => {
       dispatch(fetchError());
     });

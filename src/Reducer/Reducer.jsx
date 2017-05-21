@@ -69,23 +69,35 @@ const defaultIndextStatus = {
   path: '/', // 当前页面的href
   loadAnimation: true, // true显示加载动画，false 不显示加载动画
   loadMsg: '加载中', // 加载提示
-  scrollX: 0, // 滚动条X
-  scrollY: 0, // 滚动条Y
   mdrender: true, // 当为 false 时，不渲染。默认为 true，渲染出现的所有 markdown 格式文本。
   tab: 'all',
   limit: 10,
-  page: 1,
 };
+const defaultPageStatus = {
+  page: 2,
+  scrollX: 0, // 滚动条X
+  scrollY: 0, // 滚动条Y
+
+}
 function IndexList(state = { status: defaultIndextStatus }, action) {
   switch (action.type) {
     case 'setData':
       debugger;
       const { path, data } = action.target;
-      state[path] = state.status.page === 1 ? data : state[path].concat(data);
+      if (state[path] === undefined) {
+        const status = Object.assign({}, defaultPageStatus);
+        state[path] = { status, lists: data };
+      } else {
+        state[path].status.page += 1;
+        state[path].lists = state[path].lists.concat(data);
+      }
       return Object.assign({}, state);
-
     case 'setStatus':
-      state.status = Object.assign(state.status, action.target);
+      state.status = Object.assign({}, state.status, action.target);
+      return Object.assign({}, state);
+    case 'setScroll':
+      debugger
+      state[state.status.path].status = Object.assign({}, state[state.status.path].status, data);
       return Object.assign({}, state);
     default:
       return state;

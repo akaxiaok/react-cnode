@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getNextPage, setStatus } from '../Action/Action';
+import { getNextPage, setStatus, setScroll } from '../Action/Action';
 import DataLoad from './DataLoad';
 import Main from './Main';
 
@@ -21,25 +21,37 @@ class Index extends Component {
      * @param {Object} props
      */
     this.initState = () => {
-      const { pathname, search } = this.props.location,
-        path = pathname + search,
-        serchTarget = search.split('=')[1],
-        tab = serchTarget === undefined ? 'all' : serchTarget;
-      this.props.setStatus({ path, tab });
+      const { pathname, search } = this.props.location;
+      const path = pathname + search;
+      if (this.props.status.path !== path) {
+        const serchTarget = search.split('=')[1];
+        const tab = serchTarget === undefined ? 'all' : serchTarget;
+        this.props.setStatus({ path, tab });
+        return false;
+      }
+      return true;
     };
     /**
      * DOM初始化完成后执行回调
      */
     this.redayDOM = () => {
-      const { scrollX, scrollY } = this.props.data.status;
+      // if (this.props.data) {
+      //   const { scrollX, scrollY } = this.props.data.status;
+      //   window.scrollTo(scrollX, scrollY); // 设置滚动条位置
+      // }
+      debugger
+      if (this.props.data) {
+        return false;
+      } // 已经加载过
       if (this.get) return false; // 已经加载过
-      this.initState();
-      window.scrollTo(scrollX, scrollY); // 设置滚动条位置
-      const data = this.props.data.status;
+      if (!this.initState()) return false;
+
+      const data = this.props.status;
+      debugger;
+
       try {
-        // this.start();
         this.get = true;
-        this.props.getNextPage(data);
+        this.props.getNextPage(data, 1);
       } catch (e) {
         throw new Error(e);
       }
@@ -55,8 +67,7 @@ class Index extends Component {
       delete this.get;
       // this.state.scrollX = window.scrollX; // 记录滚动条位置
       // this.state.scrollY = window.scrollY;
-      debugger;
-      this.props.setStatus({ scrollX: window.scrollX, scrollY: window.scrollY });
+      this.props.setScroll(window.scrollX, window.scrollY);
     };
 
     this.getEl = (select) => {
@@ -85,11 +96,11 @@ class Index extends Component {
       this.bind();
     };
     this.eachDOM = () => {
-      if (this.props.data.status.loadAnimation) return;
+      if (this.props.status.loadAnimation) return;
       const length = this.el.length;
       for (let i = 0; i < length; i += 1) {
         if (this.testMeet(this.el[i]) === true) {
-          this.props.getNextPage(this.props.data.status);
+          this.props.getNextPage(this.props.status, this.props.data.status.page);
           return;
         }
       }
@@ -117,10 +128,10 @@ class Index extends Component {
   }
 
   render() {
-    const { loadAnimation, loadMsg, path } = this.props.data.status;
+    const { loadAnimation, loadMsg } = this.props.status;
     return (
       <div>
-        <Main {...this.props.data} data={this.props.data[path]} />
+        <Main tab={this.props.status.tab} data={this.props.data} />
         <div ref={dataLoad => (this.dataLoad = dataLoad)} ><DataLoad loadAnimation={loadAnimation} loadMsg={loadMsg} />
         </div>
       </div>
@@ -140,17 +151,19 @@ class Index extends Component {
    * 在组件接收到新的 props 的时候调用。在初始化渲染的时候，该方法不会调用
    */
   componentWillReceiveProps(np) {
+    debugger;
     const { location } = np;
     const { pathname, search } = location;
     const path = pathname + search;
-    if (this.props.data.status.path !== path) {
-      const tab = search.split('=')[1],
-        npData = this.props.data[path];
-      debugger
-      let page = npData === undefined ? 1 : (npData.length / this.props.data.status.limit) + 1;
-      this.props.setStatus({ path, tab, page });
-      const { scrollX, scrollY } = this.props.data.status;
-      window.scrollTo(scrollX, scrollY);
+    if (this.props.status.path !== path) {
+      const tab = search.split('=')[1];
+      this.props.setStatus({
+        path,
+        tab,
+        // loadAnimation: true,
+        // loadMsg: '正在加载中...',
+      });
+      delete this.get;
     }
   }
 
@@ -176,16 +189,22 @@ class Index extends Component {
 
 function mapDispatchToProps(dispatch) {
   return {
-    getNextPage: (data) => {
-      dispatch(getNextPage(data));
+    getNextPage: (data, page) => {
+      dispatch(getNextPage(data, page));
     },
     setStatus: (target) => {
       dispatch(setStatus(target));
     },
+    setScroll: (x, y) => {
+      dispatch(setScroll(x, y));
+    },
   };
 }
-const IndexList = connect(state => ({ data: state.IndexList, User: state.User }),
-  mapDispatchToProps)(Index);
+const IndexList = connect(state => ({
+  status: state.IndexList.status,
+  data: state.IndexList[state.IndexList.status.path],
+  User: state.User,
+}), mapDispatchToProps)(Index);
 
 
 export default IndexList;
