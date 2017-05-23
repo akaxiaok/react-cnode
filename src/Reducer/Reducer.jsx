@@ -24,26 +24,24 @@ const User = (state = JSON.parse(Tool.localItem('User')), action) => {
 const DB = (ID = '', seting = {}) => {
   const cb = {
     setDefault: (state, target) => {
-
       if (target) {
         state.defaults = merged(state.defaults, target);
         return Object.assign({}, state);
-      } else {
-        const defaults = merged({
-          url: '/api/v1/topics',
-          path: '', // 当前页面的href
-          loadAnimation: true, // true显示加载动画，false 不显示加载动画
-          loadMsg: '加载中', // 加载提示
-          data: null, // 页面的数据
-          scrollX: 0, // 滚动条X
-          scrollY: 0, // 滚动条Y
-          mdrender: true, // 当为 false 时，不渲染。默认为 true，渲染出现的所有 markdown 格式文本。
-        }, seting);
-        return {
-          defaults,
-          path: {},
-        };
       }
+      const defaults = merged({
+        url: '/api/v1/topics',
+        path: '', // 当前页面的href
+        loadAnimation: true, // true显示加载动画，false 不显示加载动画
+        loadMsg: '加载中', // 加载提示
+        data: null, // 页面的数据
+        scrollX: 0, // 滚动条X
+        scrollY: 0, // 滚动条Y
+        mdrender: true, // 当为 false 时，不渲染。默认为 true，渲染出现的所有 markdown 格式文本。
+      }, seting);
+      return {
+        defaults,
+        path: {},
+      };
     },
     setState: (state, target) => {
       if (!state.path[target.path]) {
@@ -78,33 +76,43 @@ const defaultPageStatus = {
   scrollX: 0, // 滚动条X
   scrollY: 0, // 滚动条Y
 
-}
-function IndexList(state = { status: defaultIndextStatus }, action) {
+};
+function IndexList(state, action) {
   switch (action.type) {
     case 'setData':
-      debugger;
-      const { path, data } = action.target;
-      if (state[path] === undefined) {
+      if (state[action.target.path] === undefined) {
         const status = Object.assign({}, defaultPageStatus);
-        state[path] = { status, lists: data };
+        state[action.target.path] = { status, lists: action.target.data };
       } else {
-        state[path].status.page += 1;
-        state[path].lists = state[path].lists.concat(data);
+        state[action.target.path].status.page += 1;
+        state[action.target.path].lists = state[action.target.path].lists.concat(action.target.data);
       }
       return Object.assign({}, state);
-    case 'setStatus':
+    case 'setIndexStatus':
       state.status = Object.assign({}, state.status, action.target);
       return Object.assign({}, state);
     case 'setScroll':
-      debugger
-      state[state.status.path].status = Object.assign({}, state[state.status.path].status, data);
+      state[state.status.path].status = Object.assign({}, state[state.status.path].status, state.status.data);
       return Object.assign({}, state);
     default:
-      return state;
+      return { status: Object.assign({}, defaultIndextStatus) };
   }
 }
 
-const Topic = DB('Topic'); // 主题详情
+function Topic(state, action) {
+  switch (action.type) {
+    case 'set':
+      state.pages[action.target.url] = action.target.data;
+      return Object.assign({}, state);
+    case 'setPageStatus':
+      state.status = Object.assign({}, state.status, action.target);
+      return Object.assign({}, state);
+    default:
+      return { pages: {}, status: Object.assign({}, defaultIndextStatus) };
+  }
+}
+
+// const Topic = DB('Topic'); // 主题详情
 const MyMessages = DB('MyMessages'); // 消息
 const UserView = DB('UserView', { tabIndex: 0 }); // 用户详情
 

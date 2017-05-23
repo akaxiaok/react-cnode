@@ -6,6 +6,11 @@ const server = config;
 
 
 export default (ID) => {
+
+  if (ID === 'Topic' || ID === 'Message') {
+    return { get };
+  }
+
   const action = {};
   const arr = [
     'signinSuccess', // 登录成功
@@ -20,22 +25,22 @@ export default (ID) => {
 };
 
 
-export function startFetch() {
+export function startFetch(type) {
   const target = {
     loadAnimation: true,
     loadMsg: '正在加载中...',
   };
   return {
-    type: 'setStatus', target,
+    type, target,
   };
 }
-export function endFetch() {
+export function endFetch(type) {
   const target = {
     loadAnimation: false,
     loadMsg: '上拉加载更多',
   };
   return {
-    type: 'setStatus', target,
+    type, target,
   };
 }
 
@@ -58,13 +63,13 @@ export function nomoreData() {
   };
 }
 
-export function fetchError() {
+export function fetchError(type) {
   const target = {
     loadAnimation: false,
     loadMsg: '加载失败',
   };
   return {
-    type: 'setStatus', target,
+    type, target,
   };
 }
 export function setStatus(target) {
@@ -73,10 +78,9 @@ export function setStatus(target) {
   };
 }
 export function getNextPage(data, page) {
-  return function get(dispatch) {
-
+  return function (dispatch) {
     const { limit, mdrender, tab, url, path } = data;
-    dispatch(startFetch());
+    dispatch(startFetch('setIndexStatus'));
     return fetch(`${server.target}${url}?page=${page}&limit=${limit}&mdrender=${mdrender}&tab=${tab}`).then((response) => {
       if (response.status >= 400) {
         throw new Error('Bad response from server');
@@ -86,9 +90,29 @@ export function getNextPage(data, page) {
       const target = { data: json.data };
       target.path = path;
       dispatch({ target, type: 'setData' });
-      dispatch(endFetch());
+      dispatch(endFetch('setIndexStatus'));
     }).catch(() => {
-      dispatch(fetchError());
+      dispatch(fetchError('setIndexStatus'));
+    });
+  };
+}
+function get(data) {
+  return function (dispatch) {
+    dispatch(startFetch('setPageStatus'));
+    const { mdrender, url, accesstoken } = data;
+    return fetch(`${server.target}${url}?mdrender=${mdrender}&accesstoken=${accesstoken}`).then((response) => {
+      if (response.status >= 400) {
+        throw new Error('Bad response from server');
+      }
+      return response.json();
+    }).then((json) => {
+      const target = { data: json.data };
+      target.url = url;
+      dispatch({ target, type: 'set' });
+      dispatch(endFetch('setPageStatus'));
+    }).catch((e) => {
+      debugger;
+      dispatch(fetchError('setPageStatus'));
     });
   };
 }

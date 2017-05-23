@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import action from '../Action/Action';
@@ -11,6 +12,7 @@ import { Tool, merged } from '../Tool';
  * @returns
  */
 const Main = (mySeting) => {
+  debugger;
   const seting = {
     id: '', // 应用唯一id表示
     type: 'GET', // 请求类型
@@ -49,40 +51,46 @@ const Main = (mySeting) => {
         const { pathname, search } = location;
         this.path = pathname + search;
 
-        if (typeof state.path[this.path] === 'object' && state.path[this.path].path === this.path) {
-          this.state = state.path[this.path];
-        } else {
-          this.state = merged(state.defaults); // 数据库不存在当前的path数据，则从默认对象中复制，注意：要复制对象，而不是引用
-          this.state.path = this.path;
-        }
+        // if (typeof state.path[this.path] === 'object' && state.path[this.path].path === this.path) {
+        //   this.state = state.path[seting.id];
+        // } else {
+        //   this.state = merged(state.defaults); // 数据库不存在当前的path数据，则从默认对象中复制，注意：要复制对象，而不是引用
+        //   this.state.path = this.path;
+        // }
       };
 
       /**
        * DOM初始化完成后执行回调
        */
       this.redayDOM = () => {
-        const { success, error } = this.props.seting;
-        const { scrollX, scrollY } = this.state;
+        const { scrollX, scrollY } = this.props.status;
         if (this.get) return false; // 已经加载过
         window.scrollTo(scrollX, scrollY); // 设置滚动条位置
         if (this.testStop()) return false; // 请求被拦截
 
-        this.get = Tool.get(this.getUrl(), this.getData(), (res) => {
-          this.state.loadMsg = '加载成功';
-          this.state.loadAnimation = false;
-          this.state.data = res.data;
-          this.props.setState(success(this.state) || this.state);
-        }, (res, xhr) => {
-          if (xhr.status === 404) {
-            this.state.loadMsg = '话题不存在';
-          } else {
-            this.state.loadMsg = '加载失败';
-          }
-          this.state.loadAnimation = false;
-          this.props.setState(error(this.state) || this.state);
+        //   this.get = Tool.get(this.getUrl(), this.getData(), (res) => {
+        //     this.state.loadMsg = '加载成功';
+        //     this.state.loadAnimation = false;
+        //     this.state.data = res.data;
+        //     this.props.setState(success(this.state) || this.state);
+        //   }, (res, xhr) => {
+        //     if (xhr.status === 404) {
+        //       this.state.loadMsg = '话题不存在';
+        //     } else {
+        //       this.state.loadMsg = '加载失败';
+        //     }
+        //     this.state.loadAnimation = false;
+        //     this.props.setState(error(this.state) || this.state);
+        //   });
+        this.get = true;
+        debugger
+        const { mdrender, accesstoken } = seting.data(this.props, this.props.status);
+        this.props.get({
+          url: seting.url(this.props),
+          mdrender,
+          accesstoken,
         });
       };
-
       /**
        * 组件卸载前执行一些操作
        */
@@ -142,7 +150,8 @@ const Main = (mySeting) => {
     }
 
     render() {
-      return <this.props.seting.component {...this.props} state={this.state} />;
+      // return <div>x</div>
+      return <this.props.seting.component status={this.props.status} page={this.props.pages[seting.url(this.props)]} />;
     }
 
     /**
@@ -187,7 +196,11 @@ const Main = (mySeting) => {
   }
   Index.defaultProps = { seting };
 
-  return connect(state => ({ state: state[seting.id], User: state.User }), action(mySeting.id))(Index); // 连接redux
+  return connect(state => ({
+    status: state[seting.id].status,
+    User: state.User,
+    pages: state[seting.id].pages,
+  }), action(seting.id))(Index); // 连接redux
 };
 
 

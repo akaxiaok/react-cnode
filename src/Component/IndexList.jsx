@@ -39,7 +39,7 @@ class Index extends Component {
       //   const { scrollX, scrollY } = this.props.data.status;
       //   window.scrollTo(scrollX, scrollY); // 设置滚动条位置
       // }
-      debugger
+
       if (this.props.data) {
         return false;
       } // 已经加载过
@@ -47,7 +47,7 @@ class Index extends Component {
       if (!this.initState()) return false;
 
       const data = this.props.status;
-      debugger;
+
 
       try {
         this.get = true;
@@ -151,7 +151,7 @@ class Index extends Component {
    * 在组件接收到新的 props 的时候调用。在初始化渲染的时候，该方法不会调用
    */
   componentWillReceiveProps(np) {
-    debugger;
+
     const { location } = np;
     const { pathname, search } = location;
     const path = pathname + search;

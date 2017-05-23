@@ -19,7 +19,7 @@ import ReList from './ReList';
  */
 export default class Article extends Component {
   render() {
-    const { id, title, create_at, visit_count, reply_count, content, replies, author } = this.props.state.data;
+    const { id, title, create_at, visit_count, reply_count, content, replies, author } = this.props.page;
 
     const createMarkup = () => ({
       __html: content,
@@ -40,7 +40,7 @@ export default class Article extends Component {
               <time data-flex-box="1" >{Tool.formatDate(create_at)}</time>
               <div className="lou" >#楼主</div>
               <div className="font" data-flex="main:center cross:center" >
-                <TabIcon {...this.props.state.data} /></div>
+                <TabIcon {...this.props.page} /></div>
             </div>
             <div className="qt" data-flex >
               <div>阅读：{visit_count}</div>
