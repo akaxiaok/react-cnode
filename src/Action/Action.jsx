@@ -74,7 +74,7 @@ export function fetchError(type) {
 }
 export function setStatus(target) {
   return {
-    type: 'setStatus', target,
+    type: 'setIndexStatus', target,
   };
 }
 export function getNextPage(data, page) {

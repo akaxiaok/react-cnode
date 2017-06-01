@@ -25,6 +25,7 @@ class Index extends Component {
       const path = pathname + search;
       if (this.props.status.path !== path) {
         const serchTarget = search.split('=')[1];
+        debugger;
         const tab = serchTarget === undefined ? 'all' : serchTarget;
         this.props.setStatus({ path, tab });
         return false;
@@ -151,12 +152,13 @@ class Index extends Component {
    * 在组件接收到新的 props 的时候调用。在初始化渲染的时候，该方法不会调用
    */
   componentWillReceiveProps(np) {
-
     const { location } = np;
     const { pathname, search } = location;
     const path = pathname + search;
     if (this.props.status.path !== path) {
-      const tab = search.split('=')[1];
+      debugger
+      const serchTarget = search.split('=')[1];
+      const tab = serchTarget === undefined ? 'all' : serchTarget;
       this.props.setStatus({
         path,
         tab,

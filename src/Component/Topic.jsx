@@ -81,7 +81,6 @@ class Main extends Component {
   render() {
     const { loadAnimation, loadMsg } = this.props.status;
     const data = this.props.page;
-    console.log(this.props.page);
     const main = data ? (<Article
       {...this.props} reLoadData={this.reLoadData} clickZan={this.clickZan}
       showReplyBox={this.showReplyBox}
