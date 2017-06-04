@@ -92,7 +92,10 @@ function IndexList(state, action) {
       state.status = Object.assign({}, state.status, action.target);
       return Object.assign({}, state);
     case 'setScroll':
-      state[state.status.path].status = Object.assign({}, state[state.status.path].status, state.status.data);
+      if (!state[state.status.path]){
+        return state;
+      }
+        state[state.status.path].status = Object.assign({}, state[state.status.path].status, action.target);
       return Object.assign({}, state);
     default:
       return { status: Object.assign({}, defaultIndextStatus) };

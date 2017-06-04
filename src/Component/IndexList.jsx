@@ -36,16 +36,17 @@ class Index extends Component {
      * DOM初始化完成后执行回调
      */
     this.redayDOM = () => {
-      // if (this.props.data) {
-      //   const { scrollX, scrollY } = this.props.data.status;
-      //   window.scrollTo(scrollX, scrollY); // 设置滚动条位置
-      // }
 
       if (this.props.data) {
         return false;
       } // 已经加载过
       if (this.get) return false; // 已经加载过
       if (!this.initState()) return false;
+      // if (this.props.data) {
+      //   const { scrollX, scrollY } = this.props.data.status;
+      //   window.scrollTo(scrollX, scrollY); // 设置滚动条位置
+      //   return false;
+      // }
 
       const data = this.props.status;
 
@@ -66,8 +67,6 @@ class Index extends Component {
      */
     this.unmount = () => {
       delete this.get;
-      // this.state.scrollX = window.scrollX; // 记录滚动条位置
-      // this.state.scrollY = window.scrollY;
       this.props.setScroll(window.scrollX, window.scrollY);
     };
 
@@ -156,15 +155,16 @@ class Index extends Component {
     const { pathname, search } = location;
     const path = pathname + search;
     if (this.props.status.path !== path) {
-      debugger
       const serchTarget = search.split('=')[1];
-      const tab = serchTarget === undefined ? 'all' : serchTarget;
+      const tab = serchTarget === undefined ? 'all' : serchTarget
       this.props.setStatus({
         path,
         tab,
-        // loadAnimation: true,
-        // loadMsg: '正在加载中...',
       });
+      if (this.props.data) {
+        const { scrollX, scrollY } = this.props.data.status;
+        window.scrollTo(scrollX, scrollY); // 设置滚动条位置
+      }
       delete this.get;
     }
   }
