@@ -12,7 +12,6 @@ import { Tool, merged } from '../Tool';
  * @returns
  */
 const Main = (mySeting) => {
-  debugger;
   const seting = {
     id: '', // 应用唯一id表示
     type: 'GET', // 请求类型
@@ -83,7 +82,6 @@ const Main = (mySeting) => {
         //     this.props.setState(error(this.state) || this.state);
         //   });
         this.get = true;
-        debugger
         const { mdrender, accesstoken } = seting.data(this.props, this.props.status);
         this.props.get({
           url: seting.url(this.props),

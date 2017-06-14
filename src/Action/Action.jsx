@@ -111,7 +111,6 @@ function get(data) {
       dispatch({ target, type: 'set' });
       dispatch(endFetch('setPageStatus'));
     }).catch((e) => {
-      debugger;
       dispatch(fetchError('setPageStatus'));
     });
   };

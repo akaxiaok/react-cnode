@@ -25,7 +25,6 @@ class Index extends Component {
       const path = pathname + search;
       if (this.props.status.path !== path) {
         const serchTarget = search.split('=')[1];
-        debugger;
         const tab = serchTarget === undefined ? 'all' : serchTarget;
         this.props.setStatus({ path, tab });
         return false;
