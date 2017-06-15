@@ -26,6 +26,7 @@ class Index extends Component {
       if (this.props.status.path !== path) {
         const serchTarget = search.split('=')[1];
         const tab = serchTarget === undefined ? 'all' : serchTarget;
+        debugger
         this.props.setStatus({ path, tab });
         return false;
       }
@@ -144,6 +145,7 @@ class Index extends Component {
    */
   componentDidMount() {
     this.redayDOM();
+
   }
 
   /**
@@ -151,28 +153,43 @@ class Index extends Component {
    */
   componentWillReceiveProps(np) {
     const { location } = np;
+    if (this.props.location === location) {
+      return
+    }
     const { pathname, search } = location;
     const path = pathname + search;
     if (this.props.status.path !== path) {
       const serchTarget = search.split('=')[1];
       const tab = serchTarget === undefined ? 'all' : serchTarget
+      debugger
+      if (this.props.data) {
+        this.props.setScroll(window.scrollX, window.scrollY); // 设置滚动条位置
+      }
       this.props.setStatus({
         path,
         tab,
       });
-      if (this.props.data) {
-        const { scrollX, scrollY } = this.props.data.status;
-        window.scrollTo(scrollX, scrollY); // 设置滚动条位置
-      }
       delete this.get;
     }
   }
+
+  componentWillUpdate(nextProps) {
+    const { pathname, search } = nextProps.location;
+    const path = pathname + search;
+    if (nextProps.data && (this.props.status.path !== path)) {
+      const { scrollX, scrollY } = nextProps.data.status;
+      window.scrollTo(scrollX, scrollY); // 设置滚动条位置
+    }
+  }
+
+
 
   /**
    * 在组件的更新已经同步到 DOM 中之后立刻被调用。该方法不会在初始化渲染的时候调用。
    * 使用该方法可以在组件更新之后操作 DOM 元素。
    */
-  componentDidUpdate() {
+  componentDidUpdate(prevProps, prevState) {
+
     this.redayDOM();
   }
 
