@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import React, { Component } from 'react';
-import GetData from './GetData';
+import GetData from './GetData2';
 import TipMsgSignIn from './TipMsgSignIn';
 import Content from './Content';
 import DataLoad from './DataLoad';
@@ -37,7 +37,7 @@ class Main extends Component {
     );
   }
 }
-export default GetData({
+export default GetData2({
   id: 'MyMessages',  // 应用关联使用的redux
   component: Main, // 接收数据的组件入口
   url: '/api/v1/messages', // 服务器请求的地址

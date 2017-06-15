@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import React, { Component } from 'react';
-import GetData from './GetData';
+import GetData2 from './GetData2';
 import DataLoad from './DataLoad';
 import Footer from './Footer';
 import Header from './Header';
@@ -40,9 +40,10 @@ class Main extends Component {
       </div>
     );
   }
+
 }
 
-export default GetData({
+export default GetData2({
   id: 'UserView',  // 应用关联使用的redux
   component: Main, // 接收数据的组件入口
   url: (props, state) => `/api/v1/user/${props.params.loginname}`,

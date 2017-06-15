@@ -1,11 +1,24 @@
 /* eslint-disable react/prop-types */
 import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
+import { connect } from 'react-redux';
 import { Tool } from '../Tool';
-import GetData from './GetData';
 import Article from './Article';
 import DataLoad from './DataLoad';
 import Header from './Header';
+import action from '../Action/Action';
+
+
+const seting = {
+  id: 'Topic',  // 应用关联使用的redux
+  type: 'GET', // 请求类型
+  url: props => `/api/v1/topic/${props.params.id || ''}`,
+  data: (props, state) => { // 发送给服务器的数据
+    const accesstoken = props.User ? props.User.accesstoken : '';
+    return { mdrender: state.mdrender, accesstoken };
+  },
+};
+
 
 /**
  * 模块入口
@@ -16,7 +29,55 @@ import Header from './Header';
 class Main extends Component {
   constructor(props) {
     super(props);
+    /**
+     * 初始化状态
+     *
+     * @param {Object} props
+     */
+    this.initState = (props) => {
+      const { state, location } = props;
+      const { pathname, search } = location;
+      this.path = pathname + search;
+    };
 
+    /**
+     * DOM初始化完成后执行回调
+     */
+    this.redayDOM = () => {
+      const { scrollX, scrollY } = this.props.status;
+      if (this.get) return false; // 已经加载过
+      window.scrollTo(scrollX, scrollY); // 设置滚动条位置
+      if (this.testStop()) return false; // 请求被拦截
+
+      this.get = true;
+      const { mdrender, accesstoken } = seting.data(this.props, this.props.status);
+      this.props.get({
+        url: seting.url(this.props),
+        mdrender,
+        accesstoken,
+      });
+    };
+    /**
+     * 组件卸载前执行一些操作
+     */
+    this.unmount = () => {
+      if (typeof this.get !== 'undefined') {
+        delete this.get;
+      }
+    };
+    /**
+     * 是否要拦截请求
+     *
+     * @returns
+     */
+    this.testStop = () => {
+      const { stop } = this.props.seting;
+      if (typeof stop === 'function') {
+        return stop(this.props, this.state);
+      }
+      return stop;
+    };
+    this.initState(this.props);
     /**
      * 点赞或取消赞
      *
@@ -78,11 +139,57 @@ class Main extends Component {
     };
   }
 
+
+  /**
+   * 在初始化渲染执行之后立刻调用一次，仅客户端有效（服务器端不会调用）。
+   * 在生命周期中的这个时间点，组件拥有一个 DOM 展现，
+   * 你可以通过 this.getDOMNode() 来获取相应 DOM 节点。
+   */
+  componentDidMount() {
+    this.redayDOM();
+  }
+
+  /**
+   * 在组件接收到新的 props 的时候调用。在初始化渲染的时候，该方法不会调用
+   */
+  componentWillReceiveProps(np) {
+    const { location } = np;
+    const { pathname, search } = location;
+    const path = pathname + search;
+    if (this.path !== path) {
+      this.unmount(); // 地址栏已经发生改变，做一些卸载前的处理
+    }
+
+    this.initState(np);
+  }
+
+  /**
+   * 在组件的更新已经同步到 DOM 中之后立刻被调用。该方法不会在初始化渲染的时候调用。
+   * 使用该方法可以在组件更新之后操作 DOM 元素。
+   */
+  componentDidUpdate() {
+    this.redayDOM();
+  }
+
+  /**
+   * 在组件从 DOM 中移除的时候立刻被调用。
+   * 在该方法中执行任何必要的清理，比如无效的定时器，
+   * 或者清除在 componentDidMount 中创建的 DOM 元素
+   */
+  componentWillUnmount() {
+    this.unmount(); // 地址栏已经发生改变，做一些卸载前的处理
+  }
+
   render() {
+    // status={this.props.status} page={this.props.pages[seting.url(this.props)]}
     const { loadAnimation, loadMsg } = this.props.status;
-    const data = this.props.page;
+    const data = this.props.pages[seting.url(this.props)];
+    debugger;
+    console.log(seting.url(this.props));
+    console.log(this.props.pages);
+
     const main = data ? (<Article
-      {...this.props} reLoadData={this.reLoadData} clickZan={this.clickZan}
+      User={this.props.User} page={data} reLoadData={this.reLoadData} clickZan={this.clickZan}
       showReplyBox={this.showReplyBox}
     />) : <DataLoad loadAnimation={loadAnimation} loadMsg={loadMsg} />;
     return (
@@ -93,16 +200,11 @@ class Main extends Component {
     );
   }
 }
+Main.defaultProps = { seting };
 
 
-export default GetData({
-  id: 'Topic',  // 应用关联使用的redux
-  component: Main, // 接收数据的组件入口
-  url: (props) => `/api/v1/topic/${props.params.id || ''}`,
-  data: (props, state) => { // 发送给服务器的数据
-    const accesstoken = props.User ? props.User.accesstoken : '';
-    return { mdrender: state.mdrender, accesstoken };
-  },
-  success: state => state, // 请求成功后执行的方法
-  error: state => state, // 请求失败后执行的方法
-});
+export default connect(state => ({
+  status: state[seting.id].status,
+  User: state.User,
+  pages: state[seting.id].pages,
+}), action(seting.id))(Main);
