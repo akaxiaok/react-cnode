@@ -61,7 +61,6 @@ const DB = (ID = '', seting = {}) => {
     return cb.setDefault();
   };
 };
-// const IndexList = DB('IndexList', { page: 1, nextBtn: true, limit: 10, mdrender: false, data: [], tab: 'all' }); // 首页
 const defaultIndextStatus = {
   url: '/api/v1/topics',
   path: '/', // 当前页面的href
@@ -92,10 +91,10 @@ function IndexList(state, action) {
       state.status = Object.assign({}, state.status, action.target);
       return Object.assign({}, state);
     case 'setScroll':
-      if (!state[state.status.path]){
+      if (!state[state.status.path]) {
         return state;
       }
-        state[state.status.path].status = Object.assign({}, state[state.status.path].status, action.target);
+      state[state.status.path].status = Object.assign({}, state[state.status.path].status, action.target);
       return Object.assign({}, state);
     default:
       return { status: Object.assign({}, defaultIndextStatus) };
@@ -115,9 +114,21 @@ function Topic(state, action) {
   }
 }
 
-// const Topic = DB('Topic'); // 主题详情
-const MyMessages = DB('MyMessages'); // 消息
+function Messages(state, action) {
+  switch (action.type) {
+    case 'getMessage':
+      state.pages = action.target.data;
+      return Object.assign({}, state);
+    case 'setMessageStatus':
+      state.status = Object.assign({}, state.status, action.target);
+      return Object.assign({}, state);
+    default:
+      return { status: Object.assign({}, defaultIndextStatus) };
+  }
+}
+
+
 const UserView = DB('UserView', { tabIndex: 0 }); // 用户详情
 
-export default { IndexList, Topic, MyMessages, UserView, User };
+export default { IndexList, Topic, Messages, UserView, User };
 
