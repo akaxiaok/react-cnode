@@ -4,27 +4,6 @@ import { config } from '../Tool';
 
 const server = config;
 
-
-export default (ID) => {
-
-  if (ID === 'Topic' || ID === 'Message') {
-    return { get };
-  }
-
-  const action = {};
-  const arr = [
-    'signinSuccess', // 登录成功
-    'signin', // 退出登录
-    'setState', // 设置状态
-  ];
-  for (let i = 0; i < arr.length; i += 1) {
-    // action[arr[i]] = target => ({ _ID, target, type: arr[i] });
-    action[arr[i]] = target => ({ target, type: arr[i], ID });
-  }
-  return action;
-};
-
-
 export function startFetch(type) {
   const target = {
     loadAnimation: true,
@@ -111,7 +90,48 @@ function get(data) {
       dispatch({ target, type: 'set' });
       dispatch(endFetch('setPageStatus'));
     }).catch((e) => {
+      console.log(e.stack);
       dispatch(fetchError('setPageStatus'));
     });
   };
 }
+function getMessage(data) {
+  return function (dispatch) {
+    dispatch(startFetch('setMessageStatus'));
+    const { mdrender, url, accesstoken } = data;
+    return fetch(`${server.target}${url}?mdrender=${mdrender}&accesstoken=${accesstoken}`).then((response) => {
+      if (response.status >= 400) {
+        throw new Error('Bad response from server');
+      }
+      return response.json();
+    }).then((json) => {
+      const target = { data: json.data };
+      target.url = url;
+      dispatch({ target, type: 'getMessage' });
+      dispatch(endFetch('setMessageStatus'));
+    }).catch((e) => {
+      console.log(e.stack);
+      dispatch(fetchError('setMessageStatus'));
+    });
+  };
+}
+
+export default (ID) => {
+  if (ID === 'Topic') {
+    return { get };
+  }
+  if (ID === 'Messages') {
+    return { getMessage };
+  }
+  const action = {};
+  const arr = [
+    'signinSuccess', // 登录成功
+    'signin', // 退出登录
+    'setState', // 设置状态
+  ];
+  for (let i = 0; i < arr.length; i += 1) {
+    // action[arr[i]] = target => ({ _ID, target, type: arr[i] });
+    action[arr[i]] = target => ({ target, type: arr[i], ID });
+  }
+  return action;
+};
