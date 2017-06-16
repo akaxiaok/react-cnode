@@ -9,17 +9,17 @@ import Header from './Header';
 import action from '../Action/Action';
 
 
-const seting = {
+const setting = {
   id: 'Topic',  // 应用关联使用的redux
   type: 'GET', // 请求类型
   url: props => `/api/v1/topic/${props.params.id || ''}`,
+  // stop: props => !props.data,  // stop 函数 防止二次请求
   data: (props, state) => { // 发送给服务器的数据
     const accesstoken = props.User ? props.User.accesstoken : '';
     return { mdrender: state.mdrender, accesstoken };
   },
+
 };
-
-
 /**
  * 模块入口
  *
@@ -35,7 +35,7 @@ class Main extends Component {
      * @param {Object} props
      */
     this.initState = (props) => {
-      const { state, location } = props;
+      const { location } = props;
       const { pathname, search } = location;
       this.path = pathname + search;
     };
@@ -50,9 +50,9 @@ class Main extends Component {
       if (this.testStop()) return false; // 请求被拦截
 
       this.get = true;
-      const { mdrender, accesstoken } = seting.data(this.props, this.props.status);
+      const { mdrender, accesstoken } = setting.data(this.props, this.props.status);
       this.props.get({
-        url: seting.url(this.props),
+        url: setting.url(this.props),
         mdrender,
         accesstoken,
       });
@@ -71,7 +71,7 @@ class Main extends Component {
      * @returns
      */
     this.testStop = () => {
-      const { stop } = this.props.seting;
+      const { stop } = this.props.setting;
       if (typeof stop === 'function') {
         return stop(this.props, this.state);
       }
@@ -183,11 +183,7 @@ class Main extends Component {
   render() {
     // status={this.props.status} page={this.props.pages[seting.url(this.props)]}
     const { loadAnimation, loadMsg } = this.props.status;
-    const data = this.props.pages[seting.url(this.props)];
-    debugger;
-    console.log(seting.url(this.props));
-    console.log(this.props.pages);
-
+    const data = this.props.pages[setting.url(this.props)];
     const main = data ? (<Article
       User={this.props.User} page={data} reLoadData={this.reLoadData} clickZan={this.clickZan}
       showReplyBox={this.showReplyBox}
@@ -200,11 +196,11 @@ class Main extends Component {
     );
   }
 }
-Main.defaultProps = { seting };
+Main.defaultProps = { setting };
 
 
 export default connect(state => ({
-  status: state[seting.id].status,
+  status: state[setting.id].status,
   User: state.User,
-  pages: state[seting.id].pages,
-}), action(seting.id))(Main);
+  pages: state[setting.id].pages,
+}), action(setting.id))(Main);
