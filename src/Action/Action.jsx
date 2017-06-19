@@ -75,6 +75,8 @@ export function getNextPage(data, page) {
     });
   };
 }
+
+
 function get(data) {
   return function (dispatch) {
     dispatch(startFetch('setPageStatus'));
@@ -115,13 +117,41 @@ function getMessage(data) {
     });
   };
 }
-
+function getUserView(data) {
+  return function (dispatch) {
+    dispatch(startFetch('setUserViewStatus'));
+    const { url } = data;
+    return fetch(`${server.target}${url}`).then((response) => {
+      if (response.status >= 400) {
+        throw new Error('Bad response from server');
+      }
+      return response.json();
+    }).then((json) => {
+      const target = { data: json.data };
+      target.url = url;
+      dispatch({ target, type: 'setUserView' });
+      dispatch(endFetch('setUserViewStatus'));
+    }).catch((e) => {
+      console.log(e.stack);
+      dispatch(fetchError('setUserViewStatus'));
+    });
+  };
+}
+function switchTab(index) {
+  return {
+    type: 'setUserViewStatus',
+    target: { tabIndex: index },
+  };
+}
 export default (ID) => {
   if (ID === 'Topic') {
     return { get };
   }
   if (ID === 'Messages') {
     return { getMessage };
+  }
+  if (ID === 'UserView') {
+    return { getUserView, switchTab };
   }
   const action = {};
   const arr = [
