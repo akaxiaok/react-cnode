@@ -26,7 +26,7 @@ class Index extends Component {
       if (this.props.status.path !== path) {
         const serchTarget = search.split('=')[1];
         const tab = serchTarget === undefined ? 'all' : serchTarget;
-        debugger
+        debugger;
         this.props.setStatus({ path, tab });
         return false;
       }
@@ -36,7 +36,6 @@ class Index extends Component {
      * DOM初始化完成后执行回调
      */
     this.redayDOM = () => {
-
       if (this.props.data) {
         return false;
       } // 已经加载过
@@ -145,7 +144,6 @@ class Index extends Component {
    */
   componentDidMount() {
     this.redayDOM();
-
   }
 
   /**
@@ -154,14 +152,14 @@ class Index extends Component {
   componentWillReceiveProps(np) {
     const { location } = np;
     if (this.props.location === location) {
-      return
+      return;
     }
     const { pathname, search } = location;
     const path = pathname + search;
     if (this.props.status.path !== path) {
       const serchTarget = search.split('=')[1];
-      const tab = serchTarget === undefined ? 'all' : serchTarget
-      debugger
+      const tab = serchTarget === undefined ? 'all' : serchTarget;
+      debugger;
       if (this.props.data) {
         this.props.setScroll(window.scrollX, window.scrollY); // 设置滚动条位置
       }
@@ -173,24 +171,17 @@ class Index extends Component {
     }
   }
 
-  componentWillUpdate(nextProps) {
-    const { pathname, search } = nextProps.location;
-    const path = pathname + search;
-    if (nextProps.data && (this.props.status.path !== path)) {
-      const { scrollX, scrollY } = nextProps.data.status;
-      window.scrollTo(scrollX, scrollY); // 设置滚动条位置
-    }
-  }
-
-
-
   /**
    * 在组件的更新已经同步到 DOM 中之后立刻被调用。该方法不会在初始化渲染的时候调用。
    * 使用该方法可以在组件更新之后操作 DOM 元素。
    */
   componentDidUpdate(prevProps, prevState) {
-
     this.redayDOM();
+    if (this.props.data && (this.props.status.path !== prevProps.status.path)) {
+      const { scrollX, scrollY } = this.props.data.status;
+      console.log('scroll to ' + scrollY);
+      window.scrollTo(scrollX, scrollY); // 设置滚动条位置
+    }
   }
 
   /**
