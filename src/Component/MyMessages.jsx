@@ -42,7 +42,7 @@ class Main extends Component {
       return true;
     };
     this.testStop = () => {
-      const { stop } = this.props.seting;
+      const { stop } = this.props.setting;
       if (typeof stop === 'function') {
         return stop(this.props);
       }
@@ -62,9 +62,10 @@ class Main extends Component {
     if (!user) {
       main = <TipMsgSignIn />;
     } else if (!loadAnimation) {
-      const { hasnot_read_messages, has_read_messages } = pages;
-      Array.prototype.push.apply(hasnot_read_messages, has_read_messages);
-      main = <Content list={ hasnot_read_messages} />;
+      const hasnotReadMessage = pages.hasnot_read_messages;
+      const hasReadMessage = pages.has_read_messages;
+      Array.prototype.push.apply(hasnotReadMessage, hasReadMessage);
+      main = <Content list={hasnotReadMessage} />;
     } else {
       main = <DataLoad loadAnimation={loadAnimation} loadMsg={loadMsg} />;
     }

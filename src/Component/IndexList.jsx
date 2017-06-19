@@ -26,7 +26,6 @@ class Index extends Component {
       if (this.props.status.path !== path) {
         const serchTarget = search.split('=')[1];
         const tab = serchTarget === undefined ? 'all' : serchTarget;
-        debugger;
         this.props.setStatus({ path, tab });
         return false;
       }
@@ -159,7 +158,6 @@ class Index extends Component {
     if (this.props.status.path !== path) {
       const serchTarget = search.split('=')[1];
       const tab = serchTarget === undefined ? 'all' : serchTarget;
-      debugger;
       if (this.props.data) {
         this.props.setScroll(window.scrollX, window.scrollY); // 设置滚动条位置
       }
@@ -179,7 +177,6 @@ class Index extends Component {
     this.redayDOM();
     if (this.props.data && (this.props.status.path !== prevProps.status.path)) {
       const { scrollX, scrollY } = this.props.data.status;
-      console.log('scroll to ' + scrollY);
       window.scrollTo(scrollX, scrollY); // 设置滚动条位置
     }
   }

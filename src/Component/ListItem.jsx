@@ -9,7 +9,6 @@ import UserHeadImg from './UserHeadImg';
 import TabIcon from './TabIcon';
 
 export default class ListItem extends Component {
-  // todo: what to use for?
   shouldComponentUpdate() {
     return false;
   }
