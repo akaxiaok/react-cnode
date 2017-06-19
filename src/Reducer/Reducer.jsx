@@ -36,7 +36,7 @@ const defaultPageStatus = {
   scrollY: 0, // 滚动条Y
 
 };
-function IndexList(state, action) {
+function IndexList(state={ status: Object.assign({}, defaultIndextStatus) }, action) {
   switch (action.type) {
     case 'setData':
       if (state[action.target.path] === undefined) {
@@ -57,47 +57,47 @@ function IndexList(state, action) {
       state[state.status.path].status = Object.assign({}, state[state.status.path].status, action.target);
       return Object.assign({}, state);
     default:
-      return { status: Object.assign({}, defaultIndextStatus) };
+      return state;
   }
 }
 
-function Topic(state, action) {
+function Topic(state={ pages: {}, status: Object.assign({}, defaultIndextStatus) }, action) {
   switch (action.type) {
     case 'set':
-      state.pages[action.target.url] = Object.assign({},  action.target.data);
+      state.pages[action.target.url] = Object.assign({}, action.target.data);
       return Object.assign({}, state);
     case 'setPageStatus':
       state.status = Object.assign({}, state.status, action.target);
       return Object.assign({}, state);
     default:
-      return { pages: {}, status: Object.assign({}, defaultIndextStatus) };
+      return state;
   }
 }
 
-function Messages(state, action) {
+function Messages(state={ status: Object.assign({}, defaultIndextStatus) }, action) {
   switch (action.type) {
     case 'getMessage':
-      state.pages = Object.assign({},  action.target.data);
+      state.pages = Object.assign({}, action.target.data);
       return Object.assign({}, state);
     case 'setMessageStatus':
       state.status = Object.assign({}, state.status, action.target);
       debugger;
       return Object.assign({}, state);
     default:
-      return { status: Object.assign({}, defaultIndextStatus) };
+      return state;
   }
 }
 
-function UserView(state, action) {
+function UserView(state = { status: { tabIndex: 0, loadAnimation: false, loadMsg: '加载完成' } }, action) {
   switch (action.type) {
     case 'setUserView':
-      state.data = Object.assign({},  action.target.data);
+      state.data = Object.assign({}, action.target.data);
       return Object.assign({}, state);
     case 'setUserViewStatus':
       state.status = Object.assign({}, state.status, action.target);
       return Object.assign({}, state);
     default:
-      return { status: { tabIndex: 0, loadAnimation: false, loadMsg: '加载完成' } };
+      return state;
   }
 }
 
