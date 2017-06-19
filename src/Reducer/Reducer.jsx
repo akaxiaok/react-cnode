@@ -21,46 +21,6 @@ const User = (state = JSON.parse(Tool.localItem('User')), action) => {
 };
 
 
-const DB = (ID = '', seting = {}) => {
-  const cb = {
-    setDefault: (state, target) => {
-      if (target) {
-        state.defaults = merged(state.defaults, target);
-        return Object.assign({}, state);
-      }
-      const defaults = merged({
-        url: '/api/v1/topics',
-        path: '', // 当前页面的href
-        loadAnimation: true, // true显示加载动画，false 不显示加载动画
-        loadMsg: '加载中', // 加载提示
-        data: null, // 页面的数据
-        scrollX: 0, // 滚动条X
-        scrollY: 0, // 滚动条Y
-        mdrender: true, // 当为 false 时，不渲染。默认为 true，渲染出现的所有 markdown 格式文本。
-      }, seting);
-      return {
-        defaults,
-        path: {},
-      };
-    },
-    setState: (state, target) => {
-      if (!state.path[target.path]) {
-        state.path[target.path] = target.data;
-      } else {
-        state.path[target.path] = state.path[target.path].concat(target.data);
-      }
-      return Object.assign({}, state);
-    },
-  };
-  return (state = {}, action = {}) => {
-    if (action.ID && action.ID !== ID) {
-      return state;
-    } else if (cb[action.type]) {
-      return cb[action.type](state, action.target);
-    }
-    return cb.setDefault();
-  };
-};
 const defaultIndextStatus = {
   url: '/api/v1/topics',
   path: '/', // 当前页面的href
@@ -104,7 +64,7 @@ function IndexList(state, action) {
 function Topic(state, action) {
   switch (action.type) {
     case 'set':
-      state.pages[action.target.url] = action.target.data;
+      state.pages[action.target.url] = Object.assign({},  action.target.data);
       return Object.assign({}, state);
     case 'setPageStatus':
       state.status = Object.assign({}, state.status, action.target);
@@ -117,18 +77,29 @@ function Topic(state, action) {
 function Messages(state, action) {
   switch (action.type) {
     case 'getMessage':
-      state.pages = action.target.data;
+      state.pages = Object.assign({},  action.target.data);
       return Object.assign({}, state);
     case 'setMessageStatus':
       state.status = Object.assign({}, state.status, action.target);
+      debugger;
       return Object.assign({}, state);
     default:
       return { status: Object.assign({}, defaultIndextStatus) };
   }
 }
 
-
-const UserView = DB('UserView', { tabIndex: 0 }); // 用户详情
+function UserView(state, action) {
+  switch (action.type) {
+    case 'setUserView':
+      state.data = Object.assign({},  action.target.data);
+      return Object.assign({}, state);
+    case 'setUserViewStatus':
+      state.status = Object.assign({}, state.status, action.target);
+      return Object.assign({}, state);
+    default:
+      return { status: { tabIndex: 0, loadAnimation: false, loadMsg: '加载完成' } };
+  }
+}
 
 export default { IndexList, Topic, Messages, UserView, User };
 
