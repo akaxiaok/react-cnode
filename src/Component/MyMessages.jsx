@@ -23,6 +23,8 @@ const setting = {
  * @class Main
  * @extends {Component}
  */
+
+// todo: click tab, duplicate data
 class Main extends Component {
   constructor(props) {
     super(props);
@@ -32,6 +34,8 @@ class Main extends Component {
     this.redayDOM = () => {
       if (this.get) return false; // 已经加载过
       // window.scrollTo(scrollX, scrollY); // 设置滚动条位置
+
+      // todo: no used
       if (this.testStop()) return false; // 请求被拦截
       const { mdrender, accesstoken } = setting.data(this.props, this.props.status);
       this.props.getMessage({
