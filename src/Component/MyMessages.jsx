@@ -12,7 +12,6 @@ import action from '../Action/Action';
 const setting = {
   id: 'Messages',  // 应用关联使用的redux
   url: '/api/v1/messages', // 服务器请求的地址
-  stop: props => !props.data, // true 拦截请求，false不拦截请求
   data: props =>  // 发送给服务器的数据
     ({ accesstoken: props.user.accesstoken }),
 };
@@ -33,10 +32,6 @@ class Main extends Component {
     }
     this.redayDOM = () => {
       if (this.get) return false; // 已经加载过
-      // window.scrollTo(scrollX, scrollY); // 设置滚动条位置
-
-      // todo: no used
-      if (this.testStop()) return false; // 请求被拦截
       const { mdrender, accesstoken } = setting.data(this.props, this.props.status);
       this.props.getMessage({
         url: setting.url,
@@ -44,13 +39,6 @@ class Main extends Component {
         accesstoken,
       });
       return true;
-    };
-    this.testStop = () => {
-      const { stop } = this.props.setting;
-      if (typeof stop === 'function') {
-        return stop(this.props);
-      }
-      return stop;
     };
   }
 
@@ -68,8 +56,10 @@ class Main extends Component {
     } else if (!loadAnimation) {
       const hasnotReadMessage = pages.hasnot_read_messages;
       const hasReadMessage = pages.has_read_messages;
-      Array.prototype.push.apply(hasnotReadMessage, hasReadMessage);
-      main = <Content list={hasnotReadMessage} />;
+debugger
+      // concat to get a new obj
+      const lists = Array.prototype.concat.apply(hasnotReadMessage, hasReadMessage);
+      main = <Content list={lists} />;
     } else {
       main = <DataLoad loadAnimation={loadAnimation} loadMsg={loadMsg} />;
     }
