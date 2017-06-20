@@ -28,7 +28,6 @@ class Main extends Component {
     }
     this.redayDOM = () => {
       // if (this.get) return false; // 已经加载过
-      debugger
       if (this.testStop()) return false; // 请求被拦截
       this.props.getUserView({
         url: this.props.setting.url(this.props),

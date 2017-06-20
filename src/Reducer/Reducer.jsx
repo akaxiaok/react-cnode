@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign */
-import { Tool, merged } from '../Tool';
+import { Tool } from '../Tool';
 /**
  * 存储登录的用户信息
  *
@@ -81,7 +81,6 @@ function Messages(state={ status: Object.assign({}, defaultIndextStatus) }, acti
       return Object.assign({}, state);
     case 'setMessageStatus':
       state.status = Object.assign({}, state.status, action.target);
-      debugger;
       return Object.assign({}, state);
     default:
       return state;
