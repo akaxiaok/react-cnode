@@ -12,6 +12,7 @@ export default class NewTopic extends Component {
             <option value="share" >分享</option>
             <option value="ask" >问答</option>
             <option value="job" >招聘</option>
+            <option value="dev" >测试</option>
           </select>
         </div>
         <div className="item" >
