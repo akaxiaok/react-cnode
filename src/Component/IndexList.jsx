@@ -55,7 +55,6 @@ class Index extends Component {
       } catch (e) {
         throw new Error(e);
       }
-      this.scrollListener(this.dataLoad, data);
       return true;
     };
 
@@ -84,6 +83,7 @@ class Index extends Component {
       /*
        元素在可视区位置，符合其中一个条件就会触发加载机制
        */
+      set = set || {}; // todo: do not know what to use for
       this.top = set.top || 0; // 元素在顶部伸出的距离才加载
       this.right = set.right || 0; // 元素在右边伸出的距离才加载
       this.bottom = set.bottom || 0; // 元素在底部伸出的距离才加载
@@ -143,6 +143,7 @@ class Index extends Component {
    */
   componentDidMount() {
     this.redayDOM();
+    this.scrollListener(this.dataLoad);
   }
 
   /**
