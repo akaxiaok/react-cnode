@@ -27,12 +27,12 @@ const setting = {
 class Main extends Component {
   constructor(props) {
     super(props);
-    if (!props.user) {
-      browserHistory.push('/');
+    if (!props.user||!props.user.accelerator) {
+      browserHistory.push('/signin');
     }
     this.redayDOM = () => {
       if (this.get) return false; // 已经加载过
-      const { mdrender, accesstoken } = setting.data(this.props, this.props.status);
+      const { accesstoken } = setting.data(this.props, this.props.status);
       this.props.getMessage({
         url: setting.url,
         mdrender,
