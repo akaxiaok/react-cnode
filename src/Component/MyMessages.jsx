@@ -23,16 +23,16 @@ const setting = {
  * @extends {Component}
  */
 
-// todo: click tab, duplicate data
 class Main extends Component {
   constructor(props) {
     super(props);
-    if (!props.user||!props.user.accelerator) {
-      browserHistory.push('/signin');
-    }
+
     this.redayDOM = () => {
       if (this.get) return false; // 已经加载过
-      const { accesstoken } = setting.data(this.props, this.props.status);
+      if (!this.props.user) {
+        return false;
+      }
+      const { accesstoken } = setting.data(this.props);
       this.props.getMessage({
         url: setting.url,
         mdrender,
@@ -56,7 +56,7 @@ class Main extends Component {
     } else if (!loadAnimation) {
       const hasnotReadMessage = pages.hasnot_read_messages;
       const hasReadMessage = pages.has_read_messages;
-debugger
+
       // concat to get a new obj
       const lists = Array.prototype.concat.apply(hasnotReadMessage, hasReadMessage);
       main = <Content list={lists} />;
