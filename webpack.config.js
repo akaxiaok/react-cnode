@@ -25,7 +25,7 @@ plugins.push(new HtmlWebpackPlugin({ // 根据模板插入css/js等生成最终H
 }));
 
 module.exports = {
-  devtool:'cheap-module-eval-source-map',
+  devtool:'cheap-module-source-map',
   entry: {
     app: './src/App', //编译的入口文件
   },
