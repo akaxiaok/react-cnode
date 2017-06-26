@@ -35,7 +35,6 @@ class Main extends Component {
       const { accesstoken } = setting.data(this.props);
       this.props.getMessage({
         url: setting.url,
-        mdrender,
         accesstoken,
       });
       return true;

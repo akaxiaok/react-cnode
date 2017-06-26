@@ -3,7 +3,7 @@
  * Created by Kimi on 2017/5/3.
  */
 import React, { Component } from 'react';
-
+import { Tool } from '../Tool';
 /**
  * 回复框
  *
