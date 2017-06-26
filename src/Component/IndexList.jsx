@@ -1,4 +1,4 @@
-/* eslint-disable react/prop-types */
+/* eslint-disable react/prop-types,no-undef */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
@@ -15,11 +15,6 @@ class Index extends Component {
   constructor(props) {
     super(props);
 
-    /**
-     * 初始化状态
-     *
-     * @param {Object} props
-     */
     this.initState = () => {
       const { pathname, search } = this.props.location;
       const path = pathname + search;
@@ -74,11 +69,10 @@ class Index extends Component {
           return [select];
       }
     };
-    this.scrollListener = (select, set) => {
+    this.scrollListener = (select, set = {}) => {
       /*
        元素在可视区位置，符合其中一个条件就会触发加载机制
        */
-      set = set || {}; // todo: do not know what to use for
       this.top = set.top || 0; // 元素在顶部伸出的距离才加载
       this.right = set.right || 0; // 元素在右边伸出的距离才加载
       this.bottom = set.bottom || 0; // 元素在底部伸出的距离才加载
@@ -111,8 +105,14 @@ class Index extends Component {
       const mh = el.offsetHeight; // 元素自身的高度
       const w = window.innerWidth; // 视窗的宽度
       const h = window.innerHeight; // 视窗的高度
-      const boolX = (!((bcr.right - this.left) <= 0 && ((bcr.left + mw) - this.left) <= 0) && !((bcr.left + this.right) >= w && (bcr.right + this.right) >= (mw + w))); // 上下符合条件
-      const boolY = (!((bcr.bottom - this.top) <= 0 && ((bcr.top + mh) - this.top) <= 0) && !((bcr.top + this.bottom) >= h && (bcr.bottom + this.bottom) >= (mh + h))); // 上下符合条件
+      const boolX = (!((bcr.right - this.left) <= 0
+      && ((bcr.left + mw) - this.left) <= 0)
+      && !((bcr.left + this.right) >= w
+      && (bcr.right + this.right) >= (mw + w))); // 上下符合条件
+      const boolY = (!((bcr.bottom - this.top) <= 0
+      && ((bcr.top + mh) - this.top) <= 0)
+      && !((bcr.top + this.bottom) >= h
+      && (bcr.bottom + this.bottom) >= (mh + h))); // 上下符合条件
       return el.width !== 0 && el.height !== 0 && boolX && boolY;
     };
   }

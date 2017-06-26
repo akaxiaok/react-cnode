@@ -20,5 +20,6 @@ render(
   <Provider store={store}>
     {route}
   </Provider>,
+// eslint-disable-next-line no-undef
     document.body.appendChild(document.createElement('div')),
 );

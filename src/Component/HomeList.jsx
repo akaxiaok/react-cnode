@@ -18,10 +18,10 @@ export default class HomeList extends Component {
     return (
       <ul className="list" style={{ display }} >
         {
-          list.map((item, index) => {
+          list.map((item) => {
             const { id, title, last_reply_at } = item;
             return (
-              <li key={index} >
+              <li key={id} >
                 <Link data-flex="box:last" to={`/topic/${id}`} >
                   <div className="tit" >{title}</div>
                   <time >{Tool.formatDate(last_reply_at)}</time>
