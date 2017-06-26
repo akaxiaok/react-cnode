@@ -1,10 +1,10 @@
 /* eslint-disable react/prop-types */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { getNextPage, setStatus, setScroll } from '../Action/Action';
 import DataLoad from './DataLoad';
 import Main from './Main';
-
 /**
  * 组件入口
  *
@@ -40,12 +40,6 @@ class Index extends Component {
       } // 已经加载过
       if (this.get) return false; // 已经加载过
       if (!this.initState()) return false;
-      // if (this.props.data) {
-      //   const { scrollX, scrollY } = this.props.data.status;
-      //   window.scrollTo(scrollX, scrollY); // 设置滚动条位置
-      //   return false;
-      // }
-
       const data = this.props.status;
 
 
@@ -76,7 +70,8 @@ class Index extends Component {
             return select;
           }
           return [select];
-
+        default:
+          return [select];
       }
     };
     this.scrollListener = (select, set) => {
@@ -118,23 +113,10 @@ class Index extends Component {
       const h = window.innerHeight; // 视窗的高度
       const boolX = (!((bcr.right - this.left) <= 0 && ((bcr.left + mw) - this.left) <= 0) && !((bcr.left + this.right) >= w && (bcr.right + this.right) >= (mw + w))); // 上下符合条件
       const boolY = (!((bcr.bottom - this.top) <= 0 && ((bcr.top + mh) - this.top) <= 0) && !((bcr.top + this.bottom) >= h && (bcr.bottom + this.bottom) >= (mh + h))); // 上下符合条件
-      if (el.width != 0 && el.height != 0 && boolX && boolY) {
-        return true;
-      }
-      return false;
+      return el.width !== 0 && el.height !== 0 && boolX && boolY;
     };
   }
 
-  render() {
-    const { loadAnimation, loadMsg } = this.props.status;
-    return (
-      <div>
-        <Main tab={this.props.status.tab} data={this.props.data} />
-        <div ref={dataLoad => (this.dataLoad = dataLoad)} ><DataLoad loadAnimation={loadAnimation} loadMsg={loadMsg} />
-        </div>
-      </div>
-    );
-  }
 
   /**
    * 在初始化渲染执行之后立刻调用一次，仅客户端有效（服务器端不会调用）。
@@ -174,7 +156,7 @@ class Index extends Component {
    * 在组件的更新已经同步到 DOM 中之后立刻被调用。该方法不会在初始化渲染的时候调用。
    * 使用该方法可以在组件更新之后操作 DOM 元素。
    */
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps) {
     this.redayDOM();
     if (this.props.data && (this.props.status.path !== prevProps.status.path)) {
       const { scrollX, scrollY } = this.props.data.status;
@@ -189,6 +171,20 @@ class Index extends Component {
    */
   componentWillUnmount() {
     this.unmount(); // 地址栏已经发生改变，做一些卸载前的处理
+  }
+
+  render() {
+    const { loadAnimation, loadMsg } = this.props.status;
+    return (
+      <MuiThemeProvider>
+        <div>
+          <Main tab={this.props.status.tab} data={this.props.data} />
+          <div ref={dataLoad => (this.dataLoad = dataLoad)} >
+            <DataLoad loadAnimation={loadAnimation} loadMsg={loadMsg} />
+          </div>
+        </div>
+      </MuiThemeProvider>
+    );
   }
 
 }
@@ -210,7 +206,6 @@ function mapDispatchToProps(dispatch) {
 const IndexList = connect(state => ({
   status: state.IndexList.status,
   data: state.IndexList[state.IndexList.status.path],
-  User: state.User,
 }), mapDispatchToProps)(Index);
 
 
