@@ -3,7 +3,8 @@
  * Created by Kimi on 2017/4/25.
  */
 import React, { Component } from 'react';
-import { Link } from 'react-router';
+import { browserHistory } from 'react-router';
+import { Tabs, Tab } from 'material-ui/Tabs';
 /**
  * (导航分类)
  *
@@ -14,29 +15,28 @@ export default class Nav extends Component {
   shouldComponentUpdate(np) {
     return this.props.tab !== np.tab; // tab和之前的不一致，组件才需要更新，否则不更新，提升性能
   }
+
+  handleChange = (value) => {
+    switch (value) {
+      case 'all':
+        browserHistory.push('/');
+        break;
+      default :
+        browserHistory.push(`/?tab=${value}`);
+        break;
+    }
+  }
+
   render() {
-    const setCur = {};
-    setCur[this.props.tab] = 'on';
     return (
-      <nav className="index-nav">
-        <ul data-flex="box:mean">
-          <li className={setCur.all}>
-            <Link to="/" activeClassName="active">全部</Link>
-          </li>
-          <li className={setCur.good}>
-            <Link to="/?tab=good" activeClassName="active">精华</Link>
-          </li>
-          <li className={setCur.share}>
-            <Link to="/?tab=share" activeClassName="active">分享</Link>
-          </li>
-          <li className={setCur.ask}>
-            <Link to="/?tab=ask" activeClassName="active">问答</Link>
-          </li>
-          <li className={setCur.job}>
-            <Link to="/?tab=job" activeClassName="active">招聘</Link>
-          </li>
-        </ul>
-        <div className="height" />
+      <nav className="index-nav" >
+        <Tabs value={this.props.tab} onChange={this.handleChange} >
+          <Tab label="全部" value="all" />
+          <Tab label="精华" value="good" />
+          <Tab label="分享" value="share" />
+          <Tab label="问答" value="ask" />
+          <Tab label="招聘" value="job" />
+        </Tabs>
       </nav>
     );
   }
