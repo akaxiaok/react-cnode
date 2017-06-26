@@ -15,6 +15,8 @@ const server = new WebpackDevServer(webpack(config), {
   proxy,
   stats: {
     colors: true,
+    watch: true,
+    hot: true,
   },
 });
 

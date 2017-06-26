@@ -46,7 +46,7 @@ module.exports = {
       {
         test: /\.js$/,
         exclude: /^node_modules$/,
-        loader: 'babel?presets=es2015&compact=false',
+        loader: 'babel?presets[]=es2015,presets[]=stage-0&compact=false',
       }, {
         test: /\.css$/,
         exclude: /^node_modules$/,
@@ -66,7 +66,7 @@ module.exports = {
       }, {
         test: /\.jsx$/,
         exclude: /^node_modules$/,
-        loaders: ['jsx', 'babel?presets[]=es2015,presets[]=react'],
+        loaders: ['jsx', 'babel?presets[]=es2015,presets[]=stage-0,presets[]=react'],
       },
     ],
   },

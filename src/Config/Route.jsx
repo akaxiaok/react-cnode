@@ -16,17 +16,15 @@ import SignOut from '../Component/SignOut'; // 退出
  * @class Roots
  * @extends {Component}
  */
-class Roots extends Component {
-  render() {
-    return (
-      <div>{this.props.children}</div>
-    );
-  }
+function Roots(props) {
+  return (
+    <div>{props.children}</div>
+  );
 }
 const history = process.env.NODE_ENV !== 'production' ? browserHistory : hashHistory;
 const RouteConfig = (
-  <Router history={history}>
-    <Route path="/" component={Roots}>
+  <Router history={history} >
+    <Route path="/" component={Roots} >
       <IndexRoute component={IndexList} />
       <Route path="topic/create" component={TopicCreate} />
       <Route path="topic/:id" component={Topic} />
