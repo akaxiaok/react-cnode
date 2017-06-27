@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
-import React, { Component } from 'react';
+import React from 'react';
 import { Router, Route, IndexRoute, browserHistory, hashHistory } from 'react-router';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 import IndexList from '../Component/IndexList'; // 首页组件
 import Topic from '../Component/Topic'; // 主题详情
@@ -23,17 +24,20 @@ function Roots(props) {
 }
 const history = process.env.NODE_ENV !== 'production' ? browserHistory : hashHistory;
 const RouteConfig = (
-  <Router history={history} >
-    <Route path="/" component={Roots} >
-      <IndexRoute component={IndexList} />
-      <Route path="topic/create" component={TopicCreate} />
-      <Route path="topic/:id" component={Topic} />
-      <Route path="my/messages" component={MyMessages} />
-      <Route path="user/:loginname" component={UserView} />
-      <Route path="signin" component={SignIn} />
-      <Route path="signout" component={SignOut} />
-    </Route>
-  </Router>
+  <MuiThemeProvider>
+    <Router history={history} >
+      <Route path="/" component={Roots} >
+        <IndexRoute component={IndexList} />
+        <Route path="topic/create" component={TopicCreate} />
+        <Route path="topic/:id" component={Topic} />
+        <Route path="my/messages" component={MyMessages} />
+        <Route path="user/:loginname" component={UserView} />
+        <Route path="signin" component={SignIn} />
+        <Route path="signout" component={SignOut} />
+      </Route>
+    </Router>
+  </MuiThemeProvider>
+
 );
 
 export default RouteConfig;
