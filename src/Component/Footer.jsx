@@ -4,9 +4,13 @@
  */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
+import Badge from 'material-ui/Badge';
+import { browserHistory } from 'react-router';
+import IconLocationOn from 'material-ui/svg-icons/communication/location-on';
+import { BottomNavigation, BottomNavigationItem } from 'material-ui/BottomNavigation';
 import { Tool } from '../Tool';
 import action from '../Action/Action';
+
 
 /**
  * 底部导航菜单
@@ -18,7 +22,6 @@ import action from '../Action/Action';
 class FooterInit extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       messageCount: 0,
     };
@@ -48,36 +51,62 @@ class FooterInit extends Component {
     this.getMessageCount();
   }
 
-  render() {
+  select = (index) => {
     const myUrl = this.props.User && this.props.User.loginname ? `/user/${this.props.User.loginname}` : '/signin';
+    switch (index) {
+      case 0:
+        browserHistory.push('/');
+        break;
+      case 1:
+        browserHistory.push('/topic/create');
+        break;
+      case 2:
+        browserHistory.push('/my/messages');
+        break;
+      case 3:
+        browserHistory.push(myUrl);
+        break;
+      default:
+        browserHistory.push('/');
+        break;
+    }
+    this.setState({ selectedIndex: index });
+  };
+
+  render() {
+    const nearbyIcon = <IconLocationOn />;
     const arr = [];
     arr[this.props.index] = 'on';
     return (
       <footer className="common-footer" >
         <div className="zhanwei" />
-        <ul className="menu" data-flex="box:mean" >
-          <li className={arr[0]} >
-            <Link to="/" >
-              <i className="iconfont icon-shouye" />首页
-            </Link>
-          </li>
-          <li className={arr[1]} >
-            <Link to="/topic/create" >
-              <i className="iconfont icon-fabu" />发表
-            </Link>
-          </li>
-          <li className={arr[2]} >
-            <Link to="/my/messages" >
-              <i className="iconfont icon-xiaoxi" />消息{this.state.messageCount > 0 ?
-                <em>{this.state.messageCount}</em> : ''}
-            </Link>
-          </li>
-          <li className={arr[3]} >
-            <Link to={myUrl} >
-              <i className="iconfont icon-wode" />我的
-            </Link>
-          </li>
-        </ul>
+        <div className="menu" >
+          <BottomNavigation selectedIndex={parseInt(this.props.index)} >
+            <BottomNavigationItem
+              label="首页"
+              icon={nearbyIcon}
+              onTouchTap={() => this.select(0)}
+            />
+            <BottomNavigationItem
+              label="发表"
+              icon={nearbyIcon}
+              onTouchTap={() => this.select(1)}
+            />
+
+            <BottomNavigationItem
+              label="消息"
+              icon={nearbyIcon}
+              onTouchTap={() => this.select(2)}
+            />
+            <BottomNavigationItem
+              label="我的"
+              icon={nearbyIcon}
+              onTouchTap={() => this.select(3)}
+            />
+          </BottomNavigation>
+        </div>
+
+
       </footer>
     );
   }
