@@ -30,7 +30,7 @@ export default class Nav extends Component {
   render() {
     return (
       <nav className="index-nav" >
-        <Tabs value={this.props.tab} onChange={this.handleChange} >
+        <Tabs value={this.props.tab} className='tabs' onChange={this.handleChange} >
           <Tab label="全部" value="all" />
           <Tab label="精华" value="good" />
           <Tab label="分享" value="share" />

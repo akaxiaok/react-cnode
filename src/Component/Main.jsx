@@ -19,9 +19,11 @@ export default function (props) {
   return (
     <div className="index-list-box" >
       <Nav tab={tab} />
-      {
-        data && data.lists.length > 0 ? <List list={data.lists} /> : null
-      }
+      <div className="vertical-margin">
+        {
+          data && data.lists.length > 0 ? <List list={data.lists} /> : null
+        }
+      </div>
       <Footer index={0} />
     </div>
   );

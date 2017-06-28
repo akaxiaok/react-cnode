@@ -6,7 +6,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Badge from 'material-ui/Badge';
 import { browserHistory } from 'react-router';
-import IconLocationOn from 'material-ui/svg-icons/communication/location-on';
+import IconHome from 'material-ui/svg-icons/action/home';
+import IconSend from 'material-ui/svg-icons/content/send';
+import IconMessage from 'material-ui/svg-icons/communication/message';
+import IconPerson from 'material-ui/svg-icons/social/person';
 import { BottomNavigation, BottomNavigationItem } from 'material-ui/BottomNavigation';
 import { Tool } from '../Tool';
 import action from '../Action/Action';
@@ -49,9 +52,7 @@ class FooterInit extends Component {
       || this.state.messageCount !== ns.messageCount;
   }
 
-  componentDidUpdate() {
-    this.getMessageCount();
-  }
+
 
   select = (index) => {
     const myUrl = this.props.User && this.props.User.loginname ? `/user/${this.props.User.loginname}` : '/signin';
@@ -76,37 +77,37 @@ class FooterInit extends Component {
   };
 
   render() {
-    const nearbyIcon = <IconLocationOn />;
+    const home = <IconHome />;
+    const message = <IconMessage />;
+    const send = <IconSend />;
+    const person = <IconPerson />;
     return (
       <footer className="common-footer" >
-        <div className="zhanwei" />
         <div className="menu" >
           <BottomNavigation selectedIndex={this.state.selectedIndex} >
             <BottomNavigationItem
               label="首页"
-              icon={nearbyIcon}
+              icon={home}
               onTouchTap={() => this.select(0)}
             />
             <BottomNavigationItem
               label="发表"
-              icon={nearbyIcon}
+              icon={send}
               onTouchTap={() => this.select(1)}
             />
 
             <BottomNavigationItem
               label="消息"
-              icon={nearbyIcon}
+              icon={message}
               onTouchTap={() => this.select(2)}
             />
             <BottomNavigationItem
               label="我的"
-              icon={nearbyIcon}
+              icon={person}
               onTouchTap={() => this.select(3)}
             />
           </BottomNavigation>
         </div>
-
-
       </footer>
     );
   }
