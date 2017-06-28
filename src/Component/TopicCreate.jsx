@@ -110,7 +110,7 @@ class TopicCreate extends Component {
       <div>
         <Header title="发表主题" {...headerSet} />
         {main}
-        <Footer index="1" />
+        <Footer index={1} />
       </div>
     );
   }

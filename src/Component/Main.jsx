@@ -22,7 +22,7 @@ export default function (props) {
       {
         data && data.lists.length > 0 ? <List list={data.lists} /> : null
       }
-      <Footer index="0" />
+      <Footer index={0} />
     </div>
   );
 }

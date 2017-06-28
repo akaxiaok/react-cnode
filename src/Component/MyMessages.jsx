@@ -66,7 +66,7 @@ class Main extends Component {
       <div>
         <Header title="消息" />
         {main}
-        <Footer index="2" />
+        <Footer index={2} />
       </div>
     );
   }

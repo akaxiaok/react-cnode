@@ -24,6 +24,7 @@ class FooterInit extends Component {
     super(props);
     this.state = {
       messageCount: 0,
+      selectedIndex: this.props.index,
     };
 
     this.getMessageCount = () => {
@@ -44,7 +45,8 @@ class FooterInit extends Component {
 
   shouldComponentUpdate(np, ns) {
     // 防止组件不必要的更新
-    return this.props.index !== np.index || this.state.messageCount !== ns.messageCount;
+    return this.state.selectedIndex !== np.selectedIndex
+      || this.state.messageCount !== ns.messageCount;
   }
 
   componentDidUpdate() {
@@ -75,13 +77,11 @@ class FooterInit extends Component {
 
   render() {
     const nearbyIcon = <IconLocationOn />;
-    const arr = [];
-    arr[this.props.index] = 'on';
     return (
       <footer className="common-footer" >
         <div className="zhanwei" />
         <div className="menu" >
-          <BottomNavigation selectedIndex={parseInt(this.props.index)} >
+          <BottomNavigation selectedIndex={this.state.selectedIndex} >
             <BottomNavigationItem
               label="首页"
               icon={nearbyIcon}
@@ -111,9 +111,7 @@ class FooterInit extends Component {
     );
   }
 }
-FooterInit.defaultProps = {
-  index: 0,
-};
+
 const Footer = connect(state => ({ User: state.User }), action('User'))(FooterInit);
 
 export default Footer;
