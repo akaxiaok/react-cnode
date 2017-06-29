@@ -25,7 +25,7 @@ export default class Article extends Component {
       __html: content,
     });
     const bottom = this.props.User ?
-      <ReplyBox reLoadData={this.props.reLoadData} data={{ accesstoken: this.props.User.accesstoken, id }} /> :
+      <ReplyBox replayTopic={this.props.replayTopic} data={{ accesstoken: this.props.User.accesstoken, id }} /> :
       <TipMsgSignIn />;
 
     return (

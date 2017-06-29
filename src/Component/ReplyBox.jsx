@@ -32,7 +32,7 @@ export default class ReplyBox extends Component {
         return alert('回复内容不能为空！');
       }
       data.content += '-----from------';
-      this.props.reLoadData(data);
+      this.props.replayTopic(data);
       return true;
     };
   }

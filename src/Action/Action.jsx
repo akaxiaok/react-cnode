@@ -80,16 +80,16 @@ export function getNextPage(data, page) {
 function get(data) {
   return function (dispatch) {
     dispatch(startFetch('setPageStatus'));
-    const { mdrender, url, accesstoken } = data;
-    return fetch(`${server.target}${url}?mdrender=${mdrender}&accesstoken=${accesstoken}`).then((response) => {
+    const { mdrender, id, accesstoken } = data;
+    return fetch(`${server.target}/api/v1/topic/${id}?mdrender=${mdrender}&accesstoken=${accesstoken}`).then((response) => {
       if (response.status >= 400) {
         throw new Error('Bad response from server');
       }
       return response.json();
     }).then((json) => {
       const target = { data: json.data };
-      target.url = url;
-      dispatch({ target, type: 'set' });
+      target.id = id;
+      dispatch({ target, type: 'getTopic' });
       dispatch(endFetch('setPageStatus'));
     }).catch((e) => {
       console.log(e.stack);
@@ -97,6 +97,29 @@ function get(data) {
     });
   };
 }
+function replayTopic(data) {
+  return function (dispatch) {
+    return fetch(`${server.target}/api/v1//topic/${data.id}/replies`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    }).then((response) => {
+      if (response.status >= 400) {
+        throw new Error('Bad response from server');
+      }
+      return response.json();
+    }).then((json) => {
+      if (json.success === true) {
+        dispatch(get(data));
+      }
+    }).catch((e) => {
+      console.log(e.stack);
+    });
+  };
+}
+
 function getMessage(data) {
   return function (dispatch) {
     dispatch(startFetch('setMessageStatus'));
@@ -145,7 +168,7 @@ function switchTab(index) {
 }
 export default (ID) => {
   if (ID === 'Topic') {
-    return { get };
+    return { get, replayTopic };
   }
   if (ID === 'Messages') {
     return { getMessage };

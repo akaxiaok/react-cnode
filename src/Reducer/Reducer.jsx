@@ -36,7 +36,7 @@ const defaultPageStatus = {
   scrollY: 0, // 滚动条Y
 
 };
-function IndexList(state={ status: Object.assign({}, defaultIndextStatus) }, action) {
+function IndexList(state = { status: Object.assign({}, defaultIndextStatus) }, action) {
   switch (action.type) {
     case 'setData':
       if (state[action.target.path] === undefined) {
@@ -61,10 +61,10 @@ function IndexList(state={ status: Object.assign({}, defaultIndextStatus) }, act
   }
 }
 
-function Topic(state={ pages: {}, status: Object.assign({}, defaultIndextStatus) }, action) {
+function Topic(state = { pages: {}, status: Object.assign({}, defaultIndextStatus) }, action) {
   switch (action.type) {
-    case 'set':
-      state.pages[action.target.url] = Object.assign({}, action.target.data);
+    case 'getTopic':
+      state.pages[action.target.id] = Object.assign({}, action.target.data);
       return Object.assign({}, state);
     case 'setPageStatus':
       state.status = Object.assign({}, state.status, action.target);
@@ -74,7 +74,7 @@ function Topic(state={ pages: {}, status: Object.assign({}, defaultIndextStatus)
   }
 }
 
-function Messages(state={ status: Object.assign({}, defaultIndextStatus) }, action) {
+function Messages(state = { status: Object.assign({}, defaultIndextStatus) }, action) {
   switch (action.type) {
     case 'getMessage':
       state.pages = Object.assign({}, action.target.data);

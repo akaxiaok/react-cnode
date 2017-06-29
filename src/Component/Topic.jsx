@@ -132,8 +132,8 @@ class Main extends Component {
      *
      * @param {Object} data
      */
-    this.reLoadData = (data) => {
-      this.props.refreshTopic(data);
+    this.replayTopic = (data) => {
+      this.props.replayTopic(data);
     };
   }
 
@@ -183,7 +183,7 @@ class Main extends Component {
     const { loadAnimation, loadMsg } = this.props.status;
     const data = this.props.pages[this.props.params.id];
     const main = data ? (<Article
-      User={this.props.User} page={data} reLoadData={this.reLoadData} clickZan={this.clickZan}
+      User={this.props.User} page={data} replayTopic={this.replayTopic} clickZan={this.clickZan}
       showReplyBox={this.showReplyBox}
     />) : <DataLoad loadAnimation={loadAnimation} loadMsg={loadMsg} />;
     return (
