@@ -28,6 +28,7 @@ const setting = {
 class Main extends Component {
   constructor(props) {
     super(props);
+    this.id = this.props.params.id;
     /**
      * 初始化状态
      *
@@ -51,7 +52,7 @@ class Main extends Component {
       this.get = true;
       const { mdrender, accesstoken } = setting.data(this.props, this.props.status);
       this.props.get({
-        id: this.props.params.id,
+        id: this.id,
         mdrender,
         accesstoken,
       });
@@ -108,32 +109,14 @@ class Main extends Component {
       });
     };
 
-    /**
-     * 显示回复框
-     *
-     * @param {String} index
-     */
-    this.showReplyBox = (index) => {
-      const accesstoken = this.props.User ? this.props.User.accesstoken : '';
-      if (!accesstoken) {
-        return browserHistory.push({ pathname: '/signin' }); // 跳转到登录
-      }
-      --index;
-      if (this.props.state.data.replies[index].display === 'block') {
-        this.props.state.data.replies[index].display = 'none';
-      } else {
-        this.props.state.data.replies[index].display = 'block';
-      }
 
-      this.props.setState(this.props.state);
-    };
     /**
      * 回复成功后，重新加载数据
      *
      * @param {Object} data
      */
-    this.replayTopic = (data) => {
-      this.props.replayTopic(data);
+    this.replyTopic = (data) => {
+      this.props.replyTopic(data);
     };
   }
 
@@ -181,9 +164,9 @@ class Main extends Component {
   render() {
     // status={this.props.status} page={this.props.pages[seting.url(this.props)]}
     const { loadAnimation, loadMsg } = this.props.status;
-    const data = this.props.pages[this.props.params.id];
+    const data = this.props.pages[this.id];
     const main = data ? (<Article
-      User={this.props.User} page={data} replayTopic={this.replayTopic} clickZan={this.clickZan}
+      User={this.props.User} page={data} replyTopic={this.replyTopic} clickZan={this.clickZan}
       showReplyBox={this.showReplyBox}
     />) : <DataLoad loadAnimation={loadAnimation} loadMsg={loadMsg} />;
     return (

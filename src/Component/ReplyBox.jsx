@@ -21,7 +21,7 @@ export default class ReplyBox extends Component {
      * @returns
      */
     this.submit = () => {
-      this.state = { btnname: '提交中...' };
+      // this.state = { btnname: '提交中...' };
       const data = this.props.data;
       if (data.reply_id) {
         data.content = `[@${this.props.loginname}](/user/${this.props.loginname}) ${this.content.value}`;
@@ -31,8 +31,10 @@ export default class ReplyBox extends Component {
       if (!data.content) {
         return alert('回复内容不能为空！');
       }
-      data.content += '-----from------';
-      this.props.replayTopic(data);
+      data.content += '' +
+        '-----from------';
+      this.props.replyTopic(data);
+      this.content.value = "";
       return true;
     };
   }

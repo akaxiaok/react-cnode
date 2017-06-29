@@ -25,7 +25,7 @@ export default class Article extends Component {
       __html: content,
     });
     const bottom = this.props.User ?
-      <ReplyBox replayTopic={this.props.replayTopic} data={{ accesstoken: this.props.User.accesstoken, id }} /> :
+      <ReplyBox replyTopic={this.props.replyTopic} data={{ accesstoken: this.props.User.accesstoken, id }} /> :
       <TipMsgSignIn />;
 
     return (
@@ -52,8 +52,8 @@ export default class Article extends Component {
         <div className="content markdown-body" dangerouslySetInnerHTML={createMarkup()} />
         <h3 className="tit3" >共<em>{replies.length}</em>条回复</h3>
         <ReList
-          reLoadData={this.props.reLoadData} id={id} list={replies} clickZan={this.props.clickZan}
-          showReplyBox={this.props.showReplyBox} User={this.props.User}
+          replyTopic={this.props.replyTopic} id={id} list={replies} clickZan={this.props.clickZan}
+          User={this.props.User}
         />
         {bottom}
       </div>
