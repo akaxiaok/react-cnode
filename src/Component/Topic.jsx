@@ -12,7 +12,6 @@ import action from '../Action/Action';
 const setting = {
   id: 'Topic',  // 应用关联使用的redux
   type: 'GET', // 请求类型
-  url: props => `/api/v1/topic/${props.params.id || ''}`,
   // stop: props => !props.data,  // stop 函数 防止二次请求
   data: (props, state) => { // 发送给服务器的数据
     const accesstoken = props.User ? props.User.accesstoken : '';
@@ -52,7 +51,7 @@ class Main extends Component {
       this.get = true;
       const { mdrender, accesstoken } = setting.data(this.props, this.props.status);
       this.props.get({
-        url: setting.url(this.props),
+        id: this.props.params.id,
         mdrender,
         accesstoken,
       });
@@ -134,8 +133,7 @@ class Main extends Component {
      * @param {Object} data
      */
     this.reLoadData = (data) => {
-      this.props.state.data = data;
-      this.props.setState(this.props.state);
+      this.props.refreshTopic(data);
     };
   }
 
@@ -183,7 +181,7 @@ class Main extends Component {
   render() {
     // status={this.props.status} page={this.props.pages[seting.url(this.props)]}
     const { loadAnimation, loadMsg } = this.props.status;
-    const data = this.props.pages[setting.url(this.props)];
+    const data = this.props.pages[this.props.params.id];
     const main = data ? (<Article
       User={this.props.User} page={data} reLoadData={this.reLoadData} clickZan={this.clickZan}
       showReplyBox={this.showReplyBox}
