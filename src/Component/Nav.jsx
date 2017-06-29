@@ -36,6 +36,7 @@ export default class Nav extends Component {
           <Tab label="分享" value="share" />
           <Tab label="问答" value="ask" />
           <Tab label="招聘" value="job" />
+          <Tab label="测试" value="dev" />
         </Tabs>
       </nav>
     );
