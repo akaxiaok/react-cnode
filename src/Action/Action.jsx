@@ -97,7 +97,7 @@ function get(data) {
     });
   };
 }
-function replayTopic(data) {
+function replyTopic(data) {
   return function (dispatch) {
     return fetch(`${server.target}/api/v1//topic/${data.id}/replies`, {
       method: 'POST',
@@ -168,7 +168,7 @@ function switchTab(index) {
 }
 export default (ID) => {
   if (ID === 'Topic') {
-    return { get, replayTopic };
+    return { get, replyTopic };
   }
   if (ID === 'Messages') {
     return { getMessage };
