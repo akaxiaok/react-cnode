@@ -124,7 +124,7 @@ class Index extends Component {
    */
   componentDidMount() {
     this.redayDOM();
-    this.scrollListener(this.dataLoad);
+    // this.scrollListener(this.dataLoad);
   }
 
   /**
@@ -173,14 +173,8 @@ class Index extends Component {
   }
 
   render() {
-    const { loadAnimation, loadMsg } = this.props.status;
     return (
-      <div>
-        <Main tab={this.props.status.tab} data={this.props.data} />
-        <div ref={dataLoad => (this.dataLoad = dataLoad)} >
-          <DataLoad loadAnimation={loadAnimation} loadMsg={loadMsg} />
-        </div>
-      </div>
+        <Main {...this.props.status} data={this.props.data} scrollListen={this.scrollListener} />
     );
   }
 

@@ -82,8 +82,7 @@ class FooterInit extends Component {
     const send = <IconSend />;
     const person = <IconPerson />;
     return (
-      <footer className="common-footer" >
-        <div className="menu" >
+      <footer className="common-footer menu" >
           <BottomNavigation selectedIndex={this.state.selectedIndex} >
             <BottomNavigationItem
               label="首页"
@@ -107,7 +106,6 @@ class FooterInit extends Component {
               onTouchTap={() => this.select(3)}
             />
           </BottomNavigation>
-        </div>
       </footer>
     );
   }
