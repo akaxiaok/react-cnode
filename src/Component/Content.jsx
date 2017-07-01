@@ -6,6 +6,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router';
 import { Tool } from '../Tool';
 import UserHeadImg from './UserHeadImg';
+import muiThemeable from 'material-ui/styles/muiThemeable';
 
 /**
  * 消息内容
@@ -13,7 +14,7 @@ import UserHeadImg from './UserHeadImg';
  * @class Content
  * @extends {Component}
  */
-export default class Content extends Component {
+class Content extends Component {
   render() {
     const list = this.props.list;
     return (
@@ -27,7 +28,8 @@ export default class Content extends Component {
               if (type === 'at') {
                 content = <div>在话题<Link to={`/topic/${topic.id}`} >{topic.title}</Link>中 @了你</div>;
               } else {
-                content = <div>回复你了的话题<Link to={`/topic/${topic.id}`} >{topic.title}</Link></div>;
+                content = <div>回复你了的话题<Link style={{ color: this.props.muiTheme.palette.primary1Color }}
+                                            to={`/topic/${topic.id}`} >{topic.title}</Link></div>;
               }
               return (
                 <li data-flex="box:first" key={index} >
@@ -54,3 +56,4 @@ export default class Content extends Component {
     );
   }
 }
+export default muiThemeable()(Content);

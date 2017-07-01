@@ -4,6 +4,7 @@
 /* eslint-disable react/prop-types */
 
 import React, { Component } from 'react';
+import muiThemeable from 'material-ui/styles/muiThemeable';
 import { Tool } from '../Tool';
 import UserHeadImg from './UserHeadImg';
 import HomeList from './HomeList';
@@ -14,7 +15,7 @@ import HomeList from './HomeList';
  * @class Home
  * @extends {Component}
  */
-export default class Home extends Component {
+class Home extends Component {
   render() {
     const { avatar_url, loginname, score, recent_topics, recent_replies, create_at } = this.props.data;
     const { tabIndex } = this.props;
@@ -24,7 +25,8 @@ export default class Home extends Component {
     arrDisplay[tabIndex] = 'block';
     return (
       <div className="user-index" >
-        <div className="headimg" data-flex="dir:top main:center cross:center" >
+        <div className="headimg" data-flex="dir:top main:center cross:center"
+             style={{ backgroundColor: this.props.muiTheme.palette.primary1Color, }} >
           <UserHeadImg url={avatar_url} />
           <div className="name" >{loginname}</div>
           <div className="score" >积分：{score}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -50,3 +52,4 @@ export default class Home extends Component {
     );
   }
 }
+export default muiThemeable()(Home);

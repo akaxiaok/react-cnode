@@ -4,7 +4,7 @@
  */
 import React from 'react';
 import { Link, browserHistory } from 'react-router';
-
+import muiThemeable from 'material-ui/styles/muiThemeable';
 /**
  * 公共头部
  *
@@ -12,7 +12,7 @@ import { Link, browserHistory } from 'react-router';
  * @class Header
  * @extends {Component}
  */
-export default function Header(props) {
+  function Header(props) {
   const { title, leftTo, leftIcon, rightTo, rightIcon, rightClick } = props;
   let left = null;
 
@@ -45,7 +45,7 @@ export default function Header(props) {
     );
   }
   return (
-    <header className="common-header" data-flex >
+    <header className="common-header" style={{backgroundColor:props.muiTheme.palette.primary1Color}} data-flex >
       <div className="icon" data-flex="main:center cross:center" data-flex-box="0" >
         {left}
       </div>
@@ -56,3 +56,4 @@ export default function Header(props) {
     </header>
   );
 }
+export default muiThemeable()(Header);

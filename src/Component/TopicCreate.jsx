@@ -109,7 +109,9 @@ class TopicCreate extends Component {
     return (
       <div>
         <Header title="发表主题" {...headerSet} />
-        {main}
+        <div className="vertical-margin">
+          {main}
+        </div>
         <Footer index={1} />
       </div>
     );

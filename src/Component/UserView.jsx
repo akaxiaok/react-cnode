@@ -62,7 +62,9 @@ class Main extends Component {
     return (
       <div>
         <Header title={title} leftIcon={leftIcon} rightIcon={rightIcon} rightTo="/signout" />
-        {main}
+        <div className="vertical-margin" >
+          {main}
+        </div>
         {footer}
       </div>
     );

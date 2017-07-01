@@ -53,7 +53,6 @@ class FooterInit extends Component {
   }
 
 
-
   select = (index) => {
     const myUrl = this.props.User && this.props.User.loginname ? `/user/${this.props.User.loginname}` : '/signin';
     switch (index) {
@@ -78,34 +77,33 @@ class FooterInit extends Component {
 
   render() {
     const home = <IconHome />;
-    const message = <IconMessage />;
+    const message =  <IconMessage />;
     const send = <IconSend />;
     const person = <IconPerson />;
     return (
       <footer className="common-footer menu" >
-          <BottomNavigation selectedIndex={this.state.selectedIndex} >
-            <BottomNavigationItem
-              label="首页"
-              icon={home}
-              onTouchTap={() => this.select(0)}
-            />
-            <BottomNavigationItem
-              label="发表"
-              icon={send}
-              onTouchTap={() => this.select(1)}
-            />
-
-            <BottomNavigationItem
-              label="消息"
-              icon={message}
-              onTouchTap={() => this.select(2)}
-            />
-            <BottomNavigationItem
-              label="我的"
-              icon={person}
-              onTouchTap={() => this.select(3)}
-            />
-          </BottomNavigation>
+        <BottomNavigation selectedIndex={this.state.selectedIndex} >
+          <BottomNavigationItem
+            label="首页"
+            icon={home}
+            onTouchTap={() => this.select(0)}
+          />
+          <BottomNavigationItem
+            label="发表"
+            icon={send}
+            onTouchTap={() => this.select(1)}
+          />
+          <BottomNavigationItem
+            label="消息"
+            icon={message}
+            onTouchTap={() => this.select(2)}
+          />
+          <BottomNavigationItem
+            label="我的"
+            icon={person}
+            onTouchTap={() => this.select(3)}
+          />
+        </BottomNavigation>
       </footer>
     );
   }
