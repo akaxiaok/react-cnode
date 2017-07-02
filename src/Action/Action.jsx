@@ -160,12 +160,7 @@ function getUserView(data) {
     });
   };
 }
-function switchTab(index) {
-  return {
-    type: 'setUserViewStatus',
-    target: { tabIndex: index },
-  };
-}
+
 export default (ID) => {
   if (ID === 'Topic') {
     return { get, replyTopic };
@@ -174,7 +169,7 @@ export default (ID) => {
     return { getMessage };
   }
   if (ID === 'UserView') {
-    return { getUserView, switchTab };
+    return { getUserView };
   }
   const action = {};
   const arr = [
