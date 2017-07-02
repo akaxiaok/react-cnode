@@ -5,6 +5,7 @@
 
 import React, { Component } from 'react';
 import muiThemeable from 'material-ui/styles/muiThemeable';
+import { Tabs, Tab } from 'material-ui/Tabs';
 import { Tool } from '../Tool';
 import UserHeadImg from './UserHeadImg';
 import HomeList from './HomeList';
@@ -32,22 +33,10 @@ class Home extends Component {
           <div className="score" >积分：{score}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             注册于：{Tool.formatDate(create_at)}</div>
         </div>
-        <ul className="tab-nav" data-flex="box:mean" >
-          <li
-            onClick={() => {
-              this.props.tab(0);
-            }} className={arrOn[0]}
-          >主题
-          </li>
-          <li
-            onClick={() => {
-              this.props.tab(1);
-            }} className={arrOn[1]}
-          >回复
-          </li>
-        </ul>
-        <HomeList list={recent_topics} display={arrDisplay[0]} />
-        <HomeList list={recent_replies} display={arrDisplay[1]} />
+        <Tabs  >
+          <Tab label="主题" > <HomeList list={recent_topics} /></Tab>
+          <Tab label="回复" > <HomeList list={recent_replies} /></Tab>
+        </Tabs>
       </div>
     );
   }

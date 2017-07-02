@@ -14,9 +14,9 @@ import { Tool } from '../Tool';
  */
 export default class HomeList extends Component {
   render() {
-    const { list, display } = this.props;
+    const { list } = this.props;
     return (
-      <ul className="list" style={{ display }} >
+      <ul className="list scroll-content user-view-lists" >
         {
           list.map((item) => {
             const { id, title, last_reply_at } = item;

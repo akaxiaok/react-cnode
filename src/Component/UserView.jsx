@@ -19,9 +19,6 @@ const setting = {
 class Main extends Component {
   constructor(props) {
     super(props);
-    this.switchTab = (tabIndex) => {
-      this.props.switchTab(tabIndex);
-    };
 
     if (!props.user) {
       browserHistory.push('/');
@@ -53,7 +50,7 @@ class Main extends Component {
     const data = this.props.data;
     let { user, params } = this.props;
     user = user || {};
-    const main = data ? <Home data={data} tabIndex={tabIndex} tab={this.switchTab} /> :
+    const main = data ? <Home data={data} tabIndex={tabIndex} /> :
       <DataLoad loadAnimation={loadAnimation} loadMsg={loadMsg} />;
     const title = params.loginname === user.loginname ? '个人中心' : `${params.loginname}的个人中心`;
     const footer = params.loginname === user.loginname ? <Footer index={3} /> : null;
