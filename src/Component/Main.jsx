@@ -29,7 +29,7 @@ export default class Main extends Component {
     return (
       <div className="index-list-box" >
         <Nav tab={tab} />
-        <div className="vertical-margin scroll-content" >
+        <div className="vertical-margin scroll-content index-content" >
           {
             data && data.lists.length > 0 ? <List list={data.lists} /> : null
           }

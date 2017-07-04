@@ -37,12 +37,16 @@ img {
 }
 
 .scroll-content {
-  height: calc(~"100vh - 50px*2");
   overflow-y: scroll;
   -ms-overflow-style: none;
   overflow: -moz-scrollbars-none;
 }
-
+.index-content{
+  height: calc(~"100vh - 50px*2");
+}
+.topic-content{
+  height: calc(~"100vh - 50px");
+}
 .user-view-lists {
   height: calc(~"100vh - 50px*3 - 169px");
 }
@@ -132,7 +136,6 @@ img {
 }
 
 .data-load {
-  margin: 10px;
   .msg {
     line-height: 50px;
     text-align: center;

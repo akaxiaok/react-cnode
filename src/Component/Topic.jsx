@@ -171,7 +171,7 @@ class Main extends Component {
     return (
       <div>
         <Header title="详情" leftIcon="fanhui" />
-        <div className="vertical-margin">
+        <div className="vertical-margin scroll-content topic-content">
           {main}
         </div>
       </div>
