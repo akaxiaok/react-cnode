@@ -38,7 +38,6 @@ export default class Article extends Component {
             <div data-flex="main:justify" >
               <Link to={`/user/${author.loginname}`} className="name" >{author.loginname}</Link>
               <time data-flex-box="1" >{Tool.formatDate(create_at)}</time>
-              <div className="lou" >#楼主</div>
               <div className="font" data-flex="main:center cross:center" >
                 <TabIcon {...this.props.page} /></div>
             </div>
