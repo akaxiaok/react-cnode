@@ -162,7 +162,6 @@ class Main extends Component {
   }
 
   render() {
-    // status={this.props.status} page={this.props.pages[seting.url(this.props)]}
     const { loadAnimation, loadMsg } = this.props.status;
     const data = this.props.pages[this.id];
     const main = data ? (<Article
@@ -172,7 +171,9 @@ class Main extends Component {
     return (
       <div>
         <Header title="详情" leftIcon="fanhui" />
-        {main}
+        <div className="vertical-margin">
+          {main}
+        </div>
       </div>
     );
   }
