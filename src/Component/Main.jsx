@@ -37,7 +37,6 @@ export default class Main extends Component {
             <DataLoad loadAnimation={loadAnimation} loadMsg={loadMsg} />
           </div>
         </div>
-        <Footer index={0} />
       </div>
     );
   }

@@ -112,7 +112,6 @@ class TopicCreate extends Component {
         <div className="vertical-margin">
           {main}
         </div>
-        <Footer index={1} />
       </div>
     );
   }

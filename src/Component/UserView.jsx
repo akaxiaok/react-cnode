@@ -53,7 +53,7 @@ class Main extends Component {
     const main = data ? <Home data={data} tabIndex={tabIndex} /> :
       <DataLoad loadAnimation={loadAnimation} loadMsg={loadMsg} />;
     const title = params.loginname === user.loginname ? '个人中心' : `${params.loginname}的个人中心`;
-    const footer = params.loginname === user.loginname ? <Footer index={3} /> : null;
+
     const leftIcon = params.loginname === user.loginname ? null : 'fanhui';
     const rightIcon = params.loginname === user.loginname ? 'tuichu' : null;
     return (
@@ -62,7 +62,6 @@ class Main extends Component {
         <div className="vertical-margin" >
           {main}
         </div>
-        {footer}
       </div>
     );
   }

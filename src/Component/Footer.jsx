@@ -3,7 +3,6 @@
  * Created by Kimi on 2017/5/3.
  */
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import Badge from 'material-ui/Badge';
 import { browserHistory } from 'react-router';
 import IconHome from 'material-ui/svg-icons/action/home';
@@ -12,7 +11,6 @@ import IconMessage from 'material-ui/svg-icons/communication/message';
 import IconPerson from 'material-ui/svg-icons/social/person';
 import { BottomNavigation, BottomNavigationItem } from 'material-ui/BottomNavigation';
 import { Tool } from '../Tool';
-import action from '../Action/Action';
 
 
 /**
@@ -22,19 +20,17 @@ import action from '../Action/Action';
  * @class Footer
  * @extends {Component}
  */
-class FooterInit extends Component {
+export default class Footer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      messageCount: 0,
-      selectedIndex: this.props.index,
-    };
-
+      selectedIndex: this.props.selectedIndex
+    }
     this.getMessageCount = () => {
       const accesstoken = this.props.User ? this.props.User.accesstoken : '';
       if (accesstoken) {
         Tool.get('/api/v1/message/count', { accesstoken }, (res) => {
-          this.setState({
+          this.props.setState({
             messageCount: res.data,
           });
         });
@@ -48,8 +44,8 @@ class FooterInit extends Component {
 
   shouldComponentUpdate(np, ns) {
     // 防止组件不必要的更新
-    return this.state.selectedIndex !== np.selectedIndex
-      || this.state.messageCount !== ns.messageCount;
+    return this.state.selectedIndex !== ns.selectedIndex
+      || this.props.User.messageCount !== np.User.messageCount;
   }
 
 
@@ -63,7 +59,7 @@ class FooterInit extends Component {
         browserHistory.push('/topic/create');
         break;
       case 2:
-        browserHistory.push('/my/messages');
+        browserHistory.push('/messages');
         break;
       case 3:
         browserHistory.push(myUrl);
@@ -80,6 +76,7 @@ class FooterInit extends Component {
     const message = <IconMessage />;
     const send = <IconSend />;
     const person = <IconPerson />;
+
     return (
       <footer className="common-footer menu" >
         <BottomNavigation selectedIndex={this.state.selectedIndex} >
@@ -98,12 +95,12 @@ class FooterInit extends Component {
             icon={message}
             onTouchTap={() => this.select(2)}
           />
-          <Badge secondary={true} badgeContent={this.state.messageCount > 99 ? 99 : this.state.messageCount}
-                 style={{ 'flex': 0, 'padding': 0 }}
+          <Badge secondary={true}
+                 badgeContent={this.props.User.messageCount ? (this.props.User.messageCount > 99 ? 99 : this.props.User.messageCount) : 0}
+                 style={{ 'flex': 0, 'padding': 0, 'display': this.props.User.messageCount ? 'inline-block' : 'none' }}
                  badgeStyle={{
                    'width': '15px',
                    'height': '15px',
-                   'font-size': '12px',
                    'top': '5px',
                    'right': '20px'
                  }} />
@@ -118,6 +115,4 @@ class FooterInit extends Component {
   }
 }
 
-const Footer = connect(state => ({ User: state.User }), action('User'))(FooterInit);
 
-export default Footer;

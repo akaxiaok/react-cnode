@@ -68,7 +68,6 @@ class Main extends Component {
         <div className="vertical-margin scroll-content" >
           {main}
         </div>
-        <Footer index={2} />
       </div>
     );
   }
