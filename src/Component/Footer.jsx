@@ -77,7 +77,7 @@ class FooterInit extends Component {
 
   render() {
     const home = <IconHome />;
-    const message =  <IconMessage />;
+    const message = <IconMessage />;
     const send = <IconSend />;
     const person = <IconPerson />;
     return (
@@ -98,6 +98,15 @@ class FooterInit extends Component {
             icon={message}
             onTouchTap={() => this.select(2)}
           />
+          <Badge secondary={true} badgeContent={this.state.messageCount > 99 ? 99 : this.state.messageCount}
+                 style={{ 'flex': 0, 'padding': 0 }}
+                 badgeStyle={{
+                   'width': '15px',
+                   'height': '15px',
+                   'font-size': '12px',
+                   'top': '5px',
+                   'right': '20px'
+                 }} />
           <BottomNavigationItem
             label="我的"
             icon={person}
