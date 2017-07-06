@@ -15,6 +15,8 @@ const User = (state = JSON.parse(Tool.localItem('User')), action) => {
     case 'signin': // 退出
       Tool.removeLocalItem('User');
       return null;
+    case 'setState':
+      return Object.assign({},state,action.target);
     default:
       return state;
   }
