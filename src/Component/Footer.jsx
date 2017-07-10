@@ -12,7 +12,6 @@ import IconPerson from 'material-ui/svg-icons/social/person';
 import { BottomNavigation, BottomNavigationItem } from 'material-ui/BottomNavigation';
 import { Tool } from '../Tool';
 
-
 /**
  * 底部导航菜单
  *
@@ -95,15 +94,7 @@ export default class Footer extends Component {
             icon={message}
             onTouchTap={() => this.select(2)}
           />
-          <Badge secondary={true}
-                 badgeContent={this.props.User.messageCount ? (this.props.User.messageCount > 99 ? 99 : this.props.User.messageCount) : 0}
-                 style={{ 'flex': 0, 'padding': 0, 'display': this.props.User.messageCount ? 'inline-block' : 'none' }}
-                 badgeStyle={{
-                   'width': '15px',
-                   'height': '15px',
-                   'top': '5px',
-                   'right': '20px'
-                 }} />
+
           <BottomNavigationItem
             label="我的"
             icon={person}
