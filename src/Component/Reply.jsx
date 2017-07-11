@@ -6,6 +6,7 @@ import { Link } from 'react-router';
 import { Tool } from '../Tool';
 import ReplyBox from './ReplyBox';
 import UserHeadImg from './UserHeadImg';
+import Like from './Like';
 
 export default class ReList extends Component {
   constructor(props) {
@@ -19,7 +20,7 @@ export default class ReList extends Component {
     this.showReplyBox = () => {
       this.setState({ display: 'block' });
     };
-    this.replyComment=(data)=>{
+    this.replyComment = (data) => {
       this.props.replyTopic(data);
       this.setState({ display: 'none' });
     }
@@ -55,14 +56,9 @@ export default class ReList extends Component {
             dangerouslySetInnerHTML={createMarkup()}
           />
           <div className="bottom" data-flex="main:right" >
-            <div
-              className={`font font-${upState}`} onClick={() => {
-              this.props.clickZan(id, index, author.loginname);
-            }}
-            >
-              <i className="iconfont icon-dianzan " />
-              <em>{ups.length ? ups.length : ''}</em>
-            </div>
+            <Like likes={ups.length} liked={upState} onLike={() => {
+              return this.props.clickZan(id, author.loginname)
+            }} />
             <div
               className="font" onClick={() => {
               this.showReplyBox();

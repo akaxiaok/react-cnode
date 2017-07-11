@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
 import { connect } from 'react-redux';
+import fetch from 'isomorphic-fetch';
 import { Tool } from '../Tool';
 import Article from './Article';
 import DataLoad from './DataLoad';
@@ -82,31 +83,33 @@ class Main extends Component {
      * 点赞或取消赞
      *
      * @param {String} id
-     * @param {Number} index
      * @param {String} loginname
      */
-    this.clickZan = (id, index, loginname) => {
+    this.clickZan = (id, loginname) => {
       const accesstoken = this.props.User ? this.props.User.accesstoken : '';
       const uid = this.props.User ? this.props.User.id : '';
       if (!accesstoken) {
-        return browserHistory.push({ pathname: '/signin' }); // 跳转到登录
+        browserHistory.push({ pathname: '/signin' }); // 跳转到登录
+        return false;
       } else if (this.props.User.loginname === loginname) {
-        return alert('你不能给自己点赞');
+        alert('你不能给自己点赞')
+        return false;
       }
-
-      Tool.post(`/api/v1/reply/${id}/ups`, { accesstoken }, (res) => {
-        const ups = this.props.state.data.replies[index - 1].ups;
-        if (res.action === 'down') { // 取消点赞
-          for (let i = 0; i < ups.length; i++) {
-            if (ups[i] === uid) {
-              ups.splice(i, 1);
-            }
-          }
-        } else {
-          ups.push(uid);
+      const payload = {
+        accesstoken
+      };
+      fetch(`/api/v1/reply/${id}/ups`, {
+        method: "POST",
+        headers: new Headers({
+          'Content-Type': 'application/json'
+        }),
+        body: JSON.stringify(payload)
+      }).catch(err => {
+          console.log(err);
+          return false;
         }
-        this.props.setState(this.props.state);
-      });
+      );
+      return true;
     };
 
 
@@ -171,7 +174,7 @@ class Main extends Component {
     return (
       <div>
         <Header title="详情" leftIcon="fanhui" />
-        <div className="vertical-margin scroll-content topic-content">
+        <div className="vertical-margin scroll-content topic-content" >
           {main}
         </div>
       </div>
