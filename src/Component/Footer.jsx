@@ -3,14 +3,14 @@
  * Created by Kimi on 2017/5/3.
  */
 import React, { Component } from 'react';
-import Badge from 'material-ui/Badge';
 import { browserHistory } from 'react-router';
+import muiThemeable from 'material-ui/styles/muiThemeable';
 import IconHome from 'material-ui/svg-icons/action/home';
 import IconSend from 'material-ui/svg-icons/content/send';
 import IconMessage from 'material-ui/svg-icons/communication/message';
 import IconPerson from 'material-ui/svg-icons/social/person';
 import { BottomNavigation, BottomNavigationItem } from 'material-ui/BottomNavigation';
-import { Tool } from '../Tool';
+import   Badge   from 'material-ui/Badge';
 
 /**
  * 底部导航菜单
@@ -19,37 +19,22 @@ import { Tool } from '../Tool';
  * @class Footer
  * @extends {Component}
  */
-export default class Footer extends Component {
+class Footer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedIndex: this.props.selectedIndex
+      selectedIndex: this.props.selectedIndex,
     }
-    this.getMessageCount = () => {
-      const accesstoken = this.props.User ? this.props.User.accesstoken : '';
-      if (accesstoken) {
-        Tool.get('/api/v1/message/count', { accesstoken }, (res) => {
-          this.props.setState({
-            messageCount: res.data,
-          });
-        });
-      }
-    };
   }
 
-  componentDidMount() {
-    this.getMessageCount();
-  }
 
   shouldComponentUpdate(np, ns) {
-    // 防止组件不必要的更新
     return this.state.selectedIndex !== ns.selectedIndex
-      || this.props.User.messageCount !== np.User.messageCount;
+      || this.props.messageCount !== np.messageCount;
   }
 
 
   select = (index) => {
-    const myUrl = this.props.User && this.props.User.loginname ? `/user/${this.props.User.loginname}` : '/signin';
     switch (index) {
       case 0:
         browserHistory.push('/');
@@ -61,7 +46,7 @@ export default class Footer extends Component {
         browserHistory.push('/messages');
         break;
       case 3:
-        browserHistory.push(myUrl);
+        browserHistory.push(this.props.url);
         break;
       default:
         browserHistory.push('/');
@@ -75,7 +60,19 @@ export default class Footer extends Component {
     const message = <IconMessage />;
     const send = <IconSend />;
     const person = <IconPerson />;
-
+    const count = this.props.messageCount < 99 ? this.props.messageCount : 99;
+    const badge = <Badge secondary={true} badgeContent={count} style={{
+      flex: 0,
+      padding: 0,
+      display: this.props.messageCount ? 'inline-block' : 'none'
+    }}
+                         badgeStyle={{
+                           width: '18px',
+                           height: '18px',
+                           top: '5px',
+                           right: '20px',
+                           fontSize: '12px'
+                         }} />;
     return (
       <footer className="common-footer menu" >
         <BottomNavigation selectedIndex={this.state.selectedIndex} >
@@ -93,8 +90,9 @@ export default class Footer extends Component {
             label="消息"
             icon={message}
             onTouchTap={() => this.select(2)}
+            className="badge"
           />
-
+          {badge}
           <BottomNavigationItem
             label="我的"
             icon={person}
@@ -105,5 +103,5 @@ export default class Footer extends Component {
     );
   }
 }
-
+export default muiThemeable()(Footer);
 
