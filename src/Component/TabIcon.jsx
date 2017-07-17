@@ -3,7 +3,6 @@
  * Created by Kimi on 2017/5/2.
  */
 import React from 'react';
-
 /**
  * 生成主题类型小图标
  *
@@ -20,6 +19,6 @@ export default function TabIcon(props) {
     tab = 'good';
   }
   return (
-    <i className={`iconfont icon-${tab}`} />
+    <i className={`iconfont icon-${tab}`} style={props.style} />
   );
 }
