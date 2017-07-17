@@ -3,11 +3,11 @@ import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
 import { connect } from 'react-redux';
 import fetch from 'isomorphic-fetch';
-import { Tool } from '../Tool';
+import { Tool } from '../../Tool';
 import Article from './Article';
-import DataLoad from './DataLoad';
-import Header from './Header';
-import action from '../Action/Action';
+import DataLoad from '../DataLoad';
+import Header from '../Header';
+import action from '../../Action/Action';
 
 
 const setting = {
