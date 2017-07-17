@@ -41,12 +41,15 @@ img {
   -ms-overflow-style: none;
   overflow: -moz-scrollbars-none;
 }
-.index-content{
+
+.index-content {
   height: calc(~"100vh - 50px*2");
 }
-.topic-content{
-  height: calc(~"100vh - 50px");
+
+.topic-content {
+  height: calc(~"100vh - 50px*2");
 }
+
 .user-view-lists {
   height: calc(~"100vh - 50px*3 - 169px");
 }
@@ -216,52 +219,16 @@ img {
 */
 
 .topic {
-  .user {
-    position: relative;
-    padding: 10px;
-    line-height: 20px;
-    font-size: 12px;
-    border-bottom: 1px solid #ddd;
-    .name {
-      font-size: 14px;
-      color: @style-main;
-    }
-    .lou {
-      line-height: 14px;
-      font-size: 14px;
-      color: #aaa;
-    }
-    time {
-      padding-left: 5px;
-      line-height: 14px;
-      font-size: 14px;
-      color: #666;
-    }
-    .qt {
-      div {
-        padding-right: 5px;
-      }
-    }
-    .font {
-      position: absolute;
-      top: 0;
-      right: 0;
-      .iconfont {
-        width: 60px;
-        height: 60px;
-        line-height: 60px;
-        text-align: center;
-        font-size: 32px;
-        color: #fff;
-        opacity: 0.8;
-      }
-    }
+  .creater-head {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: flex-end;
+    margin: 10px;
+    padding: 0 0 5px 0;
+    border-bottom: 1px solid @style-bg;
   }
-  .tit2 {
-    padding: 10px;
-    font-size: 18px;
-    background: #eee;
-  }
+
   .content {
     overflow: hidden;
     padding: 10px;
