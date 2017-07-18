@@ -1,7 +1,7 @@
 /**
  * Created by Kimi on 2017/7/17.
  */
-import React, { Component } from 'react';
+import React from 'react';
 import Avatar from 'material-ui/Avatar';
 import { Link } from 'react-router';
 import muiThemeable from 'material-ui/styles/muiThemeable';
@@ -11,6 +11,7 @@ import { Tool } from '../../Tool';
 
 function CreaterHead(props) {
   const { create_at, visit_count, author } = props;
+  const palette = props.muiTheme.palette;
   return (
     <div className="creater-head" >
       <div>
@@ -20,10 +21,10 @@ function CreaterHead(props) {
           style={{ display: 'block', margin: '0 auto' }}
         />
         <Link to={`/user/${author.loginname}`}
-              style={{ fontSize: '1.5em', color: props.muiTheme.palette.primary1Color }} >{author.loginname}</Link>
+              style={{ fontSize: '1.5em', color: palette.primary1Color }} >{author.loginname}</Link>
       </div>
       <div style={{ marginLeft: '1em' }} >
-        <time style={{ color: props.muiTheme.palette.secondaryTextColor }} >{Tool.formatDate(create_at)}</time>
+        <time style={{ color: palette.secondaryTextColor }} >{Tool.formatDate(create_at)}</time>
         <p style={{ fontSize: '1.2em' }} >阅读：{visit_count}</p>
       </div>
       <div style={{
