@@ -6,7 +6,7 @@ import React, { Component } from 'react';
 import CreaterHeader from './CreaterHeader'
 import TipMsgSignIn from '../TipMsgSignIn';
 import ReplyBox from '../ReplyBox';
-import ReList from '../ReList';
+import ReList from './ReList';
 import muiThemeable from 'material-ui/styles/muiThemeable';
 
 /**
@@ -19,7 +19,6 @@ class Article extends Component {
   render() {
     const palette = this.props.muiTheme.palette;
     const { id, title, content, replies, } = this.props.page;
-
     const createMarkup = () => ({
       __html: content,
     });
@@ -37,10 +36,10 @@ class Article extends Component {
         }} >{title}</h2>
         <CreaterHeader {...this.props.page} />
         <div className="content markdown-body" dangerouslySetInnerHTML={createMarkup()} />
-        <h3 className="tit3" >共<em>{replies.length}</em>条回复</h3>
+        <h3 className="tit3" style={{ borderColor: palette.primary1Color }} >共<em
+          style={{ color: palette.primary1Color }} >{replies.length}</em>条回复</h3>
         <ReList
-          replyTopic={this.props.replyTopic} id={id} list={replies} clickZan={this.props.clickZan}
-          User={this.props.User}
+         {...this.props}
         />
         {bottom}
       </div>
