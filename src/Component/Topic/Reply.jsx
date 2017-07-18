@@ -29,7 +29,6 @@ export default class ReList extends Component {
 
   render() {
     const { id, content, author, ups, create_at } = this.props.item;
-    const display = 'none';
     let index = this.props.index;
     const at = new Date(create_at);
     const upState = this.props.isUp(ups);
