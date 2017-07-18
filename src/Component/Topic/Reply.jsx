@@ -3,10 +3,10 @@
  */
 import React, { Component } from 'react';
 import { Link } from 'react-router';
-import { Tool } from '../Tool';
-import ReplyBox from './ReplyBox';
-import UserHeadImg from './UserHeadImg';
-import Like from './Like';
+import { Tool } from '../../Tool';
+import ReplyBox from '../ReplyBox';
+import UserHeadImg from '../UserHeadImg';
+import Like from '../Like';
 
 export default class ReList extends Component {
   constructor(props) {
@@ -57,7 +57,7 @@ export default class ReList extends Component {
           />
           <div className="bottom" data-flex="main:right" >
             <Like likes={ups.length} liked={upState} onLike={() => {
-              return this.props.clickZan(id, author.loginname)
+              return this.props.like(id, author.loginname)
             }} />
             <div
               className="font" onClick={() => {

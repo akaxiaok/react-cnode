@@ -85,7 +85,7 @@ class Main extends Component {
      * @param {String} id
      * @param {String} loginname
      */
-    this.clickZan = (id, loginname) => {
+    this.like = (id, loginname) => {
       const accesstoken = this.props.User ? this.props.User.accesstoken : '';
       const uid = this.props.User ? this.props.User.id : '';
       if (!accesstoken) {
@@ -111,7 +111,19 @@ class Main extends Component {
       );
       return true;
     };
-
+    /**
+     * 验证回复项目是否点赞
+     *
+     * @param {Array} arr
+     * @returns
+     */
+    this.isUp = (arr) => {
+      const id = this.props.User ? this.props.User.id : '';
+      for (let i = 0; i < arr.length; i++) {
+        if (arr[i] === id) return true;
+      }
+      return false;
+    };
 
     /**
      * 回复成功后，重新加载数据
@@ -168,7 +180,7 @@ class Main extends Component {
     const { loadAnimation, loadMsg } = this.props.status;
     const data = this.props.pages[this.id];
     const main = data ? (<Article
-      User={this.props.User} page={data} replyTopic={this.replyTopic} clickZan={this.clickZan}
+      User={this.props.User} page={data} replyTopic={this.replyTopic} isUp={this.isUp} like={this.like}
       showReplyBox={this.showReplyBox}
     />) : <DataLoad loadAnimation={loadAnimation} loadMsg={loadMsg} />;
     return (

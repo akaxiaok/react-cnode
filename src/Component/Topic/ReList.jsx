@@ -15,19 +15,6 @@ export default class ReList extends Component {
   constructor(props) {
     super(props);
 
-    /**
-     * 验证回复项目是否点赞
-     *
-     * @param {Array} arr
-     * @returns
-     */
-    this.isUp = (arr) => {
-      const id = this.props.User ? this.props.User.id : '';
-      for (let i = 0; i < arr.length; i++) {
-        if (arr[i] === id) return true;
-      }
-      return false;
-    };
 
   }
 
@@ -36,9 +23,10 @@ export default class ReList extends Component {
     return (
       <ul className="re-list" >
         {
-          this.props.list.map((item, index) => {
+          this.props.page.replies.map((item, index) => {
             return (
-              <Reply accesstoken={accesstoken} isUp={this.isUp} key={item.id} index={index} item={item} {...this.props}/>
+              <Reply accesstoken={accesstoken}  key={item.id} index={index}
+                     item={item} {...this.props}/>
             );
           })
         }
