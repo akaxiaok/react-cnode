@@ -70,7 +70,7 @@ export default class ReList extends Component {
           <ReplyBox
             placeholder={`@${author.loginname}`} replyTopic={this.replyComment}
             display={this.state.display} loginname={author.loginname}
-            data={{ accesstoken: this.props.accesstoken, id: this.props.id, reply_id: id }}
+            data={{ accesstoken: this.props.accesstoken, id: this.props.page.id, reply_id: id }}
           />
         </div>
       </li>
