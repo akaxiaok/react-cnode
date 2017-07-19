@@ -45,7 +45,7 @@ class Footer extends Component {
       case 2:
         browserHistory.push('/messages');
         break;
-      case 3:
+      case 4:
         browserHistory.push(this.props.url);
         break;
       default:
@@ -96,7 +96,7 @@ class Footer extends Component {
           <BottomNavigationItem
             label="我的"
             icon={person}
-            onTouchTap={() => this.select(3)}
+            onTouchTap={() => this.select(4)} // since badge take the position of 3, so this is 4
           />
         </BottomNavigation>
       </footer>
