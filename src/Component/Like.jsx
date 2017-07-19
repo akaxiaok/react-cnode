@@ -42,7 +42,7 @@ export default class Like extends Component {
       <div
         className={`font font-${liked}`} onClick={this.handleLike}
       >
-        <i className="iconfont icon-dianzan " />
+        <i className="iconfont icon-like " />
         <em>{0 === likes ? '' : likes}</em>
       </div>
     );

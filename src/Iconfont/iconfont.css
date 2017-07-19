@@ -15,10 +15,10 @@
   -webkit-text-stroke-width: 0.2px;
   -moz-osx-font-smoothing: grayscale;
 }
-.icon-huifu:before { content: "\e608"; }
+.icon-reply:before { content: "\e608"; }
 .icon-job:before { content: "\e602"; }
 .icon-fanhui:before { content: "\e607"; }
-.icon-dianzan:before { content: "\e609"; }
+.icon-like:before { content: "\e609"; }
 .icon-shouye:before { content: "\e600"; }
 .icon-fabu:before { content: "\e60b"; }
 .icon-share:before { content: "\e603"; }
