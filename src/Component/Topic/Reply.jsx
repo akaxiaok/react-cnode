@@ -37,24 +37,24 @@ export default class ReList extends Component {
     })
     return (
 
-      <li data-flex >
-        <div className="headimg" data-flex-box="0" >
+      <li className="flex" >
+        <div className="headimg" >
           <UserHeadImg url={author.avatar_url} />
         </div>
-        <div className="main" data-flex-box="1" >
-          <div data-flex="main:justify" >
+        <div className="main flex-grow-1" >
+          <div className="flex" >
             <Link
               to={`/user/${author.loginname}`}
               className="name"
             >{author.loginname}</Link>
-            <time data-flex-box="1" >{Tool.formatDate(create_at)}</time>
+            <time className="flex-grow-1" >{Tool.formatDate(create_at)}</time>
             <div className="lou" >#{++index}</div>
           </div>
           <div
             className="content markdown-body"
             dangerouslySetInnerHTML={createMarkup()}
           />
-          <div className="bottom" data-flex="main:right" >
+          <div className="bottom flex justify-content-flex-end" >
             <Like likes={ups.length} liked={upState} onLike={() => {
               return this.props.like(id, author.loginname)
             }} />
