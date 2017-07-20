@@ -1,6 +1,7 @@
 import React from 'react';
 import { browserHistory } from 'react-router';
 import { connect } from 'react-redux';
+import RaisedButton from 'material-ui/RaisedButton';
 import action from '../Action/Action';
 import Header from './Header';
 
@@ -14,15 +15,12 @@ function main(props) {
   return (
     <div>
       <Header title="退出" leftIcon="back" />
-      <div className="signin" data-flex="dir:top main:center cross:center" >
+      <div className="signin flex justify-content-center align-items-center" >
         <div className="center" >
-          <button className="btn btn-red" onClick=
-            {() => {
-              props.signin();
-              browserHistory.replace({ pathname: '/' });
-            }}
-          >确认退出登录？
-          </button>
+          <RaisedButton fullWidth={true} onTouchTap={() => {
+            props.signOut();
+            browserHistory.replace({ pathname: '/' });
+          }} primary={true} label="确认退出?" />
         </div>
       </div>
     </div>
