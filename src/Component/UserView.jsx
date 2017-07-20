@@ -54,8 +54,8 @@ class Main extends Component {
       <DataLoad loadAnimation={loadAnimation} loadMsg={loadMsg} />;
     const title = params.loginname === user.loginname ? '个人中心' : `${params.loginname}的个人中心`;
 
-    const leftIcon = params.loginname === user.loginname ? null : 'fanhui';
-    const rightIcon = params.loginname === user.loginname ? 'tuichu' : null;
+    const leftIcon = params.loginname === user.loginname ? null : 'back';
+    const rightIcon = params.loginname === user.loginname ? 'logout' : null;
     return (
       <div>
         <Header title={title} leftIcon={leftIcon} rightIcon={rightIcon} rightTo="/signout" />

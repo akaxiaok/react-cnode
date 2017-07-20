@@ -102,7 +102,7 @@ class TopicCreate extends Component {
         contentInput={this.contentInput}
       />);
       headerSet = {
-        rightIcon: 'fabu',
+        rightIcon: 'post',
         rightClick: this.rightClick,
       };
     }

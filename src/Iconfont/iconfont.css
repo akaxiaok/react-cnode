@@ -17,14 +17,12 @@
 }
 .icon-reply:before { content: "\e608"; }
 .icon-job:before { content: "\e602"; }
-.icon-fanhui:before { content: "\e607"; }
+.icon-back:before { content: "\e607"; }
 .icon-like:before { content: "\e609"; }
-.icon-shouye:before { content: "\e600"; }
-.icon-fabu:before { content: "\e60b"; }
+.icon-home:before { content: "\e600"; }
+.icon-post:before { content: "\e60b"; }
 .icon-share:before { content: "\e603"; }
-.icon-wode:before { content: "\e601"; }
 .icon-good:before { content: "\e604"; }
-.icon-xiaoxi:before { content: "\e60a"; }
 .icon-top:before { content: "\e606"; }
 .icon-ask:before { content: "\e605"; }
-.icon-tuichu:before { content: "\e60c"; }
+.icon-logout:before { content: "\e60c"; }

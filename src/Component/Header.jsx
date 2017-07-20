@@ -22,7 +22,7 @@ import muiThemeable from 'material-ui/styles/muiThemeable';
         <i className={`iconfont icon-${leftIcon}`} />
       </Link>
     );
-  } else if (leftIcon === 'fanhui') { // 返回上一页
+  } else if (leftIcon === 'back') { // 返回上一页
     left = (
       <a onClick={browserHistory.goBack} >
         <i className={`iconfont icon-${leftIcon}`} />

@@ -43,7 +43,7 @@ class Main extends Component {
   render() {
     return (
       <div>
-        <Header title="登录" leftIcon="fanhui" />
+        <Header title="登录" leftIcon="back" />
         <div className="signin" data-flex="dir:top main:center cross:center" >
           <div className="center" >
             <div className="text" ><input ref={(accesstoken) => {
