@@ -2,45 +2,44 @@
  * Created by Kimi on 2017/6/29.
  */
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router';
+import Avatar from 'material-ui/Avatar';
 import { Tool } from '../../Tool';
 import ReplyBox from '../ReplyBox';
-import UserHeadImg from '../UserHeadImg';
 import Like from '../Like';
 
-export default class ReList extends Component {
-  constructor(props) {
-    super(props);
+export default class Reply extends Component {
+  constructor(props, context) {
+    super(props, context);
     this.state = { display: 'none' };
-    /**
-     * 显示回复框
-     *
-     * @param {String} index
-     */
-    this.showReplyBox = () => {
-      this.setState({ display: 'block' });
-    };
-    this.replyComment = (data) => {
-      this.props.replyTopic(data);
-      this.setState({ display: 'none' });
-    }
   }
 
+  showReplyBox = () => {
+    this.setState({ display: 'block' });
+  };
+
+  replyComment = (data) => {
+    this.props.replyTopic(data);
+    this.setState({ display: 'none' });
+  }
 
   render() {
     const { id, content, author, ups, create_at } = this.props.item;
     let index = this.props.index;
-    const at = new Date(create_at);
     const upState = this.props.isUp(ups);
     const createMarkup = () => ({
       __html: content,
     })
+    const avatarStyle = {
+      margin: '10px',
+      background: this.context.muiTheme.palette.primary1Color,
+      width: '40px',
+      height: '40px',
+    };
     return (
-
       <li className="flex" >
-        <div className="headimg" >
-          <UserHeadImg url={author.avatar_url} />
-        </div>
+        <Avatar src={author.avatar_url} style={avatarStyle} />
         <div className="main flex-grow-1" >
           <div className="flex" >
             <Link
@@ -76,3 +75,4 @@ export default class ReList extends Component {
     )
   }
 }
+Reply.contextTypes = { muiTheme: PropTypes.object.isRequired, };
