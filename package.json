@@ -26,6 +26,7 @@
     "material-ui": "^0.18.4",
     "normalize.css": "^4.1.1",
     "obj-merged": "^1.0.5",
+    "prop-types": "^15.5.10",
     "react": "^15.0.1",
     "react-dom": "^15.0.1",
     "react-redux": "^4.4.5",
