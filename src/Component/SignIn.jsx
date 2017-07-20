@@ -36,7 +36,7 @@ class Main extends Component {
     Tool.post('/api/v1/accesstoken', { accesstoken }, (res) => {
       if (res.success) {
         res.accesstoken = accesstoken;
-        this.props.signinSuccess(res);
+        this.props.signInSuccess(res);
         browserHistory.push({
           pathname: `/user/${res.loginname}`,
         });

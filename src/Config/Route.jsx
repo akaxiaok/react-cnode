@@ -4,7 +4,7 @@ import { Router, Route, IndexRoute, browserHistory, hashHistory } from 'react-ro
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 import IndexList from '../Component/IndexList'; // 首页组件
-import Topic from '../Component/Topic'; // 主题详情
+import Topic from '../Component/Topic/Topic'; // 主题详情
 import TopicCreate from '../Component/TopicCreate'; // 发布主题
 import MyMessages from '../Component/MyMessages'; // 我的消息
 import UserView from '../Component/UserView'; // 我的个人中心
