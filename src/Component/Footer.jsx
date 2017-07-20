@@ -20,6 +20,10 @@ import   Badge   from 'material-ui/Badge';
  * @extends {Component}
  */
 class Footer extends Component {
+  static defaultProps = {
+    messageCount: 0,
+  }
+
   constructor(props) {
     super(props);
     this.state = {
@@ -30,7 +34,7 @@ class Footer extends Component {
 
   shouldComponentUpdate(np, ns) {
     return this.state.selectedIndex !== ns.selectedIndex
-      || this.props.messageCount !== np.messageCount;
+      || this.props.messageCount !== np.props;
   }
 
 
