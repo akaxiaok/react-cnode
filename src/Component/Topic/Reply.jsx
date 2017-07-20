@@ -63,7 +63,7 @@ export default class ReList extends Component {
               this.showReplyBox();
             }}
             >
-              <i className="iconfont icon-huifu" />
+              <i className="iconfont icon-reply" />
             </div>
           </div>
           <ReplyBox

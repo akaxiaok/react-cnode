@@ -185,7 +185,7 @@ class Main extends Component {
     />) : <DataLoad loadAnimation={loadAnimation} loadMsg={loadMsg} />;
     return (
       <div>
-        <Header title="详情" leftIcon="fanhui" />
+        <Header title="详情" leftIcon="back" />
         <div className="vertical-margin scroll-content topic-content" >
           {main}
         </div>
