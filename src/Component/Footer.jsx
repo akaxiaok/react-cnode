@@ -4,7 +4,6 @@
  */
 import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
-import muiThemeable from 'material-ui/styles/muiThemeable';
 import IconHome from 'material-ui/svg-icons/action/home';
 import IconSend from 'material-ui/svg-icons/content/send';
 import IconMessage from 'material-ui/svg-icons/communication/message';
@@ -19,7 +18,7 @@ import   Badge   from 'material-ui/Badge';
  * @class Footer
  * @extends {Component}
  */
-class Footer extends Component {
+export default class Footer extends Component {
   static defaultProps = {
     messageCount: 0,
   }
@@ -107,5 +106,4 @@ class Footer extends Component {
     );
   }
 }
-export default muiThemeable()(Footer);
 

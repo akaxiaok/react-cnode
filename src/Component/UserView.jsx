@@ -3,11 +3,9 @@ import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
 import { connect } from 'react-redux';
 import DataLoad from './DataLoad';
-import Footer from './Footer';
 import Header from './Header';
 import Home from './Home';
 import action from '../Action/Action';
-
 
 const setting = {
   id: 'UserView',  // 应用关联使用的redux

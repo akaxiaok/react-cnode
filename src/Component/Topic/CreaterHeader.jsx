@@ -3,15 +3,14 @@
  */
 import React from 'react';
 import Avatar from 'material-ui/Avatar';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router';
-import muiThemeable from 'material-ui/styles/muiThemeable';
-
 import TabIcon from '../TabIcon';
 import { Tool } from '../../Tool';
 
-function CreaterHead(props) {
+export default function CreaterHead(props,context) {
   const { create_at, visit_count, author } = props;
-  const palette = props.muiTheme.palette;
+  const palette = context.muiTheme.palette;
   return (
     <div className="creater-head" >
       <div>
@@ -36,4 +35,4 @@ function CreaterHead(props) {
   )
 }
 
-export default muiThemeable()(CreaterHead);
+CreaterHead.contextTypes = { muiTheme: PropTypes.object.isRequired, };

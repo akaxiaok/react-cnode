@@ -3,11 +3,11 @@
  * Created by Kimi on 2017/5/3.
  */
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import CreaterHeader from './CreaterHeader'
 import TipMsgSignIn from '../TipMsgSignIn';
 import ReplyBox from '../ReplyBox';
 import ReList from './ReList';
-import muiThemeable from 'material-ui/styles/muiThemeable';
 
 /**
  * 文章主体部分
@@ -15,9 +15,9 @@ import muiThemeable from 'material-ui/styles/muiThemeable';
  * @class Article
  * @extends {Component}
  */
-class Article extends Component {
+export default class Article extends Component {
   render() {
-    const palette = this.props.muiTheme.palette;
+    const palette = this.context.muiTheme.palette;
     const { id, title, content, replies, } = this.props.page;
     const createMarkup = () => ({
       __html: content,
@@ -46,4 +46,4 @@ class Article extends Component {
     );
   }
 }
-export default muiThemeable()(Article);
+Article.contextTypes = { muiTheme: PropTypes.object.isRequired, };

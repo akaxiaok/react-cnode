@@ -3,8 +3,8 @@
  * Created by Kimi on 2017/5/3.
  */
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Link, browserHistory } from 'react-router';
-import muiThemeable from 'material-ui/styles/muiThemeable';
 /**
  * 公共头部
  *
@@ -12,7 +12,7 @@ import muiThemeable from 'material-ui/styles/muiThemeable';
  * @class Header
  * @extends {Component}
  */
-  function Header(props) {
+export default  function Header(props, context) {
   const { title, leftTo, leftIcon, rightTo, rightIcon, rightClick } = props;
   let left = null;
 
@@ -45,7 +45,7 @@ import muiThemeable from 'material-ui/styles/muiThemeable';
     );
   }
   return (
-    <header className="common-header" style={{backgroundColor:props.muiTheme.palette.primary1Color}} data-flex >
+    <header className="common-header" style={{ backgroundColor: context.muiTheme.palette.primary1Color }} data-flex >
       <div className="icon" data-flex="main:center cross:center" data-flex-box="0" >
         {left}
       </div>
@@ -56,4 +56,4 @@ import muiThemeable from 'material-ui/styles/muiThemeable';
     </header>
   );
 }
-export default muiThemeable()(Header);
+Header.contextTypes = { muiTheme: PropTypes.object.isRequired, };
