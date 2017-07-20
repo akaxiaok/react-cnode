@@ -10,21 +10,23 @@ import { Tool } from '../Tool';
 class Main extends Component {
   constructor(props) {
     super(props);
-    this.getMessageCount = () => {
-      const accesstoken = this.props.user ? this.props.user.accesstoken : '';
-      if (accesstoken) {
-        Tool.get('/api/v1/message/count', { accesstoken }, (res) => {
-          this.props.setState({
-            messageCount: res.data,
-          });
-        });
-      }
-    };
   }
+
+  getMessageCount = () => {
+    const accesstoken = this.props.user ? this.props.user.accesstoken : '';
+    if (accesstoken) {
+      Tool.get('/api/v1/message/count', { accesstoken }, (res) => {
+        this.props.setState({
+          messageCount: res.data,
+        });
+      });
+    }
+  };
 
   componentDidMount() {
     this.getMessageCount();
   }
+
   render() {
     let selected = 0;
     const myUrl = this.props.user && this.props.user.loginname ? `/user/${this.props.user.loginname}` : '/signin';
@@ -45,9 +47,9 @@ class Main extends Component {
         selected = 4;
         break;
     }
-
+    const count = this.props.user && this.props.user.messageCount ? this.props.user.messageCount : 0;
     return (
-      <Footer selectedIndex={selected} messageCount={this.props.user.messageCount ? this.props.user.messageCount : 0}
+      <Footer selectedIndex={selected} messageCount={count}
               url={myUrl} setState={this.props.setState} />
     )
   }
