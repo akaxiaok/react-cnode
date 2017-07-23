@@ -2,26 +2,48 @@
  * Created by Kimi on 2017/5/3.
  */
 import React, { Component } from 'react';
+import SelectField from 'material-ui/SelectField';
+import MenuItem from 'material-ui/MenuItem';
+import TextField from 'material-ui/TextField';
+
 export default class NewTopic extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      selected: null,
+    }
+  }
+
+  handleSelect = (event, key, payload) => {
+    this.setState({
+      selected: payload,
+    })
+    this.props.tabInput(payload);
+  }
+
   render() {
     return (
       <div className="topic-create" >
         <div className="item" >
-          <select name="tab" defaultValue={this.props.tab} onInput={this.props.tabInput} >
-            <option value="" >请选择发表类型</option>
-            <option value="share" >分享</option>
-            <option value="ask" >问答</option>
-            <option value="job" >招聘</option>
-            <option value="dev" >测试</option>
-          </select>
+          <SelectField hintText="请选择发布类型" floatingLabelText="请选择发布类型" fullWidth={true} value={this.state.selected}
+                       onChange={this.handleSelect} >
+            <MenuItem value={'share'} primaryText={'分享'} />
+            <MenuItem value={'ask'} primaryText={'问答'} />
+            <MenuItem value={'job'} primaryText={'招聘'} />
+            <MenuItem value={'dev'} primaryText={'测试'} />
+          </SelectField>
+
         </div>
         <div className="item" >
-          <input type="text" defaultValue={this.props.title} onInput={this.props.titleInput}
-                 placeholder="标题字数 10 字以上" />
+          <TextField id="topicTitle" floatingLabelText='标题字数 10 字以上' fullWidth={true}
+                     onChange={this.props.titleInput}
+          />
         </div>
         <div className="item" >
-                    <textarea defaultValue={this.props.content} onInput={this.props.contentInput}
-                              placeholder="内容字数 30 字以上" />
+          <TextField id="topicContent" floatingLabelText='内容字数 30 字以上' multiLine={true} fullWidth={true}
+                     rows={10}
+                     onChange={this.props.contentInput}
+          />
         </div>
       </div>
     );
