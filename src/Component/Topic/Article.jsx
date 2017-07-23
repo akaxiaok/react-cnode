@@ -6,7 +6,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import CreaterHeader from './CreaterHeader'
 import TipMsgSignIn from '../TipMsgSignIn';
-import ReplyBox from '../ReplyBox';
+import ReplyBox from './ReplyBox';
 import ReList from './ReList';
 
 /**
