@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import Avatar from 'material-ui/Avatar';
 import { Tool } from '../../Tool';
-import ReplyBox from '../ReplyBox';
+import ReplyBox from './ReplyBox';
 import Like from '../Like';
 
 export default class Reply extends Component {
