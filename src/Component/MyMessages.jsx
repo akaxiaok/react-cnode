@@ -65,7 +65,7 @@ class Main extends Component {
     return (
       <div>
         <Header title="消息" />
-        <div className="vertical-margin scroll-content" >
+        <div className="vertical-margin scroll-content topic-content" >
           {main}
         </div>
       </div>
