@@ -53,9 +53,6 @@ class Main extends Component {
   handleRequestClose = () => {
     this.setState({ open: false });
   }
-  handleActionTouchTap = () => {
-    this.setState({ open: false });
-  }
 
   render() {
     return (
@@ -73,7 +70,7 @@ class Main extends Component {
           action="OK"
           autoHideDuration={3000}
           onRequestClose={this.handleRequestClose}
-          onActionTouchTap={this.handleActionTouchTap}
+          onActionTouchTap={this.handleRequestClose}
         />
       </div>
     );
