@@ -48,7 +48,7 @@ export default class Footer extends Component {
       case 2:
         browserHistory.push('/messages');
         break;
-      case 4:
+      case 4: // since badge take the position of 3, so this is 4
         browserHistory.push(this.props.url);
         break;
       default:

@@ -34,17 +34,17 @@ class Main extends Component {
       case '/':
         selected = 0;
         break;
-      case 'topic':
+      case '/topic/create':
         selected = 1;
         break;
-      case 'message':
+      case '/message':
         selected = 2;
         break;
-      case 'user':
-        selected = 3;
+      case '/user':
+        selected = 4;// since badge take the position of 3, so this is 4
         break;
       default:
-        selected = 4;
+        selected = -1;
         break;
     }
     const count = this.props.user && this.props.user.messageCount ? this.props.user.messageCount : 0;
