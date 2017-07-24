@@ -6,8 +6,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Tabs, Tab } from 'material-ui/Tabs';
+import Avatar from 'material-ui/Avatar';
 import { Tool } from '../Tool';
-import UserHeadImg from './UserHeadImg';
 import HomeList from './HomeList';
 
 /**
@@ -26,9 +26,9 @@ export default class Home extends Component {
     arrDisplay[tabIndex] = 'block';
     return (
       <div className="user-index" >
-        <div className="headimg" data-flex="dir:top main:center cross:center"
+        <div className="headimg flex justify-content-center align-items-center flex-direction-column"
              style={{ backgroundColor: this.context.muiTheme.palette.primary1Color, }} >
-          <UserHeadImg url={avatar_url} />
+          <Avatar style={{width:'80px',height:'80px'}} src={avatar_url} />
           <div className="name" >{loginname}</div>
           <div className="score" >积分：{score}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             注册于：{Tool.formatDate(create_at)}</div>

@@ -1,6 +1,5 @@
 import React from 'react';
 import 'normalize.css'; // 重置浏览器默认样式
-import 'flex.css'; // flex布局
 import 'github-markdown-css'; // markdown css
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';

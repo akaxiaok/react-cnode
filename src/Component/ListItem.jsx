@@ -4,8 +4,8 @@
  */
 import React, { Component } from 'react';
 import { Link } from 'react-router';
+import Avatar from 'material-ui/Avatar';
 import { Tool } from '../Tool';
-import UserHeadImg from './UserHeadImg';
 import TabIcon from './TabIcon';
 
 export default class ListItem extends Component {
@@ -18,21 +18,21 @@ export default class ListItem extends Component {
     return (
       <li>
         <Link to={`/topic/${id}`} >
-          <div data-flex="box:first" >
-            <div className="font" data-flex="cross:center" ><TabIcon {...this.props} /></div>
-            <h3 className="tit" >{title}</h3>
+          <div className="flex" >
+            <div className="font flex align-items-center" ><TabIcon {...this.props} /></div>
+            <h3 className="tit flex-grow-1" >{title}</h3>
           </div>
-          <div className="bottom" data-flex="box:first" >
-            <div className="author" data-flex="cross:center" >
-              <UserHeadImg url={author.avatar_url} />
+          <div className="bottom flex"  >
+            <div className="author flex align-items-center" >
+              <Avatar src={author.avatar_url} />
             </div>
-            <div className="con" data-flex="dir:top main:center" >
-              <p data-flex="cross:center box:last" >
-                <span className="name" >{author.loginname}</span>
+            <div className="con flex-grow-1 flex-direction-column " >
+              <p className="flex" >
+                <span className="name flex-grow-1" >{author.loginname}</span>
                 <span className="count" >{reply_count}/{visit_count}</span>
               </p>
-              <p data-flex="cross:center box:last" >
-                <time className="create" >{Tool.formatDate(create_at)}</time>
+              <p className="flex" >
+                <time className="create flex-grow-1" >{Tool.formatDate(create_at)}</time>
                 <time className="re" >{Tool.formatDate(last_reply_at)}</time>
               </p>
             </div>

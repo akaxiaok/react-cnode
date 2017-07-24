@@ -45,12 +45,12 @@ export default  function Header(props, context) {
     );
   }
   return (
-    <header className="common-header" style={{ backgroundColor: context.muiTheme.palette.primary1Color }} data-flex >
-      <div className="icon" data-flex="main:center cross:center" data-flex-box="0" >
+    <header className="common-header flex" style={{ backgroundColor: context.muiTheme.palette.primary1Color }} >
+      <div className="icon flex align-items-center justify-content-center flex-grow-0" >
         {left}
       </div>
-      <h2 className="title" data-flex-box="1" >{title}</h2>
-      <div className="icon" data-flex="main:center cross:center" data-flex-box="0" >
+      <h2 className="title flex-grow-1" >{title}</h2>
+      <div className="icon flex align-items-center justify-content-center flex-grow-0"  >
         {right}
       </div>
     </header>
