@@ -22,9 +22,9 @@ export default class HomeList extends Component {
             const { id, title, last_reply_at } = item;
             return (
               <li key={id} >
-                <Link data-flex="box:last" to={`/topic/${id}`} >
+                <Link className="flex" to={`/topic/${id}`} >
                   <div className="tit" >{title}</div>
-                  <time >{Tool.formatDate(last_reply_at)}</time>
+                  <time className="time">{Tool.formatDate(last_reply_at)}</time>
                 </Link>
               </li>
             );

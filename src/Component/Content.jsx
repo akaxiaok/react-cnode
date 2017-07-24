@@ -32,19 +32,21 @@ export default class Content extends Component {
                                             to={`/topic/${topic.id}`} >{topic.title}</Link></div>;
               }
               return (
-                <li data-flex="box:first" key={index} >
-                  <Link className="user" to={`/user/${author.loginname}`} >
+                <li className="flex" key={index} >
+                  <Link className="user flex justify-content-center align-items-center" to={`/user/${author.loginname}`} >
                     <UserHeadImg url={author.avatar_url} />
                   </Link>
-                  <div>
+                  <div className="flex-grow-1" >
                     <div className="name" >{author.loginname}
                       <time>{Tool.formatDate(reply.create_at)}</time>
                     </div>
-                    <div data-flex="box:first" >
-                      <div data-flex="cross:center" >
+                    <div className="flex" >
+                      <div className="flex justify-content-center align-items-center" >
                         <div className={`dian-${has_read}`} />
                       </div>
-                      {content}
+                      <div className="flex-grow-1" >
+                        {content}
+                      </div>
                     </div>
                   </div>
                 </li>
