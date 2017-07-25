@@ -19,9 +19,11 @@ export default class Main extends Component {
   constructor(props) {
     super(props);
   }
-  componentDidMount(){
-    this.props.scrollListen(this.dataLoad);
+
+  componentDidMount() {
+    this.props.scrollListen(this.dataLoad, this.content);
   }
+
   render() {
     const data = this.props.data;
     const tab = this.props.tab || 'all';
@@ -29,7 +31,7 @@ export default class Main extends Component {
     return (
       <div className="index-list-box" >
         <Nav tab={tab} />
-        <div className="vertical-margin scroll-content index-content" >
+        <div ref={content => (this.content = content)} className="vertical-margin scroll-content index-content" >
           {
             data && data.lists.length > 0 ? <List list={data.lists} /> : null
           }

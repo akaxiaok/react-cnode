@@ -47,75 +47,48 @@ class Index extends Component {
     };
 
 
-    /**
-     * url更改时
-     */
-    this.unmount = () => {
-      delete this.get;
-      this.props.setScroll(window.scrollX, window.scrollY);
-    };
-
-    this.getEl = (select) => {
-      switch (typeof select) {
-        case 'string':
-          return document.querySelectorAll(select);
-        case 'object':
-          if (Object.prototype.toString.call(select) === '[object Array]') {
-            return select;
-          }
-          return [select];
-        default:
-          return [select];
-      }
-    };
-    this.scrollListener = (select, set = {}) => {
-      /*
-       元素在可视区位置，符合其中一个条件就会触发加载机制
-       */
-      this.top = set.top || 0; // 元素在顶部伸出的距离才加载
-      this.right = set.right || 0; // 元素在右边伸出的距离才加载
-      this.bottom = set.bottom || 0; // 元素在底部伸出的距离才加载
-      this.left = set.left || 0; // 元素在左边伸出的距离才加载
-      this.el = this.getEl(select);
-
-      this.monitorEvent = ['DOMContentLoaded', 'load', 'click', 'touchstart', 'touchend', 'haschange', 'online', 'pageshow', 'popstate', 'resize', 'storage', 'mousewheel', 'scroll'];
-      this.bind();
-    };
-    this.eachDOM = () => {
-      if (this.props.status.loadAnimation) return;
-      const length = this.el.length;
-      for (let i = 0; i < length; i += 1) {
-        if (this.testMeet(this.el[i]) === true) {
-          this.props.getNextPage(this.props.status, this.props.data.status.page);
-          return;
-        }
-      }
-    };
-    this.bind = () => {
-      // 事件绑定
-      const eventList = this.monitorEvent;
-      for (let i = 0; i < eventList.length; i += 1) {
-        window.addEventListener(eventList[i], this.eachDOM, false);
-      }
-    };
-    this.testMeet = (el) => {
-      const bcr = el.getBoundingClientRect(); // 取得元素在可视区的位置
-      const mw = el.offsetWidth; // 元素自身宽度
-      const mh = el.offsetHeight; // 元素自身的高度
-      const w = window.innerWidth; // 视窗的宽度
-      const h = window.innerHeight; // 视窗的高度
-      const boolX = (!((bcr.right - this.left) <= 0
-      && ((bcr.left + mw) - this.left) <= 0)
-      && !((bcr.left + this.right) >= w
-      && (bcr.right + this.right) >= (mw + w))); // 上下符合条件
-      const boolY = (!((bcr.bottom - this.top) <= 0
-      && ((bcr.top + mh) - this.top) <= 0)
-      && !((bcr.top + this.bottom) >= h
-      && (bcr.bottom + this.bottom) >= (mh + h))); // 上下符合条件
-      return el.width !== 0 && el.height !== 0 && boolX && boolY;
-    };
   }
 
+  /**
+   * url更改时
+   */
+  unmount = () => {
+    delete this.get;
+    this.props.setScroll(window.scrollX, window.scrollY);
+  };
+  loadNextPage = (e) => {
+    clearTimeout(this.timer);
+    if (this.props.status.loadAnimation) return;
+    if (e.type === "touchend") {
+      console.log(1);
+    }
+    const that = this;
+    this.timer = setTimeout(function () {
+      const bcr = that.el.getBoundingClientRect(); // 取得元素在可视区的位置
+      const displayHeight = window.innerHeight - bcr.bottom;
+      if (50 === displayHeight) {
+        that.props.getNextPage(that.props.status, that.props.data.status.page);
+        return;
+      }
+      if (50 > displayHeight && 0 < displayHeight) {
+        const scroll = that.content.scrollTop;
+        that.content.scrollTop = scroll - displayHeight;
+      }
+    }, 200);
+  };
+  scrollListener = (select, content) => {
+    this.el = select;
+    this.content = content;
+    this.monitorEvent = ['DOMContentLoaded', 'load', 'click', 'touchend', 'haschange', 'online', 'pageshow', 'popstate', 'resize', 'storage', 'mousewheel', 'scroll'];
+    this.bind();
+  };
+  bind = () => {
+    // 事件绑定
+    const eventList = this.monitorEvent;
+    for (let i = 0; i < eventList.length; i += 1) {
+      window.addEventListener(eventList[i], this.loadNextPage, false);
+    }
+  };
 
   /**
    * 在初始化渲染执行之后立刻调用一次，仅客户端有效（服务器端不会调用）。
@@ -124,7 +97,6 @@ class Index extends Component {
    */
   componentDidMount() {
     this.redayDOM();
-    // this.scrollListener(this.dataLoad);
   }
 
   /**
@@ -174,7 +146,7 @@ class Index extends Component {
 
   render() {
     return (
-        <Main {...this.props.status} data={this.props.data} scrollListen={this.scrollListener} />
+      <Main {...this.props.status} data={this.props.data} scrollListen={this.scrollListener} />
     );
   }
 
