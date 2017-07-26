@@ -20,8 +20,10 @@ import Footer from '../Container/Footer';
  */
 function Roots(props) {
   return (
-    <div>
+    <div className="flex flex-direction-column">
+      <div className="flex-grow-1">
       {props.children}
+      </div>
       <Footer />
     </div>
   );

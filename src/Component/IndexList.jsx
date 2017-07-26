@@ -52,16 +52,14 @@ class Index extends Component {
   /**
    * url更改时
    */
-  unmount = () => {
-    delete this.get;
-    this.props.setScroll(window.scrollX, window.scrollY);
-  };
+
   loadNextPage = (e) => {
     clearTimeout(this.timer);
     if (this.props.status.loadAnimation) return;
     if (e.type === "touchend") {
       console.log(1);
     }
+
     const that = this;
     this.timer = setTimeout(function () {
       const bcr = that.el.getBoundingClientRect(); // 取得元素在可视区的位置
@@ -74,7 +72,7 @@ class Index extends Component {
         const scroll = that.content.scrollTop;
         that.content.scrollTop = scroll - displayHeight;
       }
-    }, 200);
+    }, 1200);
   };
   scrollListener = (select, content) => {
     this.el = select;
@@ -89,6 +87,12 @@ class Index extends Component {
       window.addEventListener(eventList[i], this.loadNextPage, false);
     }
   };
+  unbind = () => {
+    const eventList = this.monitorEvent;
+    for (let i = 0; i < eventList.length; i += 1) {
+      window.removeEventListener(eventList[i], this.loadNextPage, false);
+    }
+  }
 
   /**
    * 在初始化渲染执行之后立刻调用一次，仅客户端有效（服务器端不会调用）。
@@ -141,7 +145,10 @@ class Index extends Component {
    * 或者清除在 componentDidMount 中创建的 DOM 元素
    */
   componentWillUnmount() {
-    this.unmount(); // 地址栏已经发生改变，做一些卸载前的处理
+    delete this.get;
+    this.unbind();
+    // this.props.setScroll(window.scrollX, window.scrollY);
+    // 地址栏已经发生改变，做一些卸载前的处理
   }
 
   render() {

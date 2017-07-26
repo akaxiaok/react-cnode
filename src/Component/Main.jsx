@@ -29,9 +29,9 @@ export default class Main extends Component {
     const tab = this.props.tab || 'all';
     const { loadAnimation, loadMsg } = this.props;
     return (
-      <div className="index-list-box" >
+      <div className="index-list-box flex flex-direction-column" >
         <Nav tab={tab} />
-        <div ref={content => (this.content = content)} className="vertical-margin scroll-content index-content" >
+        <div ref={content => (this.content = content)} className="flex-grow-1 scroll-content index-content" >
           {
             data && data.lists.length > 0 ? <List list={data.lists} /> : null
           }

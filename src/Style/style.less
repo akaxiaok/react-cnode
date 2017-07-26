@@ -24,12 +24,8 @@ img {
 */
 
 .index-nav {
-  position: fixed;
   width: 100%;
-  top: 0;
-  left: 0;
   height: 50px;
-  z-index: 9999;
 }
 
 .vertical-margin {
@@ -153,7 +149,7 @@ img {
   animation: rotate-forever 1s infinite linear;
   height: 30px;
   width: 30px;
-  border: 4px solid @style-main;
+  border: 5px solid @style-main;
   border-right-color: transparent;
   border-radius: 50%;
   .msg {
@@ -343,11 +339,6 @@ img {
 */
 
 .common-footer {
-  position: fixed;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  height: 50px;
   z-index: 999;
 }
 
@@ -540,3 +531,6 @@ img {
   flex-direction: column;
 }
 
+body,html{
+  height: 100%;
+}
