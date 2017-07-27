@@ -44,26 +44,27 @@ class Main extends Component {
 
   render() {
     const { loadAnimation, loadMsg, tabIndex } = this.props.status;
-    const data = this.props.data;
-    let { user, params } = this.props;
+    const { data, params } = this.props;
+    let { user } = this.props;
     user = user || {};
     const main = data ? <Home data={data} tabIndex={tabIndex} /> :
-      <DataLoad loadAnimation={loadAnimation} loadMsg={loadMsg} />;
+    <DataLoad loadAnimation={loadAnimation} loadMsg={loadMsg} />;
     const title = params.loginname === user.loginname ? '个人中心' : `${params.loginname}的个人中心`;
 
     const leftIcon = params.loginname === user.loginname ? null : 'back';
     const rightIcon = params.loginname === user.loginname ? 'logout' : null;
     return (
-      <div>
+      <div >
         <Header title={title} leftIcon={leftIcon} rightIcon={rightIcon} rightTo="/signout" />
         <div className="vertical-margin" >
           {main}
-        </div>
-      </div>
+        </div >
+      </div >
     );
   }
 
 }
+
 Main.defaultProps = { setting };
 
 export default connect(state =>
