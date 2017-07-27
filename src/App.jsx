@@ -10,15 +10,17 @@ import './Style/style.less'; // 加载公共样式
 import './Iconfont/iconfont.css'; // 字体图标
 
 store.subscribe(() => {
-    // console.log(store.getState());
+  // console.log(store.getState());
 });
 
 injectTapEventPlugin();
-
-render(
-  <Provider store={store}>
-    {route}
-  </Provider>,
 // eslint-disable-next-line no-undef
-    document.body.appendChild(document.createElement('div')),
+const div = document.createElement('div');
+div.style.height = '100%';
+render(
+  <Provider store={store} >
+    {route}
+  </Provider >,
+// eslint-disable-next-line no-undef
+  document.body.appendChild(div),
 );

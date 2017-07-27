@@ -9,7 +9,7 @@ import IconSend from 'material-ui/svg-icons/content/send';
 import IconMessage from 'material-ui/svg-icons/communication/message';
 import IconPerson from 'material-ui/svg-icons/social/person';
 import { BottomNavigation, BottomNavigationItem } from 'material-ui/BottomNavigation';
-import   Badge   from 'material-ui/Badge';
+import Badge from 'material-ui/Badge';
 
 /**
  * 底部导航菜单
@@ -27,7 +27,7 @@ export default class Footer extends Component {
     super(props);
     this.state = {
       selectedIndex: this.props.selectedIndex,
-    }
+    };
   }
 
 
@@ -64,21 +64,27 @@ export default class Footer extends Component {
     const send = <IconSend />;
     const person = <IconPerson />;
     const count = this.props.messageCount < 99 ? this.props.messageCount : 99;
-    const badge = <Badge secondary={true} badgeContent={count} style={{
-      flex: 0,
-      padding: 0,
-      display: this.props.messageCount ? 'inline-block' : 'none'
-    }}
-                         badgeStyle={{
-                           width: '18px',
-                           height: '18px',
-                           top: '5px',
-                           right: '20px',
-                           fontSize: '12px'
-                         }} />;
+    const badge = (<Badge
+      secondary badgeContent={count} style={{
+        flex: 0,
+        padding: 0,
+        display: this.props.messageCount ? 'inline-block' : 'none',
+      }}
+      badgeStyle={{
+        width: '18px',
+        height: '18px',
+        top: '5px',
+        right: '20px',
+        fontSize: '12px',
+      }}
+    />);
     return (
       <footer className="common-footer menu" >
-        <BottomNavigation selectedIndex={this.state.selectedIndex} >
+        <BottomNavigation
+          className="common-footer"
+          selectedIndex={this.state.selectedIndex}
+          style={{ height: '50px' }}
+        >
           <BottomNavigationItem
             label="首页"
             icon={home}
@@ -101,8 +107,8 @@ export default class Footer extends Component {
             icon={person}
             onTouchTap={() => this.select(4)} // since badge take the position of 3, so this is 4
           />
-        </BottomNavigation>
-      </footer>
+        </BottomNavigation >
+      </footer >
     );
   }
 }

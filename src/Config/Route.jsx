@@ -20,17 +20,18 @@ import Footer from '../Container/Footer';
  */
 function Roots(props) {
   return (
-    <div className="flex flex-direction-column">
-      <div className="flex-grow-1">
-      {props.children}
-      </div>
+    <div className="all-height flex flex-direction-column" >
+      <div className="flex-grow-1" >
+        {props.children}
+      </div >
       <Footer />
-    </div>
+    </div >
   );
 }
+
 const history = process.env.NODE_ENV !== 'production' ? browserHistory : hashHistory;
 const RouteConfig = (
-  <MuiThemeProvider>
+  <MuiThemeProvider >
     <Router history={history} >
       <Route path="/" component={Roots} >
         <IndexRoute component={IndexList} />
@@ -40,9 +41,9 @@ const RouteConfig = (
         <Route path="user/:loginname" component={UserView} />
         <Route path="signin" component={SignIn} />
         <Route path="signout" component={SignOut} />
-      </Route>
-    </Router>
-  </MuiThemeProvider>
+      </Route >
+    </Router >
+  </MuiThemeProvider >
 
 );
 
