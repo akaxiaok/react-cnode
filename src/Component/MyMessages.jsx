@@ -52,7 +52,7 @@ class Main extends Component {
     let main = null;
     if (!user) {
       main = <TipMsgSignIn />;
-    } else if (!loadAnimation) {
+    } else if (!loadAnimation && loadMsg !== '加载失败') {
       const hasnotReadMessage = pages.hasnot_read_messages;
       const hasReadMessage = pages.has_read_messages;
 
@@ -63,15 +63,16 @@ class Main extends Component {
       main = <DataLoad loadAnimation={loadAnimation} loadMsg={loadMsg} />;
     }
     return (
-      <div>
+      <div >
         <Header title="消息" />
         <div className="vertical-margin scroll-content topic-content" >
           {main}
-        </div>
-      </div>
+        </div >
+      </div >
     );
   }
 }
+
 Main.defaultProps = { setting };
 
 export default connect(state =>

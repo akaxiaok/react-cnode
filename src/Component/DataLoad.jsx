@@ -11,7 +11,10 @@ import PropTypes from 'prop-types';
  * @class DataLoad
  * @extends {Component}
  */
-export default function DataLoad(props = { loadAnimation: true, loadMsg: '正在加载中' }, context) {
+export default function DataLoad(props = {
+  loadAnimation: true, loadMsg: '正在加载中', display: 'block',
+},
+  context) {
   const { loadAnimation, loadMsg } = props;
   return (
     <div

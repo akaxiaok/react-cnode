@@ -2,8 +2,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { getNextPage, setStatus, setScroll } from '../Action/Action';
-import DataLoad from './DataLoad';
 import Main from './Main';
+
 /**
  * 组件入口
  *
@@ -11,96 +11,13 @@ import Main from './Main';
  * @extends {Component}
  */
 class Index extends Component {
-  constructor(props) {
-    super(props);
-
-    this.initState = () => {
-      const { pathname, search } = this.props.location;
-      const path = pathname + search;
-      if (this.props.status.path !== path) {
-        const serchTarget = search.split('=')[1];
-        const tab = serchTarget === undefined ? 'all' : serchTarget;
-        this.props.setStatus({ path, tab });
-        return false;
-      }
-      return true;
-    };
-    /**
-     * DOM初始化完成后执行回调
-     */
-    this.redayDOM = () => {
-      if (this.props.data) {
-        return false;
-      } // 已经加载过
-      if (this.get) return false; // 已经加载过
-      if (!this.initState()) return false;
-      const data = this.props.status;
-
-
-      try {
-        this.get = true;
-        this.props.getNextPage(data, 1);
-      } catch (e) {
-        throw new Error(e);
-      }
-      return true;
-    };
-
-
-  }
-
-  /**
-   * url更改时
-   */
-
-  loadNextPage = (e) => {
-    clearTimeout(this.timer);
-    if (this.props.status.loadAnimation) return;
-    if (e.type === "touchend") {
-      console.log(1);
-    }
-
-    const that = this;
-    this.timer = setTimeout(function () {
-      const bcr = that.el.getBoundingClientRect(); // 取得元素在可视区的位置
-      const displayHeight = window.innerHeight - bcr.bottom;
-      if (50 === displayHeight) {
-        that.props.getNextPage(that.props.status, that.props.data.status.page);
-        return;
-      }
-      if (50 > displayHeight && 0 < displayHeight) {
-        const scroll = that.content.scrollTop;
-        that.content.scrollTop = scroll - displayHeight;
-      }
-    }, 1200);
-  };
-  scrollListener = (select, content) => {
-    this.el = select;
-    this.content = content;
-    this.monitorEvent = ['DOMContentLoaded', 'load', 'click', 'touchend', 'haschange', 'online', 'pageshow', 'popstate', 'resize', 'storage', 'mousewheel', 'scroll'];
-    this.bind();
-  };
-  bind = () => {
-    // 事件绑定
-    const eventList = this.monitorEvent;
-    for (let i = 0; i < eventList.length; i += 1) {
-      window.addEventListener(eventList[i], this.loadNextPage, false);
-    }
-  };
-  unbind = () => {
-    const eventList = this.monitorEvent;
-    for (let i = 0; i < eventList.length; i += 1) {
-      window.removeEventListener(eventList[i], this.loadNextPage, false);
-    }
-  }
-
   /**
    * 在初始化渲染执行之后立刻调用一次，仅客户端有效（服务器端不会调用）。
    * 在生命周期中的这个时间点，组件拥有一个 DOM 展现，
    * 你可以通过 this.getDOMNode() 来获取相应 DOM 节点。
    */
   componentDidMount() {
-    this.redayDOM();
+    this.readyDOM();
   }
 
   /**
@@ -132,7 +49,7 @@ class Index extends Component {
    * 使用该方法可以在组件更新之后操作 DOM 元素。
    */
   componentDidUpdate(prevProps) {
-    this.redayDOM();
+    this.readyDOM();
     if (this.props.data && (this.props.status.path !== prevProps.status.path)) {
       const { scrollX, scrollY } = this.props.data.status;
       window.scrollTo(scrollX, scrollY); // 设置滚动条位置
@@ -151,9 +68,71 @@ class Index extends Component {
     // 地址栏已经发生改变，做一些卸载前的处理
   }
 
+  initState = () => {
+    const { pathname, search } = this.props.location;
+    const path = pathname + search;
+    if (this.props.status.path !== path) {
+      const serchTarget = search.split('=')[1];
+      const tab = serchTarget === undefined ? 'all' : serchTarget;
+      this.props.setStatus({ path, tab });
+      return false;
+    }
+    return true;
+  };
+  /**
+   * DOM初始化完成后执行回调
+   */
+  readyDOM = () => {
+    if (this.props.data) {
+      return false;
+    } // 已经加载过
+    if (this.get) return false; // 已经加载过
+    if (!this.initState()) return false;
+    const data = this.props.status;
+
+
+    try {
+      this.get = true;
+      this.props.getNextPage(data, 1);
+    } catch (e) {
+      throw new Error(e);
+    }
+    return true;
+  };
+  loadNextPage = () => {
+    if (this.props.status.loadAnimation) return;
+    const bcr = this.el.getBoundingClientRect(); // 取得元素在可视区的位置
+    const displayHeight = window.innerHeight - bcr.bottom;
+    if (displayHeight === 50) {
+      this.props.getNextPage(this.props.status, this.props.data.status.page);
+    }
+  };
+  scrollListener = (select, content) => {
+    this.el = select;
+    this.content = content;
+    this.monitorEvent = ['DOMContentLoaded', 'load', 'click', 'touchstart', 'haschange', 'online', 'pageshow', 'popstate', 'resize', 'storage', 'mousewheel', 'scroll'];
+    this.bind();
+  };
+  bind = () => {
+    // 事件绑定
+    const eventList = this.monitorEvent;
+    for (let i = 0; i < eventList.length; i += 1) {
+      window.addEventListener(eventList[i], this.loadNextPage, false);
+    }
+  };
+  unbind = () => {
+    const eventList = this.monitorEvent;
+    for (let i = 0; i < eventList.length; i += 1) {
+      window.removeEventListener(eventList[i], this.loadNextPage, false);
+    }
+  };
+
   render() {
     return (
-      <Main {...this.props.status} data={this.props.data} scrollListen={this.scrollListener} />
+      <Main
+        {...this.props.status} data={this.props.data}
+        scrollListen={this.scrollListener}
+      />
     );
   }
 
@@ -173,6 +152,7 @@ function mapDispatchToProps(dispatch) {
     },
   };
 }
+
 const IndexList = connect(state => ({
   status: state.IndexList.status,
   data: state.IndexList[state.IndexList.status.path],
