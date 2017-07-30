@@ -130,7 +130,7 @@ class Index extends Component {
   render() {
     return (
       <Main
-        {...this.props.status} data={this.props.data}
+        {...this.props.status} list={this.props.data ? this.props.data.lists : []}
         scrollListen={this.scrollListener}
       />
     );

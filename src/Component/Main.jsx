@@ -1,11 +1,10 @@
-/* eslint-disable react/prop-types */
 /**
  * Created by Kimi on 2017/4/25.
  */
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Nav from './Nav';
 import List from './List';
-import Footer from './Footer';
 import DataLoad from './DataLoad';
 
 /**
@@ -21,14 +20,14 @@ export default class Main extends Component {
   }
 
   render() {
-    const data = this.props.data;
+    const list = this.props.list;
     const tab = this.props.tab || 'all';
     return (
       <div className="index-list-box flex flex-direction-column" >
         <Nav tab={tab} />
         <div ref={content => (this.content = content)} className="flex-grow-1 scroll-content index-content" >
           {
-            data && data.lists.length > 0 ? <List list={data.lists} /> : null
+            list && list.length > 0 ? <List list={list} /> : null
           }
           <div ref={dataLoad => (this.dataLoad = dataLoad)} >
             <DataLoad {...this.props} />
@@ -38,3 +37,9 @@ export default class Main extends Component {
     );
   }
 }
+Main.propTypes = {
+  scrollListen: PropTypes.func.isRequired,
+  list: PropTypes.arrayOf(PropTypes.object).isRequired,
+  tab: PropTypes.string.isRequired,
+};
+
