@@ -1,8 +1,9 @@
-/* eslint-disable react/prop-types */
 /**
  * Created by Kimi on 2017/5/3.
  */
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+
 /**
  * 回复框
  *
@@ -10,15 +11,11 @@ import React, { Component } from 'react';
  * @extends {Component}
  */
 export default class ReplyBox extends Component {
-  static defaultProps = {
-    display: 'block',
-    placeholder: '回复支持Markdown语法,请注意标记代码',
-  };
+
 
   constructor(props) {
     super(props);
     this.state = { btnname: '回复' };
-
   }
 
   /**
@@ -40,17 +37,27 @@ export default class ReplyBox extends Component {
     data.content += '' +
       '-----from------';
     this.props.replyTopic(data);
-    this.content.value = "";
+    this.content.value = '';
     return true;
   };
 
   render() {
     return (
       <div className="reply-box" style={{ display: this.props.display }} >
-        <div className="text" ><textarea ref={ref => (this.content = ref)} placeholder={this.props.placeholder} /></div>
-        <button className="btn" onClick={this.submit} >{this.state.btnname}</button>
-      </div>
+        <div className="text" ><textarea ref={ref => (this.content = ref)} placeholder={this.props.placeholder} />
+        </div >
+        <button className="btn" onClick={this.submit} >{this.state.btnname}</button >
+      </div >
     );
   }
 }
 
+ReplyBox.propTypes = {
+  display: PropTypes.string,
+  placeholder: PropTypes.string,
+  replyTopic: PropTypes.func.isRequired,
+};
+ReplyBox.defaultProps = {
+  display: 'block',
+  placeholder: '回复支持Markdown语法,请注意标记代码',
+};
