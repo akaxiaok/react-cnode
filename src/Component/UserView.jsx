@@ -34,14 +34,19 @@ class Main extends Component {
 
   render() {
     const { loadAnimation, loadMsg, tabIndex } = this.props.status;
-    const { data, params } = this.props;
-    const { loginUser } = this.props;
+    const { data, params, loginUser } = this.props;
     const main = data ? <Home data={data} tabIndex={tabIndex} /> :
-    <DataLoad loadAnimation={loadAnimation} loadMsg={loadMsg} />;
-    const title = params.loginname === loginUser ? '个人中心' : `${params.loginname}的个人中心`;
-
-    const leftIcon = params.loginname === loginUser ? null : 'back';
-    const rightIcon = params.loginname === loginUser ? 'logout' : null;
+      <DataLoad loadAnimation={loadAnimation} loadMsg={loadMsg} />;
+    let title = null;
+    let leftIcon = null;
+    let rightIcon = null;
+    if (loginUser) {
+      title = `${params.loginname}的个人中心`;
+      leftIcon = 'back';
+    } else {
+      title = '个人中心';
+      rightIcon = 'logout';
+    }
     return (
       <div >
         <Header title={title} leftIcon={leftIcon} rightIcon={rightIcon} rightTo="/signout" />
@@ -54,8 +59,11 @@ class Main extends Component {
 }
 
 Main.propTypes = {
-  loginUser: PropTypes.string.isRequired,
+  loginUser: PropTypes.object,
+};
+Main.defaultProps = {
+  loginUser: null,
 };
 export default connect(state =>
-    ({ status: state.UserView.status, data: state.UserView.data, loginUser: state.User.loginname }),
+    ({ status: state.UserView.status, data: state.UserView.data, loginUser: state.User }),
   action('UserView'))(Main); // 连接redux

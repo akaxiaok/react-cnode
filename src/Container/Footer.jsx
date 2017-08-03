@@ -40,9 +40,6 @@ class Main extends Component {
       case '/message':
         selected = 2;
         break;
-      case `/user/${this.props.user.loginname}`:
-        selected = 4;// since badge take the position of 3, so this is 4
-        break;
       default:
         selected = -1;
         break;
