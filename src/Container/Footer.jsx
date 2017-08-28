@@ -8,8 +8,8 @@ import action from '../Action/Action';
 import { Tool } from '../Tool';
 
 class Main extends Component {
-  constructor(props) {
-    super(props);
+  componentDidMount() {
+    this.getMessageCount();
   }
 
   getMessageCount = () => {
@@ -22,10 +22,6 @@ class Main extends Component {
       });
     }
   };
-
-  componentDidMount() {
-    this.getMessageCount();
-  }
 
   render() {
     let selected = 0;
@@ -46,9 +42,11 @@ class Main extends Component {
     }
     const count = this.props.user && this.props.user.messageCount ? this.props.user.messageCount : 0;
     return (
-      <Footer selectedIndex={selected} messageCount={count}
-              url={myUrl} setState={this.props.setState} />
-    )
+      <Footer
+        selectedIndex={selected} messageCount={count}
+        url={myUrl} setState={this.props.setState}
+      />
+    );
   }
 }
 
