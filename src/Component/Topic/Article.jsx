@@ -23,7 +23,7 @@ export default class Article extends Component {
       __html: content,
     });
     const bottom = this.props.User ?
-      <ReplyBox replyTopic={this.props.replyTopic} data={{ accesstoken: this.props.User.accesstoken, id }} /> :
+      <ReplyBox rows={10} multi replyTopic={this.props.replyTopic} accesstoken={this.props.User.accesstoken} id={id} /> :
       <TipMsgSignIn />;
 
     return (
@@ -33,16 +33,16 @@ export default class Article extends Component {
           fontSize: '3em',
           background: palette.canvasColor,
           textAlign: 'center',
-        }} >{title}</h2>
+        }} >{title}</h2 >
         <CreaterHeader {...this.props.page} />
         <div className="content markdown-body" dangerouslySetInnerHTML={createMarkup()} />
         <h3 className="tit3" style={{ borderColor: palette.primary1Color }} >共<em
-          style={{ color: palette.primary1Color }} >{replies.length}</em>条回复</h3>
+          style={{ color: palette.primary1Color }} >{replies.length}</em >条回复</h3 >
         <ReList
-         {...this.props}
+          {...this.props}
         />
         {bottom}
-      </div>
+      </div >
     );
   }
 }
