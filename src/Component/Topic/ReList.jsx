@@ -11,26 +11,19 @@ import Reply from './Reply';
  * @class ReList
  * @extends {Component}
  */
-export default class ReList extends Component {
-  constructor(props) {
-    super(props);
-
-
-  }
-
-  render() {
-    const accesstoken = this.props.User ? this.props.User.accesstoken : '';
-    return (
-      <ul className="re-list" >
-        {
-          this.props.page.replies.map((item, index) => {
-            return (
-              <Reply accesstoken={accesstoken}  key={item.id} index={index}
-                     item={item} {...this.props}/>
-            );
-          })
-        }
-      </ul>
-    );
-  }
+export default function ReList(props) {
+  return (
+    <ul className="re-list" >
+      {
+        props.page.replies.map((item, index) => (
+          <Reply
+            key={item.id}
+            index={index}
+            item={item}
+            {...props}
+          />
+          ))
+      }
+    </ul >
+  );
 }

@@ -20,8 +20,11 @@ export class Reply extends Component {
     this.setState({ display: 'block' });
   };
 
-  replyComment = (data) => {
-    this.props.replyTopic(data);
+  replyTopic = (data) => {
+    const reply = Object.assign({}, data);
+    reply.reply_id = this.props.item.id;
+    reply.content = `[@${this.props.item.author.loginname}](/user/${this.props.item.author.loginname}) ${data.content}`;
+    this.props.replyTopic(reply);
     this.setState({ display: 'none' });
   }
 
@@ -60,17 +63,18 @@ export class Reply extends Component {
               this.props.like(id, author.loginname)}
             />
             <div
-              className="font" onClick={() => {
-              this.showReplyBox();
-            }}
+              className="font"
+              onClick={() => {
+                this.showReplyBox();
+              }}
+              role="button"
             >
               <i className="iconfont icon-reply" />
             </div >
           </div >
           <ReplyBox
-            placeholder={`@${author.loginname}`} replyTopic={this.replyComment}
-            display={this.state.display} loginname={author.loginname}
-            id={this.props.page.id} reply_id={id} accesstoken={this.props.accesstoken}
+            placeholder={`@${author.loginname}`} replyTopic={this.replyTopic}
+            display={this.state.display}
           />
         </div >
       </li >

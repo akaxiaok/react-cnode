@@ -30,21 +30,11 @@ export default class ReplyBox extends Component {
     if (!this.state.replyContent) {
       return false;
     }
-    const data = {};
-    const { reply_id, accesstoken, id } = this.props;
-    data.accesstoken = accesstoken;
-    data.id = id;
-    if (reply_id) {
-      data.reply_id = reply_id;
-      data.content = `[@${this.props.loginname}](/user/${this.props.loginname}) ${this.state.replyContent}`;
-    } else {
-      data.content = this.state.replyContent;
-    }
-    data.content += REPLY_TRAIL;
-    this.props.replyTopic(data);
+    this.props.replyTopic({ content: this.state.replyContent + REPLY_TRAIL });
     this.setState({ replyContent: '' });
     return true;
   };
+
   handleChange = (event, newValue) => {
     this.setState({ replyContent: newValue });
   }
@@ -73,9 +63,6 @@ ReplyBox.propTypes = {
   multi: PropTypes.bool,
   rows: PropTypes.number,
   rowsMax: PropTypes.number,
-  reply_id: PropTypes.string,
-  accesstoken: PropTypes.string.isRequired,
-  id: PropTypes.string.isRequired,
   replyTopic: PropTypes.func.isRequired,
 }
 ;
