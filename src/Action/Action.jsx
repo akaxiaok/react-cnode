@@ -57,7 +57,7 @@ export function setStatus(target) {
 }
 export function getNextPage(data, page) {
   return function (dispatch) {
-    const { limit, mdrender, tab, url, path } = data;
+    const { limit, mdrender, tab, url } = data;
     dispatch(startFetch('setIndexStatus'));
     return fetch(`${server.target}${url}?page=${page}&limit=${limit}&mdrender=${mdrender}&tab=${tab}`).then((response) => {
       if (response.status >= 400) {
@@ -66,7 +66,7 @@ export function getNextPage(data, page) {
       return response.json();
     }).then((json) => {
       const target = { data: json.data };
-      target.path = path;
+      target.tab = tab;
       dispatch({ target, type: 'setData' });
       dispatch(endFetch('setIndexStatus'));
     }).catch(() => {

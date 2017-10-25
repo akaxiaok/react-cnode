@@ -16,7 +16,7 @@ const User = (state = JSON.parse(Tool.localItem('User')), action) => {
       Tool.removeLocalItem('User');
       return null;
     case 'setState':
-      return Object.assign({},state,action.target);
+      return Object.assign({}, state, action.target);
     default:
       return state;
   }
@@ -25,12 +25,11 @@ const User = (state = JSON.parse(Tool.localItem('User')), action) => {
 
 const defaultIndextStatus = {
   url: '/api/v1/topics',
-  path: '/', // 当前页面的href
   loadAnimation: true, // true显示加载动画，false 不显示加载动画
   loadMsg: '加载中', // 加载提示
   mdrender: true, // 当为 false 时，不渲染。默认为 true，渲染出现的所有 markdown 格式文本。
   tab: 'all',
-  limit: 10,
+  limit: 10, // todo: add more
 };
 const defaultPageStatus = {
   page: 2,
@@ -41,22 +40,22 @@ const defaultPageStatus = {
 function IndexList(state = { status: Object.assign({}, defaultIndextStatus) }, action) {
   switch (action.type) {
     case 'setData':
-      if (state[action.target.path] === undefined) {
+      if (state[action.target.tab] === undefined) {
         const status = Object.assign({}, defaultPageStatus);
-        state[action.target.path] = { status, lists: action.target.data };
+        state[action.target.tab] = { status, lists: action.target.data };
       } else {
-        state[action.target.path].status.page += 1;
-        state[action.target.path].lists = state[action.target.path].lists.concat(action.target.data);
+        state[action.target.tab].status.page += 1;
+        state[action.target.tab].lists = state[action.target.tab].lists.concat(action.target.data);
       }
       return Object.assign({}, state);
     case 'setIndexStatus':
       state.status = Object.assign({}, state.status, action.target);
       return Object.assign({}, state);
     case 'setScroll':
-      if (!state[state.status.path]) {
+      if (!state[state.status.tab]) {
         return state;
       }
-      state[state.status.path].status = Object.assign({}, state[state.status.path].status, action.target);
+      state[state.status.tab].status = Object.assign({}, state[state.status.tab].status, action.target);
       return Object.assign({}, state);
     default:
       return state;

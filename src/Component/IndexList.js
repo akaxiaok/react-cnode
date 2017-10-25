@@ -17,7 +17,7 @@ class Index extends Component {
    * 你可以通过 this.getDOMNode() 来获取相应 DOM 节点。
    */
   componentDidMount() {
-    this.readyDOM();
+    this.getFirstPage();
   }
 
   /**
@@ -28,18 +28,13 @@ class Index extends Component {
     if (this.props.location === location) {
       return;
     }
-    const { pathname, search } = location;
-    const path = pathname + search;
-    if (this.props.status.path !== path) {
-      const serchTarget = search.split('=')[1];
-      const tab = serchTarget === undefined ? 'all' : serchTarget;
+    const { query } = location;
+    const tab = query.tab === undefined ? 'all' : query.tab;
+    if (this.props.status.tab !== tab) {
       if (this.props.data) {
         this.props.setScroll(window.scrollX, window.scrollY); // 设置滚动条位置
       }
-      this.props.setStatus({
-        path,
-        tab,
-      });
+      this.props.setStatus({ tab });
       delete this.get;
     }
   }
@@ -49,8 +44,8 @@ class Index extends Component {
    * 使用该方法可以在组件更新之后操作 DOM 元素。
    */
   componentDidUpdate(prevProps) {
-    this.readyDOM();
-    if (this.props.data && (this.props.status.path !== prevProps.status.path)) {
+    this.getFirstPage();
+    if (this.props.data && (this.props.status.tab !== prevProps.status.tab)) {
       const { scrollX, scrollY } = this.props.data.status;
       window.scrollTo(scrollX, scrollY); // 设置滚动条位置
     }
@@ -68,34 +63,30 @@ class Index extends Component {
     // 地址栏已经发生改变，做一些卸载前的处理
   }
 
-  initState = () => {
-    const { pathname, search } = this.props.location;
-    const path = pathname + search;
-    if (this.props.status.path !== path) {
-      const serchTarget = search.split('=')[1];
-      const tab = serchTarget === undefined ? 'all' : serchTarget;
-      this.props.setStatus({ path, tab });
-      return false;
-    }
-    return true;
-  };
   /**
    * DOM初始化完成后执行回调
    */
-  readyDOM = () => {
+  getFirstPage = () => {
     if (this.props.data) {
       return false;
     } // 已经加载过
     if (this.get) return false; // 已经加载过
     if (!this.initState()) return false;
     const data = this.props.status;
-
-
     try {
       this.get = true;
       this.props.getNextPage(data, 1);
     } catch (e) {
       throw new Error(e);
+    }
+    return true;
+  };
+  initState = () => {
+    const { query } = this.props.location;
+    const tab = query.tab === undefined ? 'all' : query.tab;
+    if (this.props.status.tab !== tab) {
+      this.props.setStatus({ tab });
+      return false;
     }
     return true;
   };
@@ -155,7 +146,7 @@ function mapDispatchToProps(dispatch) {
 
 const IndexList = connect(state => ({
   status: state.IndexList.status,
-  data: state.IndexList[state.IndexList.status.path],
+  data: state.IndexList[state.IndexList.status.tab],
 }), mapDispatchToProps)(Index);
 
 
