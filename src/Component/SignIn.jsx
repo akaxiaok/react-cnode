@@ -1,6 +1,5 @@
 /* eslint-disable react/prop-types */
 import React, { Component } from 'react';
-import { browserHistory } from 'react-router';
 import { connect } from 'react-redux';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -8,6 +7,8 @@ import Snackbar from 'material-ui/Snackbar';
 import action from '../Action/Action';
 import { Tool } from '../Tool';
 import Header from './Header';
+import history from '../Config/history';
+
 /**
  * 模块入口
  *
@@ -37,7 +38,7 @@ class Main extends Component {
       if (res.success) {
         res.accesstoken = accesstoken;
         this.props.signInSuccess(res);
-        browserHistory.push({
+        history.push({
           pathname: `/user/${res.loginname}`,
         });
       } else {

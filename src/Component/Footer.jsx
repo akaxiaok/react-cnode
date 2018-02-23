@@ -3,13 +3,13 @@
  * Created by Kimi on 2017/5/3.
  */
 import React, { Component } from 'react';
-import { browserHistory } from 'react-router';
 import IconHome from 'material-ui/svg-icons/action/home';
 import IconSend from 'material-ui/svg-icons/content/send';
 import IconMessage from 'material-ui/svg-icons/communication/message';
 import IconPerson from 'material-ui/svg-icons/social/person';
 import { BottomNavigation, BottomNavigationItem } from 'material-ui/BottomNavigation';
 import Badge from 'material-ui/Badge';
+import history from '../Config/history';
 
 /**
  * 底部导航菜单
@@ -22,6 +22,26 @@ export default class Footer extends Component {
   static defaultProps = {
     messageCount: 0,
   }
+  select = (index) => {
+    switch (index) {
+      case 0:
+        history.push('/');
+        break;
+      case 1:
+        history.push('/topic/create');
+        break;
+      case 2:
+        history.push('/messages');
+        break;
+      case 4: // since badge take the position of 3, so this is 4
+        history.push(this.props.url);
+        break;
+      default:
+        history.push('/');
+        break;
+    }
+    this.setState({ selectedIndex: index });
+  };
 
   constructor(props) {
     super(props);
@@ -30,33 +50,10 @@ export default class Footer extends Component {
     };
   }
 
-
   shouldComponentUpdate(np, ns) {
     return this.state.selectedIndex !== ns.selectedIndex
       || this.props.messageCount !== np.props;
   }
-
-
-  select = (index) => {
-    switch (index) {
-      case 0:
-        browserHistory.push('/');
-        break;
-      case 1:
-        browserHistory.push('/topic/create');
-        break;
-      case 2:
-        browserHistory.push('/messages');
-        break;
-      case 4: // since badge take the position of 3, so this is 4
-        browserHistory.push(this.props.url);
-        break;
-      default:
-        browserHistory.push('/');
-        break;
-    }
-    this.setState({ selectedIndex: index });
-  };
 
   render() {
     const home = <IconHome />;
@@ -66,10 +63,10 @@ export default class Footer extends Component {
     const count = this.props.messageCount < 99 ? this.props.messageCount : 99;
     const badge = (<Badge
       secondary badgeContent={count} style={{
-        flex: 0,
-        padding: 0,
-        display: this.props.messageCount ? 'inline-block' : 'none',
-      }}
+      flex: 0,
+      padding: 0,
+      display: this.props.messageCount ? 'inline-block' : 'none',
+    }}
       badgeStyle={{
         width: '18px',
         height: '18px',

@@ -4,7 +4,8 @@
  */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link, browserHistory } from 'react-router';
+import { Link } from 'react-router';
+import history from '../Config/history';
 /**
  * 公共头部
  *
@@ -24,7 +25,7 @@ export default  function Header(props, context) {
     );
   } else if (leftIcon === 'back') { // 返回上一页
     left = (
-      <a onClick={browserHistory.goBack} >
+      <a onClick={history.goBack} >
         <i className={`iconfont icon-${leftIcon}`} />
       </a>
     );

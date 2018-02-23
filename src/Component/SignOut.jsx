@@ -1,10 +1,9 @@
 import React from 'react';
-import { browserHistory } from 'react-router';
 import { connect } from 'react-redux';
 import RaisedButton from 'material-ui/RaisedButton';
 import action from '../Action/Action';
 import Header from './Header';
-
+import history from '../Config/history';
 /**
  * 模块入口
  *
@@ -19,7 +18,7 @@ function main(props) {
         <div className="center" >
           <RaisedButton fullWidth={true} onTouchTap={() => {
             props.signOut();
-            browserHistory.replace({ pathname: '/' });
+            history.replace({ pathname: '/' });
           }} primary={true} label="确认退出?" />
         </div>
       </div>

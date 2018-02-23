@@ -1,13 +1,13 @@
 /* eslint-disable react/prop-types */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { browserHistory } from 'react-router';
 import Snackbar from 'material-ui/Snackbar';
 import action from '../Action/Action';
 import { Tool } from '../Tool';
 import Header from './Header';
 import TipMsgSignIn from './TipMsgSignIn';
 import NewTopic from './NewTopic';
+import history from '../Config/history';
 
 /**
  * 模块入口
@@ -60,7 +60,7 @@ class TopicCreate extends Component {
       this.postState = true;
       Tool.post('/api/v1/topics', this.state, (res) => {
         if (res.success) {
-          browserHistory.push({
+          history.push({
             pathname: `/topic/${res.topic_id}`,
           });
         } else {
@@ -113,7 +113,7 @@ class TopicCreate extends Component {
     this.setState({ open: false });
   }
 
-  render() {
+  render = () => {
     const { User } = this.props;
     let headerSet = {};
     let main = null;
@@ -130,11 +130,11 @@ class TopicCreate extends Component {
       };
     }
     return (
-      <div>
+      <div >
         <Header title="发表主题" {...headerSet} />
         <div className="vertical-margin scroll-content topic-content" >
           {main}
-        </div>
+        </div >
         <Snackbar
           open={this.state.open}
           message={this.state.message}
@@ -143,8 +143,9 @@ class TopicCreate extends Component {
           onRequestClose={this.handleRequestClose}
           onActionTouchTap={this.handleRequestClose}
         />
-      </div>
+      </div >
     );
   }
 }
+
 export default connect(state => ({ User: state.User }), action('TopicCreate'))(TopicCreate); // 连接redux

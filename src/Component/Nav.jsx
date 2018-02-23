@@ -3,8 +3,8 @@
  * Created by Kimi on 2017/4/25.
  */
 import React, { Component } from 'react';
-import { browserHistory } from 'react-router';
 import { Tabs, Tab } from 'material-ui/Tabs';
+import history from '../Config/history';
 /**
  * (导航分类)
  *
@@ -19,10 +19,10 @@ export default class Nav extends Component {
   handleChange = (value) => {
     switch (value) {
       case 'all':
-        browserHistory.push('/');
+        history.push('/');
         break;
       default :
-        browserHistory.push(`/?tab=${value}`);
+        history.push(`/?tab=${value}`);
         break;
     }
   }

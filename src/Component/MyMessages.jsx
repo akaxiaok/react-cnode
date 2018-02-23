@@ -1,11 +1,9 @@
 /* eslint-disable react/prop-types */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { browserHistory } from 'react-router';
 import TipMsgSignIn from './TipMsgSignIn';
 import Content from './Content';
 import DataLoad from './DataLoad';
-import Footer from './Footer';
 import Header from './Header';
 import action from '../Action/Action';
 

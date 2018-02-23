@@ -1,13 +1,12 @@
 /* eslint-disable react/prop-types */
 import React, { Component } from 'react';
-import { browserHistory } from 'react-router';
 import { connect } from 'react-redux';
 import fetch from 'isomorphic-fetch';
-import { Tool } from '../../Tool';
 import Article from './Article';
 import DataLoad from '../DataLoad';
 import Header from '../Header';
 import action from '../../Action/Action';
+import history from '../../Config/history';
 
 
 const setting = {
@@ -20,6 +19,7 @@ const setting = {
   },
 
 };
+
 /**
  * 模块入口
  *
@@ -89,7 +89,7 @@ class Main extends Component {
       const accesstoken = this.props.User ? this.props.User.accesstoken : '';
       const uid = this.props.User ? this.props.User.id : '';
       if (!accesstoken) {
-        browserHistory.push({ pathname: '/signin' }); // 跳转到登录
+        history.push({ pathname: '/signin' }); // 跳转到登录
         return false;
       } else if (this.props.User.loginname === loginname) {
         alert('你不能给自己点赞')
@@ -184,15 +184,16 @@ class Main extends Component {
       showReplyBox={this.showReplyBox}
     />) : <DataLoad loadAnimation={loadAnimation} loadMsg={loadMsg} />;
     return (
-      <div>
+      <div >
         <Header title="详情" leftIcon="back" />
         <div className="vertical-margin scroll-content topic-content" >
           {main}
-        </div>
-      </div>
+        </div >
+      </div >
     );
   }
 }
+
 Main.defaultProps = { setting };
 
 

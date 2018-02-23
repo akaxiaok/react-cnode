@@ -26,6 +26,7 @@
     "isomorphic-fetch": "^2.2.1",
     "material-ui": "^0.18.4",
     "normalize.css": "^4.1.1",
+    "normalizr": "^3.2.3",
     "obj-merged": "^1.0.5",
     "prop-types": "^15.5.10",
     "react": "^15.6.1",
