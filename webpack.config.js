@@ -14,7 +14,7 @@ if (process.argv.indexOf('-p') > -1) { // 生产环境
     },
   }));
   publicPath = '/react-cnode/dist/';
-  path = `${__dirname}/react-cnode/dist/`;
+  path = `${__dirname}/docs/dist/`;
 }
 plugins.push(new ExtractTextPlugin('[name].css')); // css单独打包
 
