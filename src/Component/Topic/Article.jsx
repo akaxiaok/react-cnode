@@ -40,7 +40,7 @@ export default class Article extends Component {
         <h2
           style={{
             padding: '10px',
-            fontSize: '3em',
+            fontSize: '1em',
             background: palette.canvasColor,
             textAlign: 'center',
           }}
