@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types,no-undef */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getNextPage, setStatus, setScroll } from '../Action/Action';
+import { getNextPage, setScroll, setStatus } from '../Action/Action';
 import Main from './Main';
 
 /**
@@ -11,6 +11,7 @@ import Main from './Main';
  * @extends {Component}
  */
 class Index extends Component {
+
   /**
    * 在初始化渲染执行之后立刻调用一次，仅客户端有效（服务器端不会调用）。
    * 在生命周期中的这个时间点，组件拥有一个 DOM 展现，
@@ -31,10 +32,8 @@ class Index extends Component {
     const { query } = location;
     const tab = query.tab === undefined ? 'all' : query.tab;
     if (this.props.status.tab !== tab) {
-      if (this.props.data) {
-        this.props.setScroll(window.scrollX, window.scrollY); // 设置滚动条位置
-      }
-      this.props.setStatus({ tab });
+      const old = this.props.status.tab;
+      this.props.setStatus(tab, old);
       delete this.get;
     }
   }
@@ -62,10 +61,6 @@ class Index extends Component {
     // this.props.setScroll(window.scrollX, window.scrollY);
     // 地址栏已经发生改变，做一些卸载前的处理
   }
-
-  /**
-   * DOM初始化完成后执行回调
-   */
   getFirstPage = () => {
     if (this.props.data) {
       return false;
@@ -81,11 +76,13 @@ class Index extends Component {
     }
     return true;
   };
+
   initState = () => {
     const { query } = this.props.location;
     const tab = query.tab === undefined ? 'all' : query.tab;
     if (this.props.status.tab !== tab) {
-      this.props.setStatus({ tab });
+      const old = this.props.status.tab;
+      this.props.setStatus(tab, old);
       return false;
     }
     return true;
@@ -135,8 +132,8 @@ function mapDispatchToProps(dispatch) {
     getNextPage: (data, page) => {
       dispatch(getNextPage(data, page));
     },
-    setStatus: (target) => {
-      dispatch(setStatus(target));
+    setStatus: (newTab, oldTab) => {
+      dispatch(setStatus(newTab, oldTab));
     },
     setScroll: (x, y) => {
       dispatch(setScroll(x, y));

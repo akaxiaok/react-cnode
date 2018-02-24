@@ -12,6 +12,7 @@ export function startFetch(type) {
     type, target,
   };
 }
+
 export function endFetch(type) {
   const target = {
     loadAnimation: false,
@@ -31,6 +32,7 @@ export function setScroll(x, y) {
     type: 'setScroll', target,
   };
 }
+
 export function nomoreData() {
   const target = {
     loadAnimation: false,
@@ -50,11 +52,17 @@ export function fetchError(type) {
     type, target,
   };
 }
-export function setStatus(target) {
-  return {
-    type: 'setIndexStatus', target,
+
+export function setStatus(newTab, oldTab) {
+  const target = { tab: newTab };
+  return function (dispatch) {
+    dispatch({ type: 'setIndexStatus', target });
+    if (oldTab) {
+      dispatch({ type: 'clearList', target: { tab: oldTab } });
+    }
   };
 }
+
 export function getNextPage(data, page) {
   return function (dispatch) {
     const { limit, mdrender, tab, url } = data;
@@ -96,6 +104,7 @@ function get(data) {
     });
   };
 }
+
 function replyTopic(data) {
   return function (dispatch) {
     return fetch(`${server.target}/api/v1//topic/${data.id}/replies`, {
@@ -139,6 +148,7 @@ function getMessage(data) {
     });
   };
 }
+
 function getUserView(data) {
   return function (dispatch) {
     dispatch(startFetch('setUserViewStatus'));

@@ -1,5 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { Tool } from '../Tool';
+
 /**
  * 存储登录的用户信息
  *
@@ -37,6 +38,7 @@ const defaultPageStatus = {
   scrollY: 0, // 滚动条Y
 
 };
+
 function IndexList(state = { status: Object.assign({}, defaultIndextStatus) }, action) {
   switch (action.type) {
     case 'setData':
@@ -56,6 +58,11 @@ function IndexList(state = { status: Object.assign({}, defaultIndextStatus) }, a
         return state;
       }
       state[state.status.tab].status = Object.assign({}, state[state.status.tab].status, action.target);
+      return Object.assign({}, state);
+    case 'clearList':
+      if (state[action.target.tab]) {
+        state[action.target.tab] = undefined;
+      }
       return Object.assign({}, state);
     default:
       return state;
