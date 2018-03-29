@@ -8,7 +8,6 @@ import IconSend from 'material-ui/svg-icons/content/send';
 import IconMessage from 'material-ui/svg-icons/communication/message';
 import IconPerson from 'material-ui/svg-icons/social/person';
 import { BottomNavigation, BottomNavigationItem } from 'material-ui/BottomNavigation';
-import Badge from 'material-ui/Badge';
 import history from '../Config/history';
 
 /**
@@ -19,9 +18,7 @@ import history from '../Config/history';
  * @extends {Component}
  */
 export default class Footer extends Component {
-  static defaultProps = {
-    messageCount: 0,
-  }
+
   select = (index) => {
     switch (index) {
       case 0:
@@ -33,7 +30,7 @@ export default class Footer extends Component {
       case 2:
         history.push('/messages');
         break;
-      case 4: // since badge take the position of 3, so this is 4
+      case 3:
         history.push(this.props.url);
         break;
       default:
@@ -60,21 +57,6 @@ export default class Footer extends Component {
     const message = <IconMessage />;
     const send = <IconSend />;
     const person = <IconPerson />;
-    const count = this.props.messageCount < 99 ? this.props.messageCount : 99;
-    const badge = (<Badge
-      secondary badgeContent={count} style={{
-      flex: 0,
-      padding: 0,
-      display: this.props.messageCount ? 'inline-block' : 'none',
-    }}
-      badgeStyle={{
-        width: '18px',
-        height: '18px',
-        top: '5px',
-        right: '20px',
-        fontSize: '12px',
-      }}
-    />);
     return (
       <footer className="common-footer menu" >
         <BottomNavigation
@@ -96,13 +78,11 @@ export default class Footer extends Component {
             label="消息"
             icon={message}
             onTouchTap={() => this.select(2)}
-            className="badge"
           />
-          {badge}
           <BottomNavigationItem
             label="我的"
             icon={person}
-            onTouchTap={() => this.select(4)} // since badge take the position of 3, so this is 4
+            onTouchTap={() => this.select(3)}
           />
         </BottomNavigation >
       </footer >
